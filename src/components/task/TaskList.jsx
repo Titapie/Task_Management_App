@@ -1,4 +1,5 @@
-    import React from 'react';
+// src/components/tasks/TaskList.jsx
+import React from 'react';
 import { TASK_STATUS_LABELS, PRIORITY_LABELS } from '../../utils/constants';
 
 const TaskList = ({ tasks, loading, pagination, onPageChange }) => {
@@ -26,13 +27,14 @@ const TaskList = ({ tasks, loading, pagination, onPageChange }) => {
               <th className="px-4 py-2 border text-left">Mô tả</th>
               <th className="px-4 py-2 border text-left">Trạng thái</th>
               <th className="px-4 py-2 border text-left">Ưu tiên</th>
+              <th className="px-4 py-2 border text-left">Dự án</th>
               <th className="px-4 py-2 border text-left">Deadline</th>
             </tr>
           </thead>
           <tbody>
             {tasks.map((task) => (
               <tr key={task.id} className="hover:bg-gray-50">
-                <td className="px-4 py-2 border">{task.Task_name}</td>
+                <td className="px-4 py-2 border">{task.TaskName}</td>
                 <td className="px-4 py-2 border">{task.Description}</td>
                 <td className="px-4 py-2 border">
                   <span className="px-2 py-1 rounded text-sm bg-blue-100">
@@ -44,6 +46,7 @@ const TaskList = ({ tasks, loading, pagination, onPageChange }) => {
                     {PRIORITY_LABELS[task.Priority] || task.Priority}
                   </span>
                 </td>
+                <td className="px-4 py-2 border">{task.project_name || '-'}</td>
                 <td className={`px-4 py-2 border ${isNearDeadline(task.End_date) ? 'bg-red-100 font-bold' : ''}`}>
                   {task.End_date ? new Date(task.End_date).toLocaleDateString('vi-VN') : '-'}
                 </td>
@@ -53,6 +56,7 @@ const TaskList = ({ tasks, loading, pagination, onPageChange }) => {
         </table>
       </div>
 
+      {/* Pagination */}
       {pagination && pagination.totalPages > 1 && (
         <div className="mt-4 flex justify-center gap-2">
           <button

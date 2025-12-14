@@ -33,7 +33,7 @@ const taskService = {
 
   // CREATE task
   createTask: async (taskData) => {
-    const response = await fetch(`${API_BASE_URL}/tasks`, {
+    const response = await fetch(`${API_BASE_URL}/tasks/create`, {
       method: 'POST',
       headers: getAuthHeaders(),
       body: JSON.stringify(taskData)
