@@ -80,29 +80,29 @@ const KanbanCard = ({ task }) => {
       )}
 
       {/* Project */}
-      {task.project_name && (
+      {task.ParentProject?.Name && (
         <div className="text-xs text-gray-500 mb-2">
-          📁 {task.project_name}
+          📁 {task.ParentProject.Name}
         </div>
       )}
 
       {/* Members */}
-      {task.members && task.members.length > 0 && (
+      {task.TaskMembers && task.TaskMembers.length > 0 && (
         <div className="flex items-center gap-1 mt-2">
           <span className="text-xs text-gray-500">👥</span>
           <div className="flex -space-x-2">
-            {task.members.slice(0, 3).map((member, idx) => (
+            {task.TaskMembers.slice(0, 3).map((member, idx) => (
               <div
-                key={idx}
+                key={member.id}
                 className="w-6 h-6 rounded-full bg-blue-500 text-white text-xs flex items-center justify-center border-2 border-white"
-                title={member.name || 'Member'}
+                title={`${member.FirstName} ${member.LastName}`}
               >
-                {(member.name || 'U').charAt(0).toUpperCase()}
+                {member.FirstName.charAt(0).toUpperCase()}
               </div>
             ))}
-            {task.members.length > 3 && (
+            {task.TaskMembers.length > 3 && (
               <div className="w-6 h-6 rounded-full bg-gray-400 text-white text-xs flex items-center justify-center border-2 border-white">
-                +{task.members.length - 3}
+                +{task.TaskMembers.length - 3}
               </div>
             )}
           </div>

@@ -76,4 +76,24 @@ const taskService = {
   }
 };
 
+export const updateTaskStatus = async (taskId, newStatus) => {
+  const token = localStorage.getItem('token');
+  
+  const response = await fetch(`${API_BASE_URL}/tasks/${taskId}/status`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify({ Status: newStatus }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || 'Không thể cập nhật trạng thái');
+  }
+
+  return await response.json();
+};
+
 export default taskService;

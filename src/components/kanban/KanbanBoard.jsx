@@ -11,9 +11,10 @@ import KanbanColumn from './KanbanColumn';
 import KanbanCard from './KanbanCard';
 import useTasks from '../../hooks/useTasks';
 import { updateTaskStatus } from '../../services/taskService';
+import { TASK_STATUS, TASK_STATUS_LABELS } from '../../utils/constants';
 
 const KanbanBoard = ({ filters }) => {
-  const { tasks, loading, error, fetchTasks } = useTasks();
+  const { tasks, loading, error, refetch } = useTasks();
   const [activeTask, setActiveTask] = useState(null);
   const [localTasks, setLocalTasks] = useState([]);
 
@@ -25,18 +26,18 @@ const KanbanBoard = ({ filters }) => {
     })
   );
 
-  // Cấu hình 5 cột theo status backend
+  // Cấu hình 5 cột từ constants
   const columns = [
-    { status: 'initial', title: 'Khởi tạo', colorClass: 'text-gray-600' },
-    { status: 'doing', title: 'Đang làm', colorClass: 'text-blue-600' },
-    { status: 'pending', title: 'Chờ duyệt', colorClass: 'text-yellow-600' },
-    { status: 'finish', title: 'Hoàn thành', colorClass: 'text-green-600' },
-    { status: 'notFinish', title: 'Thất bại', colorClass: 'text-red-600' },
+    { status: TASK_STATUS.INITIAL, title: TASK_STATUS_LABELS[TASK_STATUS.INITIAL], colorClass: 'text-gray-600' },
+    { status: TASK_STATUS.DOING, title: TASK_STATUS_LABELS[TASK_STATUS.DOING], colorClass: 'text-blue-600' },
+    { status: TASK_STATUS.PENDING, title: TASK_STATUS_LABELS[TASK_STATUS.PENDING], colorClass: 'text-yellow-600' },
+    { status: TASK_STATUS.FINISH, title: TASK_STATUS_LABELS[TASK_STATUS.FINISH], colorClass: 'text-green-600' },
+    { status: TASK_STATUS.NOT_FINISH, title: TASK_STATUS_LABELS[TASK_STATUS.NOT_FINISH], colorClass: 'text-red-600' },
   ];
 
   // Load tasks khi component mount hoặc filters thay đổi
   useEffect(() => {
-    fetchTasks({ ...filters, limit: 1000 }); // Load nhiều tasks cho kanban
+    refetch({ ...filters, limit: 1000 }); // Load nhiều tasks cho kanban
   }, [filters]);
 
   // Sync tasks từ hook vào local state
@@ -114,7 +115,7 @@ const KanbanBoard = ({ filters }) => {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex gap-4 overflow-x-auto pb-4">
+      <div className="flex gap-4 overflow-x-auto pb-4 min-h-screen">
         {columns.map((col) => (
           <KanbanColumn
             key={col.status}

@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import TasksPage from './pages/TaskPage'
@@ -8,6 +6,7 @@ import CreateTaskPage from './pages/CreateTaskPage';
 import EditTaskPage from './pages/EditTaskPage';
 import TaskDetailPage from './pages/TaskDetailPage';
 import QuickLogin from './pages/QuickLogin';
+import KanbanPage from './pages/KanbanPage';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -21,6 +20,7 @@ function App() {
         <Route path="/tasks/create" element={<CreateTaskPage />} />
         <Route path="/tasks/edit/:id" element={<EditTaskPage />} />
         <Route path="/tasks/:id" element={<TaskDetailPage />} />
+        <Route path="/kanban" element={<KanbanPage />} />
       </Routes>
     </BrowserRouter>
   );
