@@ -1,8 +1,11 @@
 // src/components/tasks/TaskList.jsx
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { TASK_STATUS_LABELS, PRIORITY_LABELS } from '../../utils/constants';
 
 const TaskList = ({ tasks, loading, pagination, onPageChange }) => {
+  const navigate = useNavigate();
+
   if (loading) {
     return <div className="p-4 text-center">Đang tải...</div>;
   }
@@ -29,6 +32,7 @@ const TaskList = ({ tasks, loading, pagination, onPageChange }) => {
               <th className="px-4 py-2 border text-left">Ưu tiên</th>
               <th className="px-4 py-2 border text-left">Dự án</th>
               <th className="px-4 py-2 border text-left">Deadline</th>
+              <th className="px-4 py-2 border text-left">Thao tác</th>
             </tr>
           </thead>
           <tbody>
@@ -50,6 +54,22 @@ const TaskList = ({ tasks, loading, pagination, onPageChange }) => {
                 <td className={`px-4 py-2 border ${isNearDeadline(task.End_date) ? 'bg-red-100 font-bold' : ''}`}>
                   {task.End_date ? new Date(task.End_date).toLocaleDateString('vi-VN') : '-'}
                 </td>
+                <td className="px-4 py-2 border">
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => navigate(`/tasks/${task.id}`)}
+                      className="px-2 py-1 bg-blue-500 text-white rounded text-sm"
+                    >
+                      Xem
+                    </button>
+                    <button
+                      onClick={() => navigate(`/tasks/edit/${task.id}`)}
+                      className="px-2 py-1 bg-yellow-500 text-white rounded text-sm"
+                    >
+                      Sửa
+                    </button>
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -57,21 +77,21 @@ const TaskList = ({ tasks, loading, pagination, onPageChange }) => {
       </div>
 
       {/* Pagination */}
-      {pagination && pagination.totalPages > 1 && (
+      {pagination && pagination.totalPage > 1 && (
         <div className="mt-4 flex justify-center gap-2">
           <button
-            onClick={() => onPageChange(pagination.page - 1)}
-            disabled={pagination.page === 1}
+            onClick={() => onPageChange(pagination.currentPage - 1)}
+            disabled={pagination.currentPage === 1}
             className="px-4 py-2 border rounded disabled:opacity-50"
           >
             Trước
           </button>
           <span className="px-4 py-2">
-            Trang {pagination.page} / {pagination.totalPages}
+            Trang {pagination.currentPage} / {pagination.totalPage}
           </span>
           <button
-            onClick={() => onPageChange(pagination.page + 1)}
-            disabled={pagination.page === pagination.totalPages}
+            onClick={() => onPageChange(pagination.currentPage + 1)}
+            disabled={pagination.currentPage === pagination.totalPage}
             className="px-4 py-2 border rounded disabled:opacity-50"
           >
             Sau

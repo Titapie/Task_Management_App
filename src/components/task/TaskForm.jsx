@@ -1,9 +1,11 @@
+// src/components/tasks/TaskForm.jsx
 import React, { useState } from 'react';
 import { TASK_STATUS, PRIORITY } from '../../utils/constants';
 
 const TaskForm = ({ initialData = {}, onSubmit, onCancel }) => {
+  
   const [formData, setFormData] = useState({
-    TaskName: initialData.Task_name || initialData.Task_name || '',
+    TaskName: initialData.TaskName || '',
     Description: initialData.Description || '',
     Status: initialData.Status || TASK_STATUS.INITIAL,
     Priority: initialData.Priority || PRIORITY.MEDIUM,
@@ -32,9 +34,7 @@ const TaskForm = ({ initialData = {}, onSubmit, onCancel }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-        console.log('Data gửi đi:', formData);
       onSubmit(formData);
-      
     }
   };
 

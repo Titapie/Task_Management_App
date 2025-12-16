@@ -16,7 +16,9 @@ const EditTaskPage = () => {
       try {
         const data = await taskService.getTaskById(id);
         // Backend trả về {success, message, task}
-        setTask(data.task || data);
+        const taskData = data.task || data;
+        console.log('Task data nhận được:', taskData); // Debug log
+        setTask(taskData);
       } catch (err) {
         setError(err.message);
       } finally {

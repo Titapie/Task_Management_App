@@ -45,7 +45,7 @@ const taskService = {
   // UPDATE task
   updateTask: async (id, taskData) => {
     const response = await fetch(`${API_BASE_URL}/tasks/${id}`, {
-      method: 'PUT',
+      method: 'PATCH',
       headers: getAuthHeaders(),
       body: JSON.stringify(taskData)
     });
