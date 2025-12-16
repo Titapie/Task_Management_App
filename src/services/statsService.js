@@ -1,7 +1,6 @@
 import axios from "axios";
 
-let process;
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
 const axiosInstance = axios.create({
     baseURL: API_BASE_URL,
@@ -26,7 +25,7 @@ axiosInstance.interceptors.request.use(
 const statsService = {
     getOverview: async () => {
         try {
-            const response = await axiosInstance.get(`/stat/overview`);
+            const response = await axiosInstance.get(`/stats/overview`);
             return response.data;
         }catch (error) {
             throw error.response?.data||{
@@ -41,7 +40,7 @@ const statsService = {
             if (!periodValid.includes(period)) {
                 throw new Error('period must be week, month, year');
             }
-            const response = await axiosInstance.get(`/stat/progress_chart`, {params: {period},});
+            const response = await axiosInstance.get(`/stats/progress_chart`, {params: {period},});
             return response.data;
         }catch (error) {
             throw error.response?.data ||{
@@ -52,7 +51,7 @@ const statsService = {
     },
     getTaskStatus: async () => {
         try{
-            const response = await axiosInstance.get(`/stat/task_status`);
+            const response = await axiosInstance.get(`/stats/task_status`);
             return response.data;
         }catch (error) {
             throw error.response?.data ||{
@@ -63,7 +62,7 @@ const statsService = {
     },
     getProjectSummary: async () => {
         try{
-            const response = await axiosInstance.get(`/stat/project_summary`);
+            const response = await axiosInstance.get(`/stats/project_summary`);
             return response.data;
         }catch (error) {
             throw error.response?.data ||{
@@ -74,7 +73,7 @@ const statsService = {
     },
     getUserPerformance: async () => {
         try {
-            const response = await axiosInstance.get(`/stat/user_performance`);
+            const response = await axiosInstance.get(`/stats/user_performance`);
             return response.data;
         }catch (error) {
             if (error.response?.status === 403) {
