@@ -25,7 +25,7 @@ const TaskFilter = ({ onFilterChange, showStatusFilter = true, showProjectFilter
     setFilters({
       Status: '',
       Priority: '',
-    });
+      });
     onFilterChange({});
   };
 

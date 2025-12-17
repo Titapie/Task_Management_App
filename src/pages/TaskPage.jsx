@@ -1,5 +1,5 @@
 // src/pages/TasksPage.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useTasks from '../hooks/useTasks';
 import TaskList from '../components/task/TaskList';
@@ -13,28 +13,42 @@ const TasksPage = () => {
   const [params, setParams] = useState({ page: 1, limit: 10 });
   const { tasks, loading, error, pagination, refetch } = useTasks(params);
 
+  // Chỉ fetch 1 lần khi mount
+  useEffect(() => {
+    refetch(params);
+  }, []);
+
   const handlePageChange = (newPage) => {
     const newParams = { ...params, page: newPage };
     setParams(newParams);
     refetch(newParams);
   };
 
+  // Helper: Xóa keys có giá trị rỗng
+  const cleanParams = (obj) => {
+    const cleaned = {};
+    Object.keys(obj).forEach(key => {
+      if (obj[key] !== '' && obj[key] !== null && obj[key] !== undefined) {
+        cleaned[key] = obj[key];
+      }
+    });
+    return cleaned;
+  };
+
+  // CHUNG cho tất cả filters (search, status, priority, deadline)
   const handleFilterChange = (filters) => {
-    const newParams = { ...params, ...filters, page: 1 };
-    setParams(newParams);
-    refetch(newParams);
-  };
-
-  const handleDeadlineFilterChange = (deadlineFilters) => {
-    const newParams = { ...params, ...deadlineFilters, page: 1 };
-    setParams(newParams);
-    refetch(newParams);
-  };
-
-  const handleSearch = (searchTerm) => {
-    const newParams = { ...params, search: searchTerm, page: 1 };
-    setParams(newParams);
-    refetch(newParams);
+    // Giữ lại chỉ page và limit, loại bỏ tất cả filter cũ
+    const newParams = { 
+      page: 1,
+      limit: params.limit,
+      ...filters  // Thêm filters mới vào
+    };
+    
+    // Clean các giá trị rỗng
+    const cleaned = cleanParams(newParams);
+    
+    setParams(cleaned);
+    refetch(cleaned);
   };
 
   return (
@@ -55,9 +69,9 @@ const TasksPage = () => {
         </div>
       </div>
 
-      <TaskSearch onSearch={handleSearch} />
+      <TaskSearch onSearch={(search) => handleFilterChange({ search })} />
       <TaskFilter onFilterChange={handleFilterChange} showStatusFilter={true} />
-      <TaskDeadlineFilter onFilterChange={handleDeadlineFilterChange} />
+      <TaskDeadlineFilter onFilterChange={handleFilterChange} />
 
       {error ? (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">

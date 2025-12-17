@@ -21,12 +21,12 @@ const KanbanBoard = ({ filters }) => {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 8, // Kéo 8px mới kích hoạt drag
+        distance: 8,
       },
     })
   );
 
-  // Cấu hình 5 cột từ constants
+  // Cấu hình 5 cột
   const columns = [
     { status: TASK_STATUS.INITIAL, title: TASK_STATUS_LABELS[TASK_STATUS.INITIAL], colorClass: 'text-gray-600' },
     { status: TASK_STATUS.DOING, title: TASK_STATUS_LABELS[TASK_STATUS.DOING], colorClass: 'text-blue-600' },
@@ -35,14 +35,14 @@ const KanbanBoard = ({ filters }) => {
     { status: TASK_STATUS.NOT_FINISH, title: TASK_STATUS_LABELS[TASK_STATUS.NOT_FINISH], colorClass: 'text-red-600' },
   ];
 
-  // Load tasks khi component mount hoặc filters thay đổi
+  // Load tasks khi filters thay đổi
   useEffect(() => {
-    refetch({ ...filters, limit: 1000 }); // Load nhiều tasks cho kanban
+    refetch({ ...filters, limit: 1000 });
   }, [filters]);
 
-  // Sync tasks từ hook vào local state
+  // Sync tasks từ hook
   useEffect(() => {
-    setLocalTasks(tasks); // Luôn sync, kể cả array rỗng
+    setLocalTasks(tasks);
   }, [tasks]);
 
   // Group tasks theo status
@@ -51,14 +51,12 @@ const KanbanBoard = ({ filters }) => {
     return acc;
   }, {});
 
-  // Handle khi bắt đầu kéo
   const handleDragStart = (event) => {
     const { active } = event;
     const task = localTasks.find((t) => t.id === active.id);
     setActiveTask(task);
   };
 
-  // Handle khi thả task
   const handleDragEnd = async (event) => {
     const { active, over } = event;
     setActiveTask(null);
@@ -66,36 +64,31 @@ const KanbanBoard = ({ filters }) => {
     if (!over) return;
 
     const taskId = active.id;
-    
-    // FIX: Nếu thả lên task khác, lấy status của task đó. Nếu thả lên cột trống, lấy over.id (là status)
     let newStatus = over.id;
     
-    // Kiểm tra xem over.id có phải là task id không (số) thay vì status (string)
+    // Nếu thả lên task khác, lấy status của task đó
     if (typeof over.id === 'number' || !Object.values(TASK_STATUS).includes(over.id)) {
-      // over.id là task id → tìm status của task đó
       const targetTask = localTasks.find((t) => t.id === over.id);
       if (targetTask) {
         newStatus = targetTask.Status;
       } else {
-        return; // Không tìm thấy task target
+        return;
       }
     }
 
-    // Tìm task đang kéo
     const task = localTasks.find((t) => t.id === taskId);
     if (!task || task.Status === newStatus) return;
 
-    // Optimistic update (cập nhật UI trước)
+    // Optimistic update
     setLocalTasks((prev) =>
       prev.map((t) => (t.id === taskId ? { ...t, Status: newStatus } : t))
     );
 
     try {
-      // Gọi API cập nhật status
       await updateTaskStatus(taskId, newStatus);
     } catch (err) {
       console.error('Lỗi cập nhật status:', err);
-      // Rollback nếu lỗi
+      // Rollback
       setLocalTasks((prev) =>
         prev.map((t) => (t.id === taskId ? { ...t, Status: task.Status } : t))
       );
@@ -126,25 +119,19 @@ const KanbanBoard = ({ filters }) => {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      {localTasks.length === 0 && !loading ? (
-        <div className="text-center text-gray-500 py-12">
-          Không tìm thấy task phù hợp với bộ lọc
-        </div>
-      ) : (
-        <div className="flex gap-4 overflow-x-auto pb-4 min-h-screen">
-          {columns.map((col) => (
-            <KanbanColumn
-              key={col.status}
-              status={col.status}
-              title={col.title}
-              colorClass={col.colorClass}
-              tasks={groupedTasks[col.status] || []}
-            />
-          ))}
-        </div>
-      )}
+      {/* LUÔN HIỂN THỊ CÁC CỘT - Bỏ check localTasks.length === 0 */}
+      <div className="flex gap-4 overflow-x-auto pb-4 min-h-screen">
+        {columns.map((col) => (
+          <KanbanColumn
+            key={col.status}
+            status={col.status}
+            title={col.title}
+            colorClass={col.colorClass}
+            tasks={groupedTasks[col.status] || []}
+          />
+        ))}
+      </div>
 
-      {/* DragOverlay hiển thị card khi đang kéo */}
       <DragOverlay>
         {activeTask ? (
           <div className="rotate-3 opacity-90">

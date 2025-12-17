@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import taskService from '../services/taskService';
 
 const useTasks = (initialParams = {}) => {
+  console.log('🔧 useTasks hook được gọi với params:', initialParams);
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -13,6 +14,9 @@ const useTasks = (initialParams = {}) => {
   });
 
   const fetchTasks = async (params = {}) => {
+    console.log('🌐 fetchTasks được gọi với params:', params);
+    console.trace('📍 Stack trace của fetchTasks');
+
     setLoading(true);
     setError(null);
     try {
@@ -29,11 +33,7 @@ const useTasks = (initialParams = {}) => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchTasks(initialParams);
-  }, []);
-
+  
   const refetch = (params) => {
     fetchTasks(params);
   };

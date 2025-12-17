@@ -34,8 +34,8 @@ const KanbanColumn = ({ status, tasks, title, colorClass }) => {
           }`}
         >
           {tasks.length === 0 ? (
-            <div className="text-center text-gray-400 mt-8">
-              Không có task
+            <div className="text-center text-gray-400 mt-8 text-sm">
+              Không có task phù hợp
             </div>
           ) : (
             tasks.map((task) => <KanbanCard key={task.id} task={task} />)

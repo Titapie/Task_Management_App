@@ -6,32 +6,27 @@ import TaskFilter from '../components/task/TaskFilter';
 import TaskDeadlineFilter from '../components/task/TaskDeadlineFilter';
 
 const KanbanPage = () => {
-  const [filters, setFilters] = useState({
-    search: '',
-    Priority: '',
-    deadline_from: '',
-    deadline_to: '',
-  });
+  const [filters, setFilters] = useState({});
 
-  const handleSearchChange = (searchValue) => {
-    setFilters((prev) => ({ ...prev, search: searchValue }));
+  // Helper: Xóa keys có giá trị rỗng
+  const cleanFilters = (obj) => {
+    const cleaned = {};
+    Object.keys(obj).forEach(key => {
+      if (obj[key] !== '' && obj[key] !== null && obj[key] !== undefined) {
+        cleaned[key] = obj[key];
+      }
+    });
+    return cleaned;
   };
 
   const handleFilterChange = (newFilters) => {
-    setFilters((prev) => ({ ...prev, ...newFilters }));
+    // Chỉ giữ lại filters mới, không merge với filters cũ
+    const cleaned = cleanFilters(newFilters);
+    setFilters(cleaned);
   };
 
-  const handleDeadlineFilterChange = (deadlineFilters) => {
-    setFilters((prev) => ({ ...prev, ...deadlineFilters }));
-  };
-
-  const handleReset = () => {
-    setFilters({
-      search: '',
-      Priority: '',
-      deadline_from: '',
-      deadline_to: '',
-    });
+  const handleResetAll = () => {
+    setFilters({});
   };
 
   return (
@@ -54,24 +49,26 @@ const KanbanPage = () => {
             Tìm kiếm
           </label>
           <TaskSearch
-            onSearch={handleSearchChange}
+            onSearch={(search) => handleFilterChange({ ...filters, search })}
             placeholder="Tìm theo tên task..."
           />
         </div>
 
         {/* Task Filter - Hide Status (vì đã có columns) */}
         <TaskFilter 
-          onFilterChange={handleFilterChange}
+          onFilterChange={(newFilters) => handleFilterChange({ ...filters, ...newFilters })}
           showStatusFilter={false}
         />
 
         {/* Deadline Filter */}
-        <TaskDeadlineFilter onFilterChange={handleDeadlineFilterChange} />
+        <TaskDeadlineFilter 
+          onFilterChange={(newFilters) => handleFilterChange({ ...filters, ...newFilters })}
+        />
 
         {/* Reset All */}
         <div className="mb-4">
           <button
-            onClick={handleReset}
+            onClick={handleResetAll}
             className="px-4 py-2 bg-red-100 text-red-700 rounded hover:bg-red-200 transition"
           >
             🔄 Reset tất cả bộ lọc
