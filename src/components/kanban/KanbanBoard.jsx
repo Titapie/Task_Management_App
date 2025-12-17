@@ -42,9 +42,7 @@ const KanbanBoard = ({ filters }) => {
 
   // Sync tasks từ hook vào local state
   useEffect(() => {
-    if (tasks.length > 0) {
-      setLocalTasks(tasks);
-    }
+    setLocalTasks(tasks); // Luôn sync, kể cả array rỗng
   }, [tasks]);
 
   // Group tasks theo status
@@ -68,7 +66,20 @@ const KanbanBoard = ({ filters }) => {
     if (!over) return;
 
     const taskId = active.id;
-    const newStatus = over.id;
+    
+    // FIX: Nếu thả lên task khác, lấy status của task đó. Nếu thả lên cột trống, lấy over.id (là status)
+    let newStatus = over.id;
+    
+    // Kiểm tra xem over.id có phải là task id không (số) thay vì status (string)
+    if (typeof over.id === 'number' || !Object.values(TASK_STATUS).includes(over.id)) {
+      // over.id là task id → tìm status của task đó
+      const targetTask = localTasks.find((t) => t.id === over.id);
+      if (targetTask) {
+        newStatus = targetTask.Status;
+      } else {
+        return; // Không tìm thấy task target
+      }
+    }
 
     // Tìm task đang kéo
     const task = localTasks.find((t) => t.id === taskId);
@@ -115,17 +126,23 @@ const KanbanBoard = ({ filters }) => {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex gap-4 overflow-x-auto pb-4 min-h-screen">
-        {columns.map((col) => (
-          <KanbanColumn
-            key={col.status}
-            status={col.status}
-            title={col.title}
-            colorClass={col.colorClass}
-            tasks={groupedTasks[col.status] || []}
-          />
-        ))}
-      </div>
+      {localTasks.length === 0 && !loading ? (
+        <div className="text-center text-gray-500 py-12">
+          Không tìm thấy task phù hợp với bộ lọc
+        </div>
+      ) : (
+        <div className="flex gap-4 overflow-x-auto pb-4 min-h-screen">
+          {columns.map((col) => (
+            <KanbanColumn
+              key={col.status}
+              status={col.status}
+              title={col.title}
+              colorClass={col.colorClass}
+              tasks={groupedTasks[col.status] || []}
+            />
+          ))}
+        </div>
+      )}
 
       {/* DragOverlay hiển thị card khi đang kéo */}
       <DragOverlay>

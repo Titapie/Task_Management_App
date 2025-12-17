@@ -17,12 +17,14 @@ const useTasks = (initialParams = {}) => {
     setError(null);
     try {
       const data = await taskService.getTasks(params);
-      setTasks(data.tasks || data);
+      // FIX: Đảm bảo tasks luôn là array
+      setTasks(Array.isArray(data.tasks) ? data.tasks : (Array.isArray(data) ? data : []));
       if (data.pagination) {
         setPagination(data.pagination);
       }
     } catch (err) {
       setError(err.message);
+      setTasks([]); // Set empty array khi lỗi
     } finally {
       setLoading(false);
     }

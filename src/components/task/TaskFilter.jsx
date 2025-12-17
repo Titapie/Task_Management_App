@@ -1,13 +1,11 @@
 // src/components/tasks/TaskFilter.jsx
 import React, { useState } from 'react';
-import { TASK_STATUS, PRIORITY } from '../../utils/constants';
+import { TASK_STATUS, TASK_STATUS_LABELS, PRIORITY, PRIORITY_LABELS } from '../../utils/constants';
 
-const TaskFilter = ({ onFilterChange }) => {
+const TaskFilter = ({ onFilterChange, showStatusFilter = true, showProjectFilter = false }) => {
   const [filters, setFilters] = useState({
     Status: '',
     Priority: '',
-    deadline_from: '',
-    deadline_to: ''
   });
 
   const handleChange = (field, value) => {
@@ -20,7 +18,6 @@ const TaskFilter = ({ onFilterChange }) => {
     Object.keys(filters).forEach(key => {
       if (filters[key]) activeFilters[key] = filters[key];
     });
-    console.log('Filters áp dụng:', activeFilters);
     onFilterChange(activeFilters);
   };
 
@@ -28,79 +25,68 @@ const TaskFilter = ({ onFilterChange }) => {
     setFilters({
       Status: '',
       Priority: '',
-      deadline_from: '',
-      deadline_to: ''
     });
     onFilterChange({});
   };
 
   return (
-    <div className="bg-gray-50 p-4 rounded mb-4">
-      <h3 className="font-bold mb-3">Bộ lọc</h3>
-      
-      <div className="grid grid-cols-4 gap-3">
-        <div>
-          <label className="block text-sm mb-1">Trạng thái</label>
-          <select 
-            value={filters.Status}
-            onChange={(e) => handleChange('Status', e.target.value)}
-            className="w-full border rounded px-2 py-1"
-          >
-            <option value="">Tất cả</option>
-            {Object.values(TASK_STATUS).map(status => (
-              <option key={status} value={status}>{status}</option>
-            ))}
-          </select>
-        </div>
+    <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-4">
+      <div className="flex flex-wrap gap-4 items-end">
+        {/* Status Filter */}
+        {showStatusFilter && (
+          <div className="min-w-[200px]">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Trạng thái
+            </label>
+            <select 
+              value={filters.Status}
+              onChange={(e) => handleChange('Status', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">Tất cả</option>
+              {Object.entries(TASK_STATUS).map(([key, value]) => (
+                <option key={value} value={value}>
+                  {TASK_STATUS_LABELS[value]}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
-        <div>
-          <label className="block text-sm mb-1">Ưu tiên</label>
+        {/* Priority Filter */}
+        <div className="min-w-[200px]">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Độ ưu tiên
+          </label>
           <select 
             value={filters.Priority}
             onChange={(e) => handleChange('Priority', e.target.value)}
-            className="w-full border rounded px-2 py-1"
+            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">Tất cả</option>
-            {Object.values(PRIORITY).map(priority => (
-              <option key={priority} value={priority}>{priority}</option>
+            {Object.entries(PRIORITY).map(([key, value]) => (
+              <option key={value} value={value}>
+                {PRIORITY_LABELS[value]}
+              </option>
             ))}
           </select>
         </div>
 
-        <div>
-          <label className="block text-sm mb-1">Từ ngày</label>
-          <input 
-            type="date"
-            value={filters.deadline_from}
-            onChange={(e) => handleChange('deadline_from', e.target.value)}
-            className="w-full border rounded px-2 py-1"
-          />
+        {/* Action Buttons */}
+        <div className="flex gap-2">
+          <button 
+            onClick={handleApply}
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+          >
+            Áp dụng
+          </button>
+          <button 
+            onClick={handleReset}
+            className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition"
+          >
+            🔄 Reset
+          </button>
         </div>
-
-        <div>
-          <label className="block text-sm mb-1">Đến ngày</label>
-          <input 
-            type="date"
-            value={filters.deadline_to}
-            onChange={(e) => handleChange('deadline_to', e.target.value)}
-            className="w-full border rounded px-2 py-1"
-          />
-        </div>
-      </div>
-
-      <div className="mt-3 flex gap-2">
-        <button 
-          onClick={handleApply}
-          className="px-4 py-2 bg-blue-500 text-white rounded"
-        >
-          Áp dụng
-        </button>
-        <button 
-          onClick={handleReset}
-          className="px-4 py-2 bg-gray-300 rounded"
-        >
-          Reset
-        </button>
       </div>
     </div>
   );
