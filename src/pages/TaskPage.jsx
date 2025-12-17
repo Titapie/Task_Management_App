@@ -1,5 +1,5 @@
 // src/pages/TasksPage.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useTasks from '../hooks/useTasks';
 import TaskList from '../components/task/TaskList';
@@ -11,12 +11,9 @@ import ExportButton from '../components/common/ExportButton';
 const TasksPage = () => {
   const navigate = useNavigate();
   const [params, setParams] = useState({ page: 1, limit: 10 });
+  
+  // Hook tự động fetch với params ban đầu
   const { tasks, loading, error, pagination, refetch } = useTasks(params);
-
-  // Chỉ fetch 1 lần khi mount
-  useEffect(() => {
-    refetch(params);
-  }, []);
 
   const handlePageChange = (newPage) => {
     const newParams = { ...params, page: newPage };
@@ -37,11 +34,11 @@ const TasksPage = () => {
 
   // CHUNG cho tất cả filters (search, status, priority, deadline)
   const handleFilterChange = (filters) => {
-    // Giữ lại chỉ page và limit, loại bỏ tất cả filter cũ
+    // Giữ lại page và limit, merge với filters mới
     const newParams = { 
       page: 1,
       limit: params.limit,
-      ...filters  // Thêm filters mới vào
+      ...filters
     };
     
     // Clean các giá trị rỗng
@@ -69,7 +66,10 @@ const TasksPage = () => {
         </div>
       </div>
 
+      {/* Search với nút bấm */}
       <TaskSearch onSearch={(search) => handleFilterChange({ search })} />
+      
+      {/* Filters */}
       <TaskFilter onFilterChange={handleFilterChange} showStatusFilter={true} />
       <TaskDeadlineFilter onFilterChange={handleFilterChange} />
 

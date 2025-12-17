@@ -14,7 +14,8 @@ import { updateTaskStatus } from '../../services/taskService';
 import { TASK_STATUS, TASK_STATUS_LABELS } from '../../utils/constants';
 
 const KanbanBoard = ({ filters }) => {
-  const { tasks, loading, error, refetch } = useTasks();
+  // Hook tự động fetch với limit lớn cho Kanban
+  const { tasks, loading, error, refetch } = useTasks({ ...filters, limit: 1000 });
   const [activeTask, setActiveTask] = useState(null);
   const [localTasks, setLocalTasks] = useState([]);
 
@@ -35,10 +36,16 @@ const KanbanBoard = ({ filters }) => {
     { status: TASK_STATUS.NOT_FINISH, title: TASK_STATUS_LABELS[TASK_STATUS.NOT_FINISH], colorClass: 'text-red-600' },
   ];
 
-  // Load tasks khi filters thay đổi
+  // CHỈ refetch khi filters thay đổi (không phải lần đầu mount)
   useEffect(() => {
-    refetch({ ...filters, limit: 1000 });
-  }, [filters]);
+    // Skip lần đầu mount vì hook đã tự fetch
+    const filtersString = JSON.stringify(filters);
+    
+    // Chỉ refetch khi filters thực sự có giá trị
+    if (Object.keys(filters).length > 0) {
+      refetch({ ...filters, limit: 1000 });
+    }
+  }, [JSON.stringify(filters)]); // Dùng JSON.stringify để so sánh object
 
   // Sync tasks từ hook
   useEffect(() => {
