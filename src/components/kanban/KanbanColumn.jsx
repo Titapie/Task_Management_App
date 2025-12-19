@@ -1,0 +1,49 @@
+import React from 'react';
+import { useDroppable } from '@dnd-kit/core';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import KanbanCard from './KanbanCard';
+
+const KanbanColumn = ({ status, tasks, title, colorClass }) => {
+    const { setNodeRef, isOver } = useDroppable({
+        id: status,
+    });
+
+    return (
+        <div className="flex-1 min-w-[280px] bg-gray-50 rounded-lg p-4">
+            {/* Column Header */}
+            <div className="mb-4">
+                <div className="flex items-center justify-between mb-2">
+                    <h3 className={`font-bold text-lg ${colorClass}`}>{title}</h3>
+                    <span className="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-sm font-semibold">
+            {tasks.length}
+          </span>
+                </div>
+                <div className={`h-1 rounded ${colorClass.replace('text-', 'bg-')}`}></div>
+            </div>
+
+            {/* Droppable Area */}
+            <SortableContext
+                id={status}
+                items={tasks.map((t) => t.id)}
+                strategy={verticalListSortingStrategy}
+            >
+                <div
+                    ref={setNodeRef}
+                    className={`min-h-[500px] transition-colors ${
+                        isOver ? 'bg-blue-50 border-2 border-dashed border-blue-400 rounded-lg' : ''
+                    }`}
+                >
+                    {tasks.length === 0 ? (
+                        <div className="text-center text-gray-400 mt-8 text-sm">
+                            Không có task phù hợp
+                        </div>
+                    ) : (
+                        tasks.map((task) => <KanbanCard key={task.id} task={task} />)
+                    )}
+                </div>
+            </SortableContext>
+        </div>
+    );
+};
+
+export default KanbanColumn;
