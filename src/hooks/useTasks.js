@@ -11,7 +11,6 @@ const useTasks = (initialParams = {}) => {
         total: 0,
         totalPages: 0
     });
-
     // Tự động fetch khi mount với initialParams
     useEffect(() => {
         if (Object.keys(initialParams).length > 0 || initialParams.page || initialParams.limit) {
@@ -228,7 +227,7 @@ export const useRecentTasks = (limit = 5) => {
     };
 };
 
-// Hook kết hợp để lấy cả upcoming và overdue tasks
+// Hook kết hợp upcoming và overdue tasks
 export const useDeadlineTasks = () => {
     const { upcomingTasks, loading: upcomingLoading, error: upcomingError, refetch: refetchUpcoming } = useUpcomingTasks();
     const { overdueTasks, loading: overdueLoading, error: overdueError, refetch: refetchOverdue } = useOverdueTasks();
