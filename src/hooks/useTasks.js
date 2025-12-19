@@ -227,7 +227,7 @@ export const useRecentTasks = (limit = 5) => {
     };
 };
 
-// Hook kết hợp để lấy cả upcoming và overdue tasks
+// Hook kết hợp upcoming và overdue tasks
 export const useDeadlineTasks = () => {
     const { upcomingTasks, loading: upcomingLoading, error: upcomingError, refetch: refetchUpcoming } = useUpcomingTasks();
     const { overdueTasks, loading: overdueLoading, error: overdueError, refetch: refetchOverdue } = useOverdueTasks();
