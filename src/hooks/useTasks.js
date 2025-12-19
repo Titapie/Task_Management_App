@@ -11,7 +11,6 @@ const useTasks = (initialParams = {}) => {
         total: 0,
         totalPages: 0
     });
-
     // Tự động fetch khi mount với initialParams
     useEffect(() => {
         if (Object.keys(initialParams).length > 0 || initialParams.page || initialParams.limit) {
