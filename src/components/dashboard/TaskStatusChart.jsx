@@ -88,7 +88,7 @@ const TaskStatusChart = () => {
                 <div>
                     <div className="mb-9">
                         <p className="text-sm text-gray-600">Tổng số task:</p>
-                        <p className="text-2xl font-bold">{totalTasks}</p>
+                        <p className="text-2xl text-gray-700 font-bold">{totalTasks}</p>
                     </div>
 
                     <div className="space-y-3">

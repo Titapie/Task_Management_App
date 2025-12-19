@@ -115,7 +115,7 @@ const ProgressChart = () => {
                                 className={`px-3 py-1 text-sm rounded transition ${
                                     period === p
                                         ? 'bg-white text-blue-600 shadow-sm'
-                                        : 'text-gray-600 hover:text-gray-800'
+                                        : 'text-white hover:text-gray-500'
                                 }`}
                             >
                                 {p === 'week' ? 'Tuần' : p === 'month' ? 'Tháng' : 'Năm'}
@@ -125,7 +125,7 @@ const ProgressChart = () => {
 
                     <button
                         onClick={refreshChart}
-                        className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg"
+                        className="p-2 bg-white text-gray-500 hover:text-gray-700 hover:bg-blue -100 rounded-lg"
                         title="Làm mới"
                     >
                         <FiRefreshCw size={18} />
