@@ -19,7 +19,7 @@ const QuickLogin = ({ onSuccess, autoLogin = false }) => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          Email: 'quang.dung@gmail.com',  // Thay email
+          Email: 'manh.tri@gmail.com',  // Thay email
           Password: 'password123'          // Thay password
         })
       });
