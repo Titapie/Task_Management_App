@@ -5,12 +5,12 @@ import {
     ArrowLeft, Calendar, Users, CheckCircle,
     Clock, TrendingUp, Edit, Trash2, UserPlus,
     Loader2, AlertCircle, BarChart3, ListTodo,
-    Target, AlertTriangle, Search, Plus, X
+    Target, AlertTriangle, Search, Plus, ArrowRight
 } from 'lucide-react';
 import projectService from '../../services/projectService';
 import taskService from '../../services/taskService';
 import ProjectForm from './ProjectForm';
-import { jwtDecode } from 'jwt-decode'; // Cần cài đặt: npm install jwt-decode
+import { jwtDecode } from 'jwt-decode';
 
 const ProjectDetail = () => {
     const { id } = useParams();
@@ -69,13 +69,8 @@ const ProjectDetail = () => {
 
             // 1. Fetch project info
             const projectResponse = await projectService.getProject(id);
-            console.log('🔍 Project Response:', projectResponse);
-
             if (projectResponse.success) {
                 const projectData = projectResponse.project || projectResponse.data;
-                console.log('📊 Project Data:', projectData);
-                console.log('📊 Total Tasks:', projectData?.total_tasks);
-                console.log('📊 Completed Tasks:', projectData?.completed_tasks);
 
                 // Tìm role của current user trong project
                 if (projectData.ProjectMembers && currentUser.id) {
@@ -95,8 +90,6 @@ const ProjectDetail = () => {
                     limit: 100
                 });
 
-                console.log('✅ Tasks Response:', tasksResponse);
-
                 if (tasksResponse.success) {
                     setTasks(tasksResponse.tasks || tasksResponse.data || []);
                 } else if (tasksResponse.tasks) {
@@ -105,18 +98,14 @@ const ProjectDetail = () => {
                     setTasks([]);
                 }
 
-                console.log('✅ Total tasks loaded:', (tasksResponse.tasks || []).length);
-            } catch (taskError) {
-                console.warn('⚠️ Cannot fetch tasks:', taskError);
+            } catch  {
                 const fallbackTasks = projectResponse.projects?.Tasks ||
                     projectResponse.projects?.tasks ||
                     [];
                 setTasks(fallbackTasks);
-                console.log('📦 Using fallback tasks:', fallbackTasks.length);
             }
 
         } catch (err) {
-            console.error('❌ Error fetching project:', err);
             setError(err.message || 'Không thể tải thông tin dự án');
         } finally {
             setLoading(false);
@@ -336,6 +325,9 @@ const ProjectDetail = () => {
     const handleCreateTask = () => {
         navigate(`/projects/${id}/tasks/create`);
     };
+    const handleTaskClick = (taskId) => {
+        navigate(`/tasks/${taskId}`);
+    }
 
     // Loading state
     if (loading) {
@@ -678,21 +670,13 @@ const ProjectDetail = () => {
                                             <option value="initial">khởi tạo</option>
                                             <option value="finish">Hoàn thành</option>
                                         </select>
-
-                                        <button
-                                            onClick={handleCreateTask}
-                                            className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap"
-                                        >
-                                            <Plus className="w-4 h-4 mr-2" />
-                                            Tạo Task
-                                        </button>
                                     </div>
                                 </div>
 
                                 {/* Tasks List */}
                                 {filteredTasks.length === 0 ? (
                                     <div className="text-center py-12 bg-gray-50 rounded-lg">
-                                        <ListTodo className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                                        <ListTodo className="w-16 h-16 text-gray-400 mx-auto mb-4"/>
                                         <p className="text-gray-600 mb-4">
                                             {taskSearch || taskFilter !== 'all'
                                                 ? 'Không tìm thấy task phù hợp'
@@ -711,8 +695,10 @@ const ProjectDetail = () => {
                                 ) : (
                                     <div className="space-y-3">
                                         {filteredTasks.map((task) => (
+
                                             <div
                                                 key={task.id}
+                                                onClick={() => handleTaskClick(task.id)}
                                                 className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-all cursor-pointer"
                                             >
                                                 <div className="flex items-start justify-between mb-3">

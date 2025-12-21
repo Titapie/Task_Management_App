@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, Users, CheckCircle, Clock, TrendingUp } from 'lucide-react';
 
-const ProjectCard = ({ project, viewMode = 'grid' }) => {
+const ProjectCard = ({ project}) => {
     const navigate = useNavigate();
 
     // Tính toán completion rate
@@ -41,137 +41,6 @@ const ProjectCard = ({ project, viewMode = 'grid' }) => {
     const handleCardClick = () => {
         navigate(`/projects/${project.id}`);
     };
-
-    // Render cho list view (horizontal layout)
-    if (viewMode === 'list') {
-        return (
-            <div
-                onClick={handleCardClick}
-                className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-200 hover:border-blue-400 overflow-hidden"
-            >
-                <div className="flex flex-col md:flex-row">
-                    {/* Left Section - Main Info */}
-                    <div className="flex-1 p-6 border-b md:border-b-0 md:border-r border-gray-100">
-                        <div className="flex items-start justify-between mb-3">
-                            <h3 className="text-xl font-semibold text-gray-800 flex-1">
-                                {project.Name}
-                            </h3>
-                            {isOverdue() && (
-                                <span className="ml-2 px-2 py-1 bg-red-100 text-red-600 text-xs font-medium rounded-full whitespace-nowrap">
-                                    Quá hạn
-                                </span>
-                            )}
-                        </div>
-
-                        {project.Description && (
-                            <p className="text-gray-600 text-sm line-clamp-2 mb-4">
-                                {project.Description}
-                            </p>
-                        )}
-
-                        {/* Manager Info */}
-                        <div className="flex items-center text-sm text-gray-500 mb-4">
-                            <Users className="w-4 h-4 mr-2" />
-                            <span>Quản lý: <span className="font-medium text-gray-700">{managerName}</span></span>
-                        </div>
-
-                        {/* Date Info */}
-                        <div className="flex items-center gap-4 text-xs text-gray-500">
-                            <div className="flex items-center">
-                                <Calendar className="w-4 h-4 mr-1" />
-                                <span>Bắt đầu: {formatDate(project.Start_date)}</span>
-                            </div>
-                            <div className="flex items-center">
-                                <Calendar className="w-4 h-4 mr-1" />
-                                <span>Kết thúc: {formatDate(project.End_date)}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Right Section - Stats */}
-                    <div className="w-full md:w-80 p-6 bg-gray-50">
-                        {/* Completion Rate */}
-                        <div className="mb-4">
-                            <div className="flex items-center justify-between mb-2">
-                                <div className="flex items-center text-sm font-medium text-gray-700">
-                                    <TrendingUp className="w-4 h-4 mr-2 text-blue-500" />
-                                    Tiến độ
-                                </div>
-                                <span className="text-sm font-bold text-gray-800">{completionRate}%</span>
-                            </div>
-                            <div className="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
-                                <div
-                                    className={`h-full rounded-full transition-all duration-500 ${getProgressColor(completionRate)}`}
-                                    style={{ width: `${completionRate}%` }}
-                                ></div>
-                            </div>
-                        </div>
-
-                        {/* Task Stats */}
-                        <div className="grid grid-cols-2 gap-3">
-                            <div className="bg-white rounded-lg p-3 border border-gray-200">
-                                <div className="flex items-center mb-1">
-                                    <Clock className="w-4 h-4 text-blue-600 mr-1" />
-                                    <p className="text-xs text-gray-500">Tổng</p>
-                                </div>
-                                <p className="text-lg font-bold text-gray-800">{totalTasks}</p>
-                            </div>
-
-                            <div className="bg-white rounded-lg p-3 border border-gray-200">
-                                <div className="flex items-center mb-1">
-                                    <CheckCircle className="w-4 h-4 text-green-600 mr-1" />
-                                    <p className="text-xs text-gray-500">Hoàn thành</p>
-                                </div>
-                                <p className="text-lg font-bold text-gray-800">{completedTasks}</p>
-                            </div>
-
-                            <div className="bg-white rounded-lg p-3 border border-gray-200">
-                                <p className="text-xs text-gray-500 mb-1">Đang thực hiện</p>
-                                <p className="text-sm font-semibold text-blue-600">
-                                    {project.in_progress_tasks || 0}
-                                </p>
-                            </div>
-
-                            <div className="bg-white rounded-lg p-3 border border-gray-200">
-                                <p className="text-xs text-gray-500 mb-1">Chưa hoàn thành</p>
-                                <p className="text-sm font-semibold text-red-600">
-                                    {project.not_finish_tasks || 0}
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Team Members Preview */}
-                        {project.ProjectMembers && project.ProjectMembers.length > 0 && (
-                            <div className="mt-4 pt-4 border-t border-gray-200">
-                                <div className="flex items-center">
-                                    <Users className="w-4 h-4 mr-2 text-gray-500" />
-                                    <span className="text-xs text-gray-600 mr-2">Thành viên:</span>
-                                    <div className="flex -space-x-2">
-                                        {project.ProjectMembers.slice(0, 5).map((member) => (
-                                            <div
-                                                key={member.id}
-                                                className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-xs font-medium border-2 border-white"
-                                                title={`${member.FirstName} ${member.LastName}`}
-                                            >
-                                                {member.FirstName.charAt(0)}{member.LastName.charAt(0)}
-                                            </div>
-                                        ))}
-                                        {project.ProjectMembers.length > 5 && (
-                                            <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-xs font-medium border-2 border-white">
-                                                +{project.ProjectMembers.length - 5}
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    // Render cho grid view (vertical layout - default)
     return (
         <div
             onClick={handleCardClick}

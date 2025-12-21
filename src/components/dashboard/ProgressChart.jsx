@@ -15,15 +15,20 @@ const ProgressChart = () => {
     const [error, setError] = useState(null);
     const [stats, setStats] = useState({ created: 0, completed: 0 });
 
-    // Fetch data từ API hoặc dùng mock data
+    // Fetch data từ API
     const fetchChartData = async (selectedPeriod = period) => {
         setLoading(true);
         setError(null);
 
         try {
             const response = await statsService.getProgressChart(selectedPeriod);
+
+            // Xử lý response - có thể là response.data hoặc trực tiếp response
             const data = response.data || response;
-            if (!data || !data.labels) {
+
+            console.log('API Response:', data); // Debug log
+
+            if (!data || !data.labels || !data.created || !data.completed) {
                 throw new Error('Dữ liệu biểu đồ không hợp lệ');
             }
 
@@ -34,17 +39,18 @@ const ProgressChart = () => {
                 completed: data.completed[index] || 0
             }));
 
+            console.log('Formatted Data:', formattedData); // Debug log
+
             setChartData(formattedData);
 
             // Tính tổng
-            const totalCreated = data.created?.reduce((a, b) => a + b, 0) || 0;
-            const totalCompleted = data.completed?.reduce((a, b) => a + b, 0) || 0;
+            const totalCreated = data.created.reduce((a, b) => a + b, 0);
+            const totalCompleted = data.completed.reduce((a, b) => a + b, 0);
             setStats({ created: totalCreated, completed: totalCompleted });
 
         } catch (err) {
             console.error('Error loading chart:', err);
             setError(err.message);
-
         } finally {
             setLoading(false);
         }
@@ -115,7 +121,7 @@ const ProgressChart = () => {
                                 className={`px-3 py-1 text-sm rounded transition ${
                                     period === p
                                         ? 'bg-white text-blue-600 shadow-sm'
-                                        : 'text-white hover:text-gray-500'
+                                        : 'text-gray-600 hover:text-gray-800'
                                 }`}
                             >
                                 {p === 'week' ? 'Tuần' : p === 'month' ? 'Tháng' : 'Năm'}
@@ -125,10 +131,11 @@ const ProgressChart = () => {
 
                     <button
                         onClick={refreshChart}
-                        className="p-2 bg-white text-gray-500 hover:text-gray-700 hover:bg-blue -100 rounded-lg"
+                        className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition"
                         title="Làm mới"
+                        disabled={loading}
                     >
-                        <FiRefreshCw size={18} />
+                        <FiRefreshCw size={18} className={loading ? 'animate-spin' : ''} />
                     </button>
                 </div>
             </div>
@@ -136,7 +143,7 @@ const ProgressChart = () => {
             {/* Biểu đồ */}
             <div className="mb-6" style={{ width: '100%', height: '350px' }}>
                 {chartData && chartData.length > 0 ? (
-                    <ResponsiveContainer >
+                    <ResponsiveContainer width="100%" height="100%">
                         <LineChart
                             data={chartData}
                             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -153,7 +160,7 @@ const ProgressChart = () => {
                                 fontSize={12}
                                 allowDecimals={false}
                                 tick={{ fill: '#6B7280' }}
-                                domain={[0, 'auto']} // Tự động điều chỉnh domain
+                                domain={[0, 'auto']}
                             />
                             <Tooltip
                                 contentStyle={{
@@ -174,7 +181,7 @@ const ProgressChart = () => {
                             <Line
                                 type="monotone"
                                 dataKey="created"
-                                name="Task mới"  // Display name
+                                name="Task mới"
                                 stroke={CHART_COLORS.PRIMARY}
                                 strokeWidth={2}
                                 dot={{ r: 4 }}
@@ -183,7 +190,7 @@ const ProgressChart = () => {
                             <Line
                                 type="monotone"
                                 dataKey="completed"
-                                name="Task hoàn thành"  // Display name
+                                name="Task hoàn thành"
                                 stroke={CHART_COLORS.SUCCESS}
                                 strokeWidth={2}
                                 dot={{ r: 4 }}
@@ -193,41 +200,10 @@ const ProgressChart = () => {
                     </ResponsiveContainer>
                 ) : (
                     <div className="h-full flex flex-col items-center justify-center">
-                        <ResponsiveContainer >
-                            <LineChart
-                                data={chartData}
-                                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                            >
-                                <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                                <XAxis
-                                    dataKey="name"
-                                    stroke="#6B7280"
-                                    fontSize={12}
-                                    tick={{ fill: '#6B7280' }}
-                                />
-                                <YAxis
-                                    stroke="#6B7280"
-                                    fontSize={12}
-                                    allowDecimals={false}
-                                    tick={{ fill: '#6B7280' }}
-                                    domain={[0, 'auto']} // Tự động điều chỉnh domain
-                                />
-                                <Tooltip
-                                    contentStyle={{
-                                        backgroundColor: 'white',
-                                        border: '1px solid #E5E7EB',
-                                        borderRadius: '8px',
-                                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                                    }}
-                                    formatter={(value) => [`${value} task`, 'Số lượng']}
-                                    labelFormatter={(label) => `Thời gian: ${label}`}
-                                />
-                            </LineChart>
-                        </ResponsiveContainer>
-                        <p className="text-gray-500">Không có dữ liệu để hiển thị</p>
+                        <p className="text-gray-500 mb-3">Không có dữ liệu để hiển thị</p>
                         <button
                             onClick={refreshChart}
-                            className=" mb-2.5 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm"
+                            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm"
                         >
                             Tải dữ liệu
                         </button>

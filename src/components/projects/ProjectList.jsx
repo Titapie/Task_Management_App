@@ -291,21 +291,6 @@ const ProjectList = () => {
                                 >
                                     <RefreshCw className={`w-4 h-4  text-blue-500 hover:text-white  ${loading ? 'animate-spin' : ''}`} />
                                 </button>
-
-                                <div className="flex border border-gray-400 rounded-lg overflow-hidden">
-                                    <button
-                                        onClick={() => setViewMode('grid')}
-                                        className={`px-3 py-2 bg-blue-200 text-blue-500 ${viewMode === 'grid' ? 'bg-white text-blue-600' : 'hover:bg-gray-50'}`}
-                                    >
-                                        <Grid3x3 className="w-4 h-4" />
-                                    </button>
-                                    <button
-                                        onClick={() => setViewMode('list')}
-                                        className={`px-3 py-2 border-l bg-blue-200 text-blue-500 ${viewMode === 'list' ? 'bg-white text-blue-600' : 'hover:bg-gray-50 ' }`}
-                                    >
-                                        <ListIcon className="w-4 h-4" />
-                                    </button>
-                                </div>
                             </div>
                         </div>
 
@@ -412,14 +397,10 @@ const ProjectList = () => {
                 ) : (
                     <>
                         {/* Projects Grid */}
-                        <div className={
-                            viewMode === 'grid'
-                                ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'
-                                : 'space-y-4'
-                        }>
+                        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
                             {projects.map((project) => (
                                 <div key={project.id} className="relative group">
-                                    <ProjectCard project={project} viewMode={viewMode}/>
+                                    <ProjectCard project={project} />
                                 </div>
                             ))}
                         </div>

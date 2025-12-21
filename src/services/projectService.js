@@ -40,19 +40,41 @@ axiosInstance.interceptors.response.use(
 
 const projectService = {
 
-    //Lấy danh sách tất cả projects
+    // Lấy danh sách projects (cho cả user thường và admin)
     getProjects: async (params = {}) => {
         // eslint-disable-next-line no-useless-catch
         try {
-            const response = await axiosInstance.get('/projects', { params });
+            // Thêm các tham số mặc định cho admin view
+            const defaultParams = {
+                limit: params.limit || 20,     // Mặc định 20 items mỗi trang
+                page: params.page || 1,        // Mặc định trang 1
+                ...params                       // Ghi đè bằng params truyền vào
+            };
+
+            const response = await axiosInstance.get('/projects', {
+                params: defaultParams
+            });
             return response;
         } catch (error) {
             throw error;
         }
     },
 
+    // Lấy tất cả projects KHÔNG phân trang (dành cho admin/dropdown)
+    getAllProjectsNoPagination: async () => {
+        // eslint-disable-next-line no-useless-catch
+        try {
+            // Gửi limit lớn để lấy tất cả
+            const response = await axiosInstance.get('/projects', {
+                params: { limit: 1000 }
+            });
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    },
 
-    //Lấy chi tiết một project
+    // Lấy chi tiết một project
     getProject: async (id) => {
         // eslint-disable-next-line no-useless-catch
         try {
@@ -63,7 +85,7 @@ const projectService = {
         }
     },
 
-    //Tạo project mới
+    // Tạo project mới
     createProject: async (data) => {
         // eslint-disable-next-line no-useless-catch
         try {
@@ -74,7 +96,7 @@ const projectService = {
         }
     },
 
-    //Cập nhật thông tin project
+    // Cập nhật thông tin project
     updateProject: async (id, data) => {
         // eslint-disable-next-line no-useless-catch
         try {
@@ -85,7 +107,7 @@ const projectService = {
         }
     },
 
-    //Xóa project (soft delete)
+    // Xóa project (soft delete)
     deleteProject: async (id) => {
         // eslint-disable-next-line no-useless-catch
         try {
@@ -96,9 +118,7 @@ const projectService = {
         }
     },
 
-
-    //Thêm thành viên vào project
-
+    // Thêm thành viên vào project
     addMembers: async (id, members) => {
         // eslint-disable-next-line no-useless-catch
         try {
@@ -111,60 +131,50 @@ const projectService = {
         }
     },
 
-    //Lấy danh sách projects với filter và sort nâng cao
-    getFilteredProjects: async (options = {}) => {
-        const {
-            search = '',
-            startFrom = '',
-            endTo = '',
-            managerId = '',
-            sortBy = '',
-            sortOrder = 'ASC',
-            page = 1,
-            limit = 10,
-        } = options;
-
-        const params = {};
-
-        if (search) params.search = search;
-        if (startFrom) params.start_from = startFrom;
-        if (endTo) params.end_to = endTo;
-        if (managerId) params.manager_id = managerId;
-        if (sortBy) {
-            params.sortKey = sortBy;
-            params.sortValue = sortOrder;
-        }
-        params.page = page;
-        params.limit = limit;
-
-        return await projectService.getProjects(params);
-    },
-
-    //Lấy statistics của project
-    getProjectStats: async (id) => {
+    // Lấy projects với filter nâng cao (cho admin dashboard)
+    getProjectsWithFilters: async (filters = {}) => {
         // eslint-disable-next-line no-useless-catch
         try {
-            const response = await projectService.getProject(id);
-            const project = response.project;
+            const {
+                page = 1,
+                limit = 20,
+                search = '',
+                manager_id = '',
+                start_from = '',
+                end_to = '',
+                sortKey = 'created_at',
+                sortValue = 'DESC'
+            } = filters;
 
-            // Tính toán thêm statistics nếu cần
-            const stats = {
-                totalMembers: project.ProjectMembers?.length || 0,
-                managerName: project.manager_name || 'Không có',
-                projectInfo: {
-                    name: project.Name,
-                    description: project.Description,
-                    startDate: project.Start_date,
-                    endDate: project.End_date,
-                },
+            const params = {
+                page,
+                limit,
+                ...(search && { search }),
+                ...(manager_id && { manager_id }),
+                ...(start_from && { start_from }),
+                ...(end_to && { end_to }),
+                ...(sortKey && { sortKey }),
+                ...(sortValue && { sortValue })
             };
 
-            return { ...response, stats };
+            const response = await axiosInstance.get('/projects', { params });
+            return response;
         } catch (error) {
             throw error;
         }
     },
 
+    // Lấy thống kê nhanh cho admin (tùy chọn)
+    getAdminStats: async () => {
+        // eslint-disable-next-line no-useless-catch
+        try {
+            // Có thể gọi endpoint stats từ backend nếu có
+            const response = await axiosInstance.get('/stats/project-summary');
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
 };
 
 export default projectService;
