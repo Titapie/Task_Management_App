@@ -36,7 +36,7 @@ export default function App() {
       <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
 
       {/* Protected routes with Layout */}
-      <Route element={<ProtectedRoute />}>
+      {/* <Route element={<ProtectedRoute />}> */}
       <Route element={<Layout />}>
         <Route path="/" element={<DashboardPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
@@ -60,7 +60,7 @@ export default function App() {
           <Route path="/admin/projects" element={<AdminProjectsPage />} />
           <Route path="/admin/tasks" element={<AdminTasksPage />} />
         </Route>
-      </Route>
+      {/* </Route> */}
       </Route>
 
       {/* 404 */}
