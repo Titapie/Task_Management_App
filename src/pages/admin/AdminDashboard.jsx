@@ -86,13 +86,13 @@ const AdminDashboard = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 p-6">
+        <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-white p-6">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="mb-8">
                     <div className="flex items-center justify-between">
                         <div>
-                            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                            <h1 className="text-4xl font-bold bg-purple-500 bg-clip-text text-transparent">
                                 Admin Dashboard
                             </h1>
                             <p className="text-gray-600 mt-2 flex items-center">
@@ -108,7 +108,7 @@ const AdminDashboard = () => {
                         <button
                             onClick={handleRefresh}
                             disabled={refreshing}
-                            className="flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg disabled:opacity-50"
+                            className="flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-xl hover:from-purple-700 hover:to-purple-800 transition-all shadow-lg disabled:opacity-50"
                         >
                             <RefreshCw className={`w-5 h-5 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
                             Làm mới

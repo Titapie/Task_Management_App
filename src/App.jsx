@@ -60,7 +60,7 @@ function App() {
                 {/* User routes (cần đăng nhập) */}
                 <Route path="/" element={
                     <PrivateRoute>
-                        <DashboardPage />
+                        <QuickLogin />
                     </PrivateRoute>
                 } />
                 <Route path="/dashboard" element={

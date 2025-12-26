@@ -37,12 +37,12 @@ const AdminLayout = () => {
                         {sidebarOpen ? (
                             <>
                                 <div>
-                                    <h1 className="text-2xl font-bold text-blue-600">Admin Panel</h1>
-                                    <p className="text-sm text-gray-600 mt-1">Quản trị hệ thống</p>
+                                    <h1 className="text-2xl font-bold text-purple-600">Admin Page</h1>
+                                    <p className="text-sm text-gray-600 mt-1">Quản trị web</p>
                                 </div>
                                 <button
                                     onClick={() => setSidebarOpen(false)}
-                                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                    className="p-2 hover:bg-purple-100 rounded-lg transition-colors"
                                 >
                                     <X className="w-5 h-5 text-gray-600" />
                                 </button>
@@ -50,9 +50,9 @@ const AdminLayout = () => {
                         ) : (
                             <button
                                 onClick={() => setSidebarOpen(true)}
-                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors mx-auto"
+                                className="p-2 hover:bg-purple-100 rounded-lg transition-colors mx-auto"
                             >
-                                <Menu className="w-5 h-5 text-gray-600" />
+                                <Menu className="w-5 h-5 text-purple-600" />
                             </button>
                         )}
                     </div>
@@ -70,8 +70,8 @@ const AdminLayout = () => {
                                             to={item.path}
                                             className={`flex items-center px-4 py-3 rounded-lg transition-all ${
                                                 isActive
-                                                    ? 'bg-blue-50 text-blue-600 border-r-4 border-blue-600'
-                                                    : 'text-gray-700 hover:bg-gray-100'
+                                                    ? 'bg-purple-50 text-purple-500 border-r-4 border-purple-500'
+                                                    : 'text-gray-700 hover:bg-purple-100 hover:text-purple-500'
                                             }`}
                                             title={!sidebarOpen ? item.name : ''}
                                         >
@@ -106,7 +106,7 @@ const AdminLayout = () => {
             <div className={`flex-1 transition-all duration-300 ${
                 sidebarOpen ? 'ml-64' : 'ml-20'
             }`}>
-                <main className="h-screen overflow-auto ">
+                <main className="h-screen w-full ">
                     <Outlet />
                 </main>
             </div>

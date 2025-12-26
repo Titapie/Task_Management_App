@@ -10,7 +10,7 @@ import {
     Edit,
     X,
     Save,
-    Crown,
+    UserCog,
     UserCheck,
     Mail,
     Calendar,
@@ -126,7 +126,7 @@ const AdminUsersPage = () => {
         if (role === 'admin') {
             return (
                 <span className="inline-flex items-center px-3 py-1 bg-purple-100 text-purple-700 text-sm font-medium rounded-full">
-                    <Crown className="w-4 h-4 mr-1" />
+                    <UserCog className="w-4 h-4 mr-1" />
                     Admin
                 </span>
             );
@@ -202,14 +202,14 @@ const AdminUsersPage = () => {
                 <div className="mb-8">
                     <div className="flex items-center justify-between mb-6">
                         <div>
-                            <h1 className="text-3xl font-bold text-gray-900">Quản lý Users</h1>
+                            <h1 className="text-3xl font-bold text-purple-600">Quản lý Users</h1>
                             <p className="text-gray-600 mt-1">
                                 Quản lý thông tin và phân quyền người dùng
                             </p>
                         </div>
                         <button
                             onClick={fetchUsers}
-                            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                            className="flex items-center px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-700 transition-colors"
                         >
                             <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
                             Làm mới
@@ -234,17 +234,17 @@ const AdminUsersPage = () => {
                                     <p className="text-sm text-gray-600 mb-1">Admins</p>
                                     <p className="text-3xl font-bold text-gray-800">{stats.admins}</p>
                                 </div>
-                                <Crown className="w-12 h-12 text-purple-500" />
+                                <UserCog className="w-12 h-12 text-purple-500" />
                             </div>
                         </div>
 
                         <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500 hover:shadow-lg transition-shadow">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm text-gray-600 mb-1">Regular Users</p>
+                                    <p className="text-sm text-gray-600 mb-1">User</p>
                                     <p className="text-3xl font-bold text-gray-800">{stats.regularUsers}</p>
                                 </div>
-                                <UserCheck className="w-12 h-12 text-green-500" />
+                                <User className="w-12 h-12 text-green-500" />
                             </div>
                         </div>
                     </div>
@@ -327,9 +327,6 @@ const AdminUsersPage = () => {
                                                     <div className="text-sm font-medium text-gray-900">
                                                         {userService.getFullName(user)}
                                                     </div>
-                                                    <div className="text-sm text-gray-500">
-                                                        ID: {user.id}
-                                                    </div>
                                                 </div>
                                             </div>
                                         </td>
@@ -359,9 +356,8 @@ const AdminUsersPage = () => {
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <button
                                                 onClick={() => handleOpenRoleModal(user)}
-                                                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                                                className="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
                                             >
-                                                <Shield className="w-4 h-4 mr-2" />
                                                 Đổi Role
                                             </button>
                                         </td>

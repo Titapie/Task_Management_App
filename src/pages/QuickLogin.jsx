@@ -49,7 +49,7 @@ const QuickLogin = ({ onSuccess }) => {
                 }
             } catch (decodeError) {
                 console.error('Error decoding token:', decodeError);
-                navigate('/dashboard');
+                navigate('/login');
             }
 
             if (onSuccess) onSuccess();

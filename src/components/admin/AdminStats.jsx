@@ -3,23 +3,30 @@ import {
     Users,
     Briefcase,
     ListTodo,
-    Activity,
     Target,
     Clock,
     CheckCircle,
     AlertCircle,
     Loader2,
-    BarChart3,
     Award,
     TextInitial,
-    CalendarX2, ClipboardList
+    CalendarX2,
+    ClipboardList
 } from 'lucide-react';
 import {
     PieChart as RechartsPieChart,
     Pie,
     Cell,
     Tooltip,
-    ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Bar, AreaChart, Legend, Area,
+    ResponsiveContainer,
+    BarChart,
+    CartesianGrid,
+    XAxis,
+    YAxis,
+    Bar,
+    AreaChart,
+    Legend,
+    Area,
 } from 'recharts';
 import statsService from '../../services/statsService';
 import userService from '../../services/userService';
@@ -36,7 +43,7 @@ const AdminStats = () => {
     const [userPerformance, setUserPerformance] = useState([]);
     const [taskStatus, setTaskStatus] = useState(null);
     const [projectSummary, setProjectSummary] = useState(null);
-    const [allUsers, setAllUsers] = useState([]); // ← State để lưu danh sách users
+    const [allUsers, setAllUsers] = useState([]);
     const [allProjects, setAllProjects] = useState([]);
     const [allTasks, setAllTasks] = useState([]);
 
@@ -67,7 +74,7 @@ const AdminStats = () => {
                 setUserPerformance([]);
             }
 
-            // ← Fetch tất cả users để đếm chính xác
+            // Fetch all users
             try {
                 const usersResponse = await userService.getAllUsers();
                 if (usersResponse.success) {
@@ -78,10 +85,9 @@ const AdminStats = () => {
                 setAllUsers([]);
             }
 
-            // ← Fetch tất cả projects để đếm chính xác
+            // Fetch all projects
             try {
                 const projectsResponse = await projectService.getAllProjectsNoPagination();
-                // API trả về { success, projects: [...] } chứ không phải { success, data: [...] }
                 if (projectsResponse.success) {
                     setAllProjects(projectsResponse.projects || []);
                 }
@@ -89,6 +95,8 @@ const AdminStats = () => {
                 console.warn('Cannot fetch projects:', err);
                 setAllProjects([]);
             }
+
+            // Fetch all tasks
             try {
                 const tasksResponse = await taskService.getTasks({ limit: 1000 });
                 if (tasksResponse.success) {
@@ -116,27 +124,23 @@ const AdminStats = () => {
         setRefreshing(false);
     };
 
-    // ← Tính toán stats từ danh sách users thực tế (giống UserList)
+    // Calculate user stats
     const userStats = {
         total: allUsers.length,
         admins: allUsers.filter(u => u.Role === 'admin').length,
         regularUsers: allUsers.filter(u => u.Role === 'user').length
     };
 
-    // ← Tính toán stats từ danh sách projects thực tế
+    // Calculate project stats
     const projectStats = {
         total: allProjects.length,
-        // Active: có tasks đang làm (in_progress_tasks > 0)
         active: allProjects.filter(p => p.in_progress_tasks > 0).length,
-        // Completed: tất cả tasks đã hoàn thành (total_tasks > 0 && completed_tasks === total_tasks)
         completed: allProjects.filter(p =>
             p.total_tasks > 0 && p.completed_tasks === p.total_tasks
         ).length,
-        // On Hold: có tasks nhưng không có tasks đang làm (total_tasks > 0 && in_progress_tasks === 0 && completed_tasks < total_tasks)
         onHold: allProjects.filter(p =>
             p.total_tasks >= 0 && p.in_progress_tasks === 0 && p.completed_tasks < p.total_tasks
         ).length,
-        // Overdue: projects có End_date đã qua và chưa hoàn thành
         overdue: allProjects.filter(p => {
             const endDate = new Date(p.End_date);
             const today = new Date();
@@ -145,6 +149,8 @@ const AdminStats = () => {
             return isOverdue && isNotCompleted;
         }).length,
     };
+
+    // Calculate task stats
     const calculateTaskStats = () => {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -159,8 +165,6 @@ const AdminStats = () => {
 
         allTasks.forEach(task => {
             const status = task.Status?.toLowerCase().trim();
-
-            // Kiểm tra overdue TRƯỚC
             let isOverdue = false;
             if (task.End_date) {
                 const endDate = new Date(task.End_date);
@@ -168,12 +172,9 @@ const AdminStats = () => {
                 isOverdue = endDate < today && status !== 'finish';
             }
 
-            // Nếu overdue, chỉ tính vào overdue
             if (isOverdue) {
                 stats.overdue++;
-            }
-            // Nếu không overdue, tính theo status bình thường
-            else {
+            } else {
                 switch (status) {
                     case 'finish':
                         stats.finish++;
@@ -226,6 +227,7 @@ const AdminStats = () => {
             { name: 'Quá hạn', value: taskStats.overdue || 0, color: COLORS.danger },
         ];
     };
+
     const getProjectChartData = () => {
         if (!projectSummary) return [];
         return [
@@ -235,6 +237,7 @@ const AdminStats = () => {
             { name: 'Overdue', value: projectStats.overdue || 0, color: COLORS.danger }
         ];
     };
+
     const getTopPerformersData = () => {
         return userPerformance.slice(0, 5).map(user => ({
             name: user.userName?.split(' ').slice(-1)[0] || 'User',
@@ -243,6 +246,7 @@ const AdminStats = () => {
             total: user.totalTasks || 0
         }));
     };
+
     const CustomTooltip = ({ active, payload }) => {
         if (active && payload && payload.length) {
             return (
@@ -256,9 +260,10 @@ const AdminStats = () => {
         }
         return null;
     };
+
     if (loading) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+            <div className="h-full flex items-center justify-center">
                 <div className="text-center">
                     <Loader2 className="w-12 h-12 text-blue-600 animate-spin mx-auto mb-4" />
                     <p className="text-gray-600">Đang tải thống kê...</p>
@@ -269,7 +274,7 @@ const AdminStats = () => {
 
     if (error) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+            <div className="h-full flex items-center justify-center p-6">
                 <div className="bg-white rounded-lg shadow-md p-8 max-w-md w-full text-center">
                     <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
                     <h2 className="text-2xl font-bold text-gray-800 mb-2">Có lỗi xảy ra</h2>
@@ -286,380 +291,320 @@ const AdminStats = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
-            <div className="max-w-7xl mx-auto">
-                {/* Main Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    {/* Total Users - Sử dụng userStats.total thay vì overview?.totalUsers */}
-                    <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="p-3 bg-blue-100 rounded-lg">
-                                <Users className="w-6 h-6 text-blue-600" />
-                            </div>
+        <div className="space-y-8">
+            {/* Main Stats Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {/* Total Users */}
+                <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500 hover:shadow-lg transition-shadow">
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="p-3 bg-blue-100 rounded-lg">
+                            <Users className="w-6 h-6 text-blue-600" />
                         </div>
-                        <h3 className="text-sm font-medium text-gray-600 mb-1">Tổng Users</h3>
-                        <p className="text-3xl font-bold text-gray-900">
-                            {userStats.total}
-                        </p>
                     </div>
-
-                    {/* Total Projects - Sử dụng projectStats.total thay vì overview?.totalProjects */}
-                    <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-purple-500">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="p-3 bg-purple-100 rounded-lg">
-                                <Briefcase className="w-6 h-6 text-purple-600" />
-                            </div>
-                        </div>
-                        <h3 className="text-sm font-medium text-gray-600 mb-1">Tổng Projects</h3>
-                        <p className="text-3xl font-bold text-gray-900">
-                            {projectStats.total}
-                        </p>
-                    </div>
-
-                    {/* Total Tasks */}
-                    <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="p-3 bg-green-100 rounded-lg">
-                                <ListTodo className="w-6 h-6 text-green-600" />
-                            </div>
-                        </div>
-                        <h3 className="text-sm font-medium text-gray-600 mb-1">Tổng Tasks</h3>
-                        <p className="text-3xl font-bold text-gray-900">
-                            {overview?.total || 0}
-                        </p>
-                    </div>
-
-                    {/* Completion Rate */}
-                    <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-orange-500">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="p-3 bg-orange-100 rounded-lg">
-                                <Target className="w-6 h-6 text-orange-600" />
-                            </div>
-                            <Activity className="w-4 h-4 text-orange-500" />
-                        </div>
-                        <h3 className="text-sm font-medium text-gray-600 mb-1">Tỷ lệ hoàn thành</h3>
-                        <p className="text-3xl font-bold text-gray-900">
-                            {overview?.completion_rate ? `${overview.completion_rate}%` : '0%'}
-                        </p>
-                    </div>
+                    <h3 className="text-sm font-medium text-gray-600 mb-1">Tổng Users</h3>
+                    <p className="text-3xl font-bold text-gray-900">{userStats.total}</p>
                 </div>
 
-                {/* Task Status Distribution with PieChart */}
-                {taskStatus && (
-                    <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-                        <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                            <BarChart3 className="w-5 h-5 mr-2 text-blue-600" />
-                            Phân bố trạng thái Tasks
-                        </h2>
+                {/* Total Projects */}
+                <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-purple-500 hover:shadow-lg transition-shadow">
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="p-3 bg-purple-100 rounded-lg">
+                            <Briefcase className="w-6 h-6 text-purple-600" />
+                        </div>
+                    </div>
+                    <h3 className="text-sm font-medium text-gray-600 mb-1">Tổng Projects</h3>
+                    <p className="text-3xl font-bold text-gray-900">{projectStats.total}</p>
+                </div>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                            {/* PieChart */}
-                            <div className="mt-10">
-                                <ResponsiveContainer width="100%" height={250}>
-                                    <RechartsPieChart>
-                                        <Pie
-                                            data={getTaskStatusChartData()}
-                                            cx="50%"
-                                            cy="50%"
-                                            labelLine={false}
-                                            label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                                            outerRadius={90}
-                                            fill="#8884d8"
-                                            dataKey="value"
-                                        >
-                                            {getTaskStatusChartData().map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={entry.color} />
-                                            ))}
-                                        </Pie>
-                                        <Tooltip />
-                                    </RechartsPieChart>
-                                </ResponsiveContainer>
+                {/* Total Tasks */}
+                <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500 hover:shadow-lg transition-shadow">
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="p-3 bg-green-100 rounded-lg">
+                            <ListTodo className="w-6 h-6 text-green-600" />
+                        </div>
+                    </div>
+                    <h3 className="text-sm font-medium text-gray-600 mb-1">Tổng Tasks</h3>
+                    <p className="text-3xl font-bold text-gray-900">{overview?.total || 0}</p>
+                </div>
+
+                {/* Completion Rate */}
+                <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-orange-500 hover:shadow-lg transition-shadow">
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="p-3 bg-orange-100 rounded-lg">
+                            <Target className="w-6 h-6 text-orange-600" />
+                        </div>
+                    </div>
+                    <h3 className="text-sm font-medium text-gray-600 mb-1">Tỷ lệ hoàn thành</h3>
+                    <p className="text-3xl font-bold text-gray-900">
+                        {overview?.completion_rate ? `${overview.completion_rate}%` : '0%'}
+                    </p>
+                </div>
+            </div>
+
+            {/* Task Status Distribution */}
+            {taskStatus && (
+                <div className="bg-white rounded-lg shadow-md p-6">
+                    <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
+                        Phân bổ trạng thái Tasks
+                    </h2>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {/* PieChart */}
+                        <div>
+                            <ResponsiveContainer width="100%" height={300}>
+                                <RechartsPieChart>
+                                    <Pie
+                                        data={getTaskStatusChartData()}
+                                        cx="50%"
+                                        cy="50%"
+                                        labelLine={false}
+                                        label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                                        outerRadius={90}
+                                        fill="#8884d8"
+                                        dataKey="value"
+                                    >
+                                        {getTaskStatusChartData().map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={entry.color} />
+                                        ))}
+                                    </Pie>
+                                    <Tooltip content={<CustomTooltip />} />
+                                </RechartsPieChart>
+                            </ResponsiveContainer>
+                        </div>
+
+                        {/* Stats Cards */}
+                        <div className="flex flex-col justify-center space-y-3">
+                            <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg border border-green-200">
+                                <div className="flex items-center">
+                                    <CheckCircle className="w-8 h-8 text-green-600 mr-3" />
+                                    <div>
+                                        <p className="text-sm text-gray-600">Hoàn thành</p>
+                                        <p className="text-2xl font-bold text-gray-900">{taskStats.finish}</p>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div className="flex flex-col justify-center">
-                                <div className="space-y-4">
-                                    <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg border border-green-200">
-                                        <div className="flex items-center">
-                                            <CheckCircle className="w-8 h-8 text-green-600 mr-3" />
-                                            <div>
-                                                <p className="text-sm text-gray-600">Hoàn thành</p>
-                                                <p className="text-2xl font-bold text-gray-900">
-                                                    {taskStats.finish}
-                                                </p>
-                                            </div>
-                                        </div>
+                            <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-200">
+                                <div className="flex items-center">
+                                    <Clock className="w-8 h-8 text-blue-600 mr-3" />
+                                    <div>
+                                        <p className="text-sm text-gray-600">Đang thực hiện</p>
+                                        <p className="text-2xl font-bold text-gray-900">{taskStats.doing}</p>
                                     </div>
+                                </div>
+                            </div>
 
-                                    <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-200">
-                                        <div className="flex items-center">
-                                            <Clock className="w-8 h-8 text-blue-600 mr-3" />
-                                            <div>
-                                                <p className="text-sm text-gray-600">Đang thực hiện</p>
-                                                <p className="text-2xl font-bold text-gray-900">
-                                                    {taskStats.doing}
-                                                </p>
-                                            </div>
-                                        </div>
+                            <div className="flex items-center justify-between p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                                <div className="flex items-center">
+                                    <AlertCircle className="w-8 h-8 text-yellow-600 mr-3" />
+                                    <div>
+                                        <p className="text-sm text-gray-600">Chờ xử lý</p>
+                                        <p className="text-2xl font-bold text-gray-900">{taskStats.pending}</p>
                                     </div>
+                                </div>
+                            </div>
 
-                                    <div className="flex items-center justify-between p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-                                        <div className="flex items-center">
-                                            <AlertCircle className="w-8 h-8 text-yellow-600 mr-3" />
-                                            <div>
-                                                <p className="text-sm text-gray-600">Chờ xử lý</p>
-                                                <p className="text-2xl font-bold text-gray-900">
-                                                    {taskStats.pending}
-                                                </p>
-                                            </div>
-                                        </div>
+                            <div className="flex items-center justify-between p-4 bg-purple-50 rounded-lg border border-purple-200">
+                                <div className="flex items-center">
+                                    <TextInitial className="w-8 h-8 text-purple-600 mr-3" />
+                                    <div>
+                                        <p className="text-sm text-gray-600">Khởi tạo</p>
+                                        <p className="text-2xl font-bold text-gray-900">{taskStats.initial}</p>
                                     </div>
+                                </div>
+                            </div>
 
-                                    <div className="flex items-center justify-between p-4 bg-purple-50 rounded-lg border border-purple-200">
-                                        <div className="flex items-center">
-                                            <TextInitial className="w-8 h-8 text-purple-600 mr-3" />
-                                            <div>
-                                                <p className="text-sm text-gray-600">Khởi tạo</p>
-                                                <p className="text-2xl font-bold text-gray-900">
-                                                    {taskStats.initial}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex items-center justify-between p-4 bg-red-50 rounded-lg border border-red-200">
-                                        <div className="flex items-center">
-                                            <CalendarX2 className="w-8 h-8 text-red-600 mr-3" />
-                                            <div>
-                                                <p className="text-sm text-gray-600">Quá hạn</p>
-                                                <p className="text-2xl font-bold text-gray-900">
-                                                    {taskStats.overdue}
-                                                </p>
-                                            </div>
-                                        </div>
+                            <div className="flex items-center justify-between p-4 bg-red-50 rounded-lg border border-red-200">
+                                <div className="flex items-center">
+                                    <CalendarX2 className="w-8 h-8 text-red-600 mr-3" />
+                                    <div>
+                                        <p className="text-sm text-gray-600">Quá hạn</p>
+                                        <p className="text-2xl font-bold text-gray-900">{taskStats.overdue}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                )}
-                {allProjects.length > 0 && (
-                    <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-                        <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                            <Briefcase className="w-5 h-5 mr-2 text-purple-600" />
-                            Tổng quan Projects
+                </div>
+            )}
+
+            {/* Project Overview */}
+            {allProjects.length > 0 && (
+                <div className="bg-white rounded-lg shadow-md p-6">
+                    <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
+                        Tổng quan Projects
+                    </h2>
+                    <ResponsiveContainer width="100%" height={300}>
+                        <BarChart data={getProjectChartData()}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                            <XAxis dataKey="name" stroke="#666" />
+                            <YAxis stroke="#666" />
+                            <Tooltip content={<CustomTooltip />} />
+                            <Bar dataKey="value" radius={[8, 8, 0, 0]}>
+                                {getProjectChartData().map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={entry.color} />
+                                ))}
+                            </Bar>
+                        </BarChart>
+                    </ResponsiveContainer>
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+                        <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                            <p className="text-sm text-gray-600 mb-1">Active Projects</p>
+                            <p className="text-2xl font-bold text-blue-600">{projectStats.active}</p>
+                            <p className="text-xs text-gray-500 mt-1">Đang có tasks thực hiện</p>
+                        </div>
+                        <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+                            <p className="text-sm text-gray-600 mb-1">Completed</p>
+                            <p className="text-2xl font-bold text-green-600">{projectStats.completed}</p>
+                            <p className="text-xs text-gray-500 mt-1">Tất cả tasks hoàn thành</p>
+                        </div>
+                        <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                            <p className="text-sm text-gray-600 mb-1">On Hold</p>
+                            <p className="text-2xl font-bold text-yellow-600">{projectStats.onHold}</p>
+                            <p className="text-xs text-gray-500 mt-1">Chưa hoàn thành, không có task đang làm</p>
+                        </div>
+                        <div className="p-4 bg-red-50 rounded-lg border border-red-200">
+                            <p className="text-sm text-gray-600 mb-1">Overdue</p>
+                            <p className="text-2xl font-bold text-red-600">{projectStats.overdue}</p>
+                            <p className="text-xs text-gray-500 mt-1">Đã quá thời hạn</p>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* User Performance */}
+            {userPerformance && userPerformance.length > 0 && (
+                <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div className="p-6 border-b border-gray-200">
+                        <h2 className="text-xl font-bold text-gray-900 flex items-center mb-6">
+                            Top 5 Performers - Tasks Performance
                         </h2>
-                        <div className="overflow-x-auto">
-                            <ResponsiveContainer width="100%" height={300}>
-                                <BarChart data={getProjectChartData()}>
-                                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                                    <XAxis dataKey="name" stroke="#666" />
-                                    <YAxis stroke="#666" />
-                                    <Tooltip content={<CustomTooltip />} />
-                                    <Bar dataKey="value" radius={[8, 8, 0, 0]}>
-                                        {getProjectChartData().map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={entry.color} />
-                                        ))}
-                                    </Bar>
-                                </BarChart>
-                            </ResponsiveContainer>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                            <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                                <p className="text-sm text-gray-600 mb-1">Active Projects</p>
-                                <p className="text-2xl font-bold text-blue-600">
-                                    {projectStats.active}
-                                </p>
-                                <p className="text-xs text-gray-500 mt-1">Đang có tasks thực hiện</p>
-                            </div>
-                            <div className="p-4 bg-green-50 rounded-lg border border-green-200">
-                                <p className="text-sm text-gray-600 mb-1">Completed</p>
-                                <p className="text-2xl font-bold text-green-600">
-                                    {projectStats.completed}
-                                </p>
-                                <p className="text-xs text-gray-500 mt-1">Tất cả tasks hoàn thành</p>
-                            </div>
-                            <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-                                <p className="text-sm text-gray-600 mb-1">On Hold</p>
-                                <p className="text-2xl font-bold text-yellow-600">
-                                    {projectStats.onHold}
-                                </p>
-                                <p className="text-xs text-gray-500 mt-1">Chưa hoàn thành, không có task đang làm</p>
-                            </div>
-                            <div className="p-4 bg-red-50 rounded-lg border border-red-200">
-                                <p className="text-sm text-gray-600 mb-1">Overdue</p>
-                                <p className="text-2xl font-bold text-red-600">
-                                    {projectStats.overdue}
-                                </p>
-                                <p className="text-xs text-gray-500 mt-1">Đã quá thời hạn</p>
-                            </div>
-                        </div>
+                        <ResponsiveContainer width="100%" height={300}>
+                            <AreaChart data={getTopPerformersData()}>
+                                <defs>
+                                    <linearGradient id="colorCompleted" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor={COLORS.success} stopOpacity={0.8}/>
+                                        <stop offset="95%" stopColor={COLORS.success} stopOpacity={0.1}/>
+                                    </linearGradient>
+                                    <linearGradient id="colorProgress" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor={COLORS.primary} stopOpacity={0.8}/>
+                                        <stop offset="95%" stopColor={COLORS.primary} stopOpacity={0.1}/>
+                                    </linearGradient>
+                                </defs>
+                                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                                <XAxis dataKey="name" stroke="#666" />
+                                <YAxis stroke="#666" />
+                                <Tooltip content={<CustomTooltip />} />
+                                <Legend />
+                                <Area
+                                    type="monotone"
+                                    dataKey="completed"
+                                    stroke={COLORS.success}
+                                    fillOpacity={1}
+                                    fill="url(#colorCompleted)"
+                                    name="Hoàn thành"
+                                />
+                                <Area
+                                    type="monotone"
+                                    dataKey="inProgress"
+                                    stroke={COLORS.primary}
+                                    fillOpacity={1}
+                                    fill="url(#colorProgress)"
+                                    name="Đang làm"
+                                />
+                            </AreaChart>
+                        </ResponsiveContainer>
                     </div>
-                )}
-
-                {/* User Performance Table */}
-                {userPerformance && userPerformance.length > 0 && (
-                    <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                        <div className="p-6 border-b border-gray-200">
-                            <h2 className="text-xl font-bold text-gray-900 flex items-center mb-6">
-                                <Award className="w-5 h-5 mr-2 text-yellow-500" />
-                                User Performance
-                            </h2>
-                            <div className="overflow-x-auto">
-                                <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                                    Top 5 Performers - Tasks Performance
-                                </h2>
-                                <ResponsiveContainer width="100%" height={300}>
-                                    <AreaChart data={getTopPerformersData()}>
-                                        <defs>
-                                            <linearGradient id="colorCompleted" x1="0" y1="0" x2="0" y2="1">
-                                                <stop offset="5%" stopColor={COLORS.success} stopOpacity={0.8}/>
-                                                <stop offset="95%" stopColor={COLORS.success} stopOpacity={0.1}/>
-                                            </linearGradient>
-                                            <linearGradient id="colorProgress" x1="0" y1="0" x2="0" y2="1">
-                                                <stop offset="5%" stopColor={COLORS.primary} stopOpacity={0.8}/>
-                                                <stop offset="95%" stopColor={COLORS.primary} stopOpacity={0.1}/>
-                                            </linearGradient>
-                                        </defs>
-                                        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                                        <XAxis dataKey="name" stroke="#666" />
-                                        <YAxis stroke="#666" />
-                                        <Tooltip content={<CustomTooltip />} />
-                                        <Legend />
-                                        <Area
-                                            type="monotone"
-                                            dataKey="completed"
-                                            stroke={COLORS.success}
-                                            fillOpacity={1}
-                                            fill="url(#colorCompleted)"
-                                            name="Hoàn thành"
-                                        />
-                                        <Area
-                                            type="monotone"
-                                            dataKey="inProgress"
-                                            stroke={COLORS.primary}
-                                            fillOpacity={1}
-                                            fill="url(#colorProgress)"
-                                            name="Đang làm"
-                                        />
-                                    </AreaChart>
-                                </ResponsiveContainer>
-                            </div>
-                            <h2 className="text-xl font-bold text-gray-900 mt-6 flex items-center">
-                                Top performers theo số lượng tasks hoàn thành
-                            </h2>
-                        </div>
-                        <div className="overflow-x-auto">
-                            <table className="w-full">
-                                <thead className="bg-gray-50">
-                                <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Rank
-                                    </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        User
-                                    </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Total Task
-                                    </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Tasks hoàn thành
-                                    </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Tasks đang làm
-                                    </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Tỷ lệ hoàn thành
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-200">
-                                {userPerformance.slice(0, 10).map((user, index) => {
-                                    const completionRate = user.totalTasks > 0
-                                        ? Math.round((user.completedTasks / user.totalTasks) * 100)
-                                        : 0;
-
-                                    return (
-                                        <tr key={user.userId} className="hover:bg-gray-50">
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="flex items-center">
-                                                    {index === 0 && <Award className="w-5 h-5 text-yellow-500 mr-2" />}
-                                                    {index === 1 && <Award className="w-5 h-5 text-gray-400 mr-2" />}
-                                                    {index === 2 && <Award className="w-5 h-5 text-orange-500 mr-2" />}
-                                                    <span className="text-sm font-medium text-gray-900">
-                                                        #{index + 1}
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="flex items-center">
-                                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-medium mr-3">
-                                                        {user.userName?.charAt(0) || 'U'}
-                                                    </div>
-                                                    <div>
-                                                        <div className="text-sm font-medium text-gray-900">
-                                                            {user.userName || 'Unknown'}
-                                                        </div>
-                                                        <div className="text-sm text-gray-500">
-                                                            {user.userEmail || '-'}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="flex items-center">
-                                                    <ClipboardList className="w-4 h-4 text-blue-500 mr-2" />
-                                                    <span className="text-sm font-bold text-blue-600">
-                                                        {user.totalTasks || 0}
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="flex items-center">
-                                                    <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                                                    <span className="text-sm font-bold text-green-600">
-                                                        {user.completedTasks || 0}
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="flex items-center">
-                                                    <Clock className="w-4 h-4 text-blue-500 mr-2" />
-                                                    <span className="text-sm text-gray-900">
-                                                        {user.inProgressTasks || 0}
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="flex items-center">
-                                                    <div className="w-full max-w-xs">
-                                                        <div className="flex items-center justify-between mb-1">
-                                                            <span className="text-sm font-medium text-gray-700">
-                                                                {completionRate}%
-                                                            </span>
-                                                        </div>
-                                                        <div className="w-full bg-gray-200 rounded-full h-2">
-                                                            <div
-                                                                className={`h-2 rounded-full ${
-                                                                    completionRate >= 80 ? 'bg-green-500' :
-                                                                        completionRate >= 50 ? 'bg-blue-500' :
-                                                                            completionRate >= 30 ? 'bg-yellow-500' :
-                                                                                'bg-red-500'
-                                                                }`}
-                                                                style={{ width: `${completionRate}%` }}
-                                                            ></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                                </tbody>
-                            </table>
-                        </div>
+                    <div className="p-6">
+                        <h3 className="text-lg font-bold text-gray-900 mb-4">
+                            Top performers theo số lượng tasks hoàn thành
+                        </h3>
                     </div>
-                )}
-            </div>
+                    <div className="overflow-x-auto">
+                        <table className="w-full">
+                            <thead className="bg-gray-50">
+                            <tr>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rank</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Task</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tasks hoàn thành</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tasks đang làm</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tỷ lệ hoàn thành</th>
+                            </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-200">
+                            {userPerformance.slice(0, 10).map((user, index) => {
+                                const completionRate = user.totalTasks > 0
+                                    ? Math.round((user.completedTasks / user.totalTasks) * 100)
+                                    : 0;
+
+                                return (
+                                    <tr key={user.userId} className="hover:bg-gray-50">
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="flex items-center">
+                                                {index === 0 && <Award className="w-5 h-5 text-yellow-500 mr-2" />}
+                                                {index === 1 && <Award className="w-5 h-5 text-gray-400 mr-2" />}
+                                                {index === 2 && <Award className="w-5 h-5 text-orange-500 mr-2" />}
+                                                <span className="text-sm font-medium text-gray-900">#{index + 1}</span>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="flex items-center">
+                                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-medium mr-3">
+                                                    {user.userName?.charAt(0) || 'U'}
+                                                </div>
+                                                <div>
+                                                    <div className="text-sm font-medium text-gray-900">{user.userName || 'Unknown'}</div>
+                                                    <div className="text-sm text-gray-500">{user.userEmail || '-'}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="flex items-center">
+                                                <ClipboardList className="w-4 h-4 text-blue-500 mr-2" />
+                                                <span className="text-sm font-bold text-blue-600">{user.totalTasks || 0}</span>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="flex items-center">
+                                                <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                                                <span className="text-sm font-bold text-green-600">{user.completedTasks || 0}</span>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="flex items-center">
+                                                <Clock className="w-4 h-4 text-blue-500 mr-2" />
+                                                <span className="text-sm text-gray-900">{user.inProgressTasks || 0}</span>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="flex items-center">
+                                                <div className="w-full max-w-xs">
+                                                    <div className="flex items-center justify-between mb-1">
+                                                        <span className="text-sm font-medium text-gray-700">{completionRate}%</span>
+                                                    </div>
+                                                    <div className="w-full bg-gray-200 rounded-full h-2">
+                                                        <div
+                                                            className={`h-2 rounded-full ${
+                                                                completionRate >= 80 ? 'bg-green-500' :
+                                                                    completionRate >= 50 ? 'bg-blue-500' :
+                                                                        completionRate >= 30 ? 'bg-yellow-500' :
+                                                                            'bg-red-500'
+                                                            }`}
+                                                            style={{ width: `${completionRate}%` }}
+                                                        ></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
