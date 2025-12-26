@@ -13,7 +13,7 @@ const QuickLogin = ({ onSuccess }) => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    Email: 'admin@gmail.com',
+                    Email: 'pnhtrieu186@gmail.com',
                     Password: 'password123'
                 })
             });
