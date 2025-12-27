@@ -1,17 +1,13 @@
 export const TASK_STATUS = {
     INITIAL: 'initial',
     DOING: 'doing',
-    FINISH: 'finish',
     PENDING: 'pending',
-    NOT_FINISH: 'notFinish'
 };
 
 export const TASK_STATUS_LABELS = {
     [TASK_STATUS.INITIAL]: 'Khởi tạo',
     [TASK_STATUS.DOING]: 'Đang làm',
-    [TASK_STATUS.FINISH]: 'Hoàn thành',
     [TASK_STATUS.PENDING]: 'Chờ xử lý',
-    [TASK_STATUS.NOT_FINISH]: 'Chưa hoàn thành'
 };
 
 export const PRIORITY = {
@@ -43,9 +39,8 @@ export const PRIORITY_COLORS = {
 export const STATUS_COLORS = {
     initial: '#9CA3AF',
     doing: '#3B82F6',
-    finish: '#10B981',
     pending: '#F59E0B',
-    notFinish: '#EF4444'
+
 };
 
 // export const API_BASE_URL = 'http://localhost:5000/api';

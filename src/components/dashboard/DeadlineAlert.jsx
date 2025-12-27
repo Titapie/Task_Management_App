@@ -65,6 +65,16 @@ const DeadlineAlert = () => {
 
     return (
         <div className="space-y-6">
+            <Link
+                to="/tasks"
+                className="block p-4 bg-indigo-600 text-white rounded-xl text-base shadow-sm hover:text-gray-700 transition text-center"
+            >
+                <div className="flex items-center justify-center gap-2">
+                    <FiChevronRight className="rotate-180" />
+                    <span className="font-medium">Xem tất cả công việc</span>
+                    <FiChevronRight />
+                </div>
+            </Link>
             {/* Task sắp đến hạn */}
             <div className="bg-white p-6 rounded-xl shadow-sm border">
                 <div className="flex items-center justify-between mb-4">
@@ -162,17 +172,6 @@ const DeadlineAlert = () => {
                 )}
             </div>
 
-            {/* Link đến tasks */}
-            <Link
-                to="/tasks"
-                className="block p-4 bg-blue-500 text-white rounded-xl text-base shadow-sm hover:text-gray-700 transition text-center"
-            >
-                <div className="flex items-center justify-center gap-2">
-                    <FiChevronRight className="rotate-180" />
-                    <span className="font-medium">Xem tất cả công việc</span>
-                    <FiChevronRight />
-                </div>
-            </Link>
         </div>
     );
 };

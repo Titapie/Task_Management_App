@@ -1,79 +1,87 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import userService from '../services/userService';
+import { useAuth } from '../context/AuthContext';
 
-const QuickLogin = ({ onSuccess }) => {
+const QuickLogin = () => {
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate(); // ✅ Bây giờ mới hoạt động đúng
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
+    const { login } = useAuth(); // ✅ Dùng login từ AuthContext
 
     const handleQuickLogin = async () => {
         setLoading(true);
+        setError(null);
+
         try {
-            const response = await fetch('http://localhost:5000/api/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    Email: 'pnhtrieu186@gmail.com',
-                    Password: 'password123'
-                })
+            // ✅ Gọi login từ AuthContext thay vì fetch trực tiếp
+            const userData = await login({
+                Email: 'pnhtrieu186@gmail.com',
+                Password: 'password123'
             });
 
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            console.log('✅ Login successful:', userData);
+
+            // ✅ Redirect dựa vào role
+            if (userData.Role === 'admin') {
+                console.log('➡️ Redirecting to /admin');
+                navigate('/admin', { replace: true });
+            } else {
+                console.log('➡️ Redirecting to /dashboard');
+                navigate('/dashboard', { replace: true });
             }
 
-            const data = await response.json();
-
-            // Save token
-            localStorage.setItem('token', data.token);
-
-            // DEBUG: Log token
-            console.log('Token saved:', data.token.substring(0, 50) + '...');
-
-            // ✅ Check if admin
-            const isAdmin = userService.isAdmin();
-
-            // Decode token để lấy user info
-            try {
-                const token = data.token;
-                const payload = JSON.parse(atob(token.split('.')[1]));
-                console.log('Token payload:', payload);
-
-                if (isAdmin) {
-                    console.log('✅ User is admin, redirecting to /admin');
-                    navigate('/admin');
-                } else {
-                    console.log('ℹ️ User is not admin, redirecting to /dashboard');
-                    navigate('/dashboard');
-
-                }
-            } catch (decodeError) {
-                console.error('Error decoding token:', decodeError);
-                navigate('/login');
-            }
-
-            if (onSuccess) onSuccess();
         } catch (err) {
-            console.error('Login error:', err);
-            alert('❌ Login failed: ' + err.message);
+            console.error('❌ Login error:', err);
+            setError(err.message || 'Login failed');
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="flex items-center justify-center h-screen">
-            <div className="text-center">
-                <h1 className="text-3xl font-bold mb-8">Quick Login System</h1>
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+            <div className="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-2xl w-full max-w-md">
+                <div className="text-center mb-8">
+                    <div className="w-20 h-20 bg-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <span className="text-white font-bold text-3xl">N</span>
+                    </div>
+                    <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
+                        Quick Login
+                    </h1>
+                    <p className="text-gray-600 dark:text-gray-400">
+                        Development access only
+                    </p>
+                </div>
+
+                {error && (
+                    <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                        <p className="text-red-600 dark:text-red-400 text-sm">
+                            ❌ {error}
+                        </p>
+                    </div>
+                )}
+
                 <button
                     onClick={handleQuickLogin}
                     disabled={loading}
-                    className="px-8 py-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 mb-6 text-lg font-medium transition-colors disabled:opacity-50"
+                    className="w-full py-4 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-all font-semibold text-lg shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                    {loading ? 'Đang đăng nhập...' : 'Quick Login'}
+                    {loading ? (
+                        <span className="flex items-center justify-center gap-2">
+                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                            Đang đăng nhập...
+                        </span>
+                    ) : (
+                        '🚀 Quick Login'
+                    )}
                 </button>
 
-
+                <div className="mt-6 p-4 bg-gray-50 dark:bg-slate-700 rounded-lg">
+                    <p className="text-xs text-gray-600 dark:text-gray-400 text-center">
+                        📧 Email: pnhtrieu186@gmail.com<br />
+                        🔑 Password: password123
+                    </p>
+                </div>
             </div>
         </div>
     );

@@ -8,7 +8,8 @@ const StatsCard = ({
                        color = 'blue',
                        change,
                        subtitle,
-                       isLoading = false
+                       isLoading = false,
+                       className = '' // ✅ THÊM prop className
                    }) => {
     const colorClasses = {
         blue: {
@@ -45,7 +46,7 @@ const StatsCard = ({
 
     if (isLoading) {
         return (
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 animate-pulse">
+            <div className={`bg-white rounded-xl shadow-sm border border-gray-200 p-6 animate-pulse ${className}`}>
                 <div className="flex justify-between items-start mb-5">
                     <div className="h-4 bg-gray-200 rounded-md w-24"></div>
                     <div className="h-10 w-10 bg-gray-200 rounded-lg"></div>
@@ -59,7 +60,7 @@ const StatsCard = ({
     const colors = colorClasses[color];
 
     return (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-gray-300 transition-all duration-300 group">
+        <div className={`bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-gray-300 transition-all duration-300 group ${className}`}>
             <div className="flex justify-between items-start mb-5">
                 <h3 className="text-sm font-medium text-gray-600 leading-snug">{title}</h3>
                 {icon && (

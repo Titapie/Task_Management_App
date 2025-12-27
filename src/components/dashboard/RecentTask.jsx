@@ -53,11 +53,11 @@ const RecentTask = () => {
     if (loading) {
         return (
             <div className="bg-white p-6 rounded-xl shadow-sm border">
-                <div className="animate-pulse space-y-4">
-                    <div className="h-6 bg-gray-200 rounded w-1/3"></div>
-                    <div className="space-y-3">
+                <div className="animate-pulse">
+                    <div className="h-6 bg-gray-200 rounded w-1/3 mb-4"></div>
+                    <div className="flex gap-4 overflow-hidden">
                         {[1, 2, 3].map((i) => (
-                            <div key={i} className="h-24 bg-gray-200 rounded"></div>
+                            <div key={i} className="min-w-[320px] h-48 bg-gray-200 rounded-lg"></div>
                         ))}
                     </div>
                 </div>
@@ -82,97 +82,120 @@ const RecentTask = () => {
         <div className="bg-white p-6 rounded-xl shadow-sm border">
             <div className="flex justify-between items-center mb-6">
                 <h3 className="text-lg font-semibold text-gray-800">Công việc gần đây</h3>
-                <span className="px-3 py-1 bg-gray-100 text-gray-600 text-sm font-medium rounded-full">
-                    {recentTasks.length} task
-                </span>
+                <div className="flex items-center gap-3">
+                    <span className="px-3 py-1 bg-gray-100 text-gray-600 text-sm font-medium rounded-full">
+                        {recentTasks.length} task
+                    </span>
+                    <Link
+                        to="/tasks"
+                        className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center gap-1"
+                    >
+                        Xem tất cả
+                        <FiChevronRight size={16} />
+                    </Link>
+                </div>
             </div>
 
             {recentTasks.length === 0 ? (
-                <div className="text-center py-8 text-gray-500">
-                    <FiFolder className="mx-auto text-4xl mb-2 text-gray-300" />
+                <div className="text-center py-12 text-gray-500">
+                    <FiFolder className="mx-auto text-5xl mb-3 text-gray-300" />
                     <p>Chưa có công việc nào</p>
                 </div>
             ) : (
-                <div className="space-y-4">
-                    {recentTasks.map((task) => {
-                        const priority = task.Priority?.toLowerCase() || 'low';
-                        const status = task.Status?.toLowerCase() || 'initial';
-                        const priorityStyle = priorityConfig[priority] || priorityConfig.low;
-                        const statusStyle = getStatusConfig(status);
+                /* ✅ HORIZONTAL SCROLL CONTAINER */
+                <div className="overflow-x-auto pb-4 -mx-2 px-2">
+                    <div className="flex gap-4 min-w-min">
+                        {recentTasks.map((task) => {
+                            const priority = task.Priority?.toLowerCase() || 'low';
+                            const status = task.Status?.toLowerCase() || 'initial';
+                            const priorityStyle = priorityConfig[priority] || priorityConfig.low;
+                            const statusStyle = getStatusConfig(status);
 
-                        // Tạo tên thành viên từ TaskMembers array
-                        const memberNames = task.TaskMembers && task.TaskMembers.length > 0
-                            ? task.TaskMembers.map(m => `${m.FirstName} ${m.LastName}`).join(', ')
-                            : 'Chưa gán';
+                            const memberNames = task.TaskMembers && task.TaskMembers.length > 0
+                                ? task.TaskMembers.map(m => `${m.FirstName} ${m.LastName}`).join(', ')
+                                : 'Chưa gán';
 
-                        return (
-                            <div
-                                key={task.id}
-                                className="p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-sm transition"
-                            >
-                                <div className="flex justify-between items-start mb-3">
-                                    <div className="flex items-start gap-3 flex-1">
-                                        <div className={`p-2 rounded-lg ${statusStyle.bg}`}>
+                            return (
+                                /* ✅ TASK CARD - Fixed width for horizontal layout */
+                                <div
+                                    key={task.id}
+                                    className="flex-shrink-0 w-80 p-5 border border-gray-200 rounded-xl hover:border-blue-300 hover:shadow-md transition-all bg-white"
+                                >
+                                    {/* Header */}
+                                    <div className="flex items-start gap-3 mb-4">
+                                        <div className={`p-2.5 rounded-lg ${statusStyle.bg} flex-shrink-0`}>
                                             {statusIcons[status] || statusIcons.initial}
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <h4 className="font-medium text-gray-800 truncate">
+                                            <h4 className="font-semibold text-gray-800 line-clamp-2 mb-2">
                                                 {task.TaskName || 'Chưa có tên'}
                                             </h4>
-                                            <div className="flex items-center gap-4 mt-2 flex-wrap">
-                                                <span className="flex items-center gap-1 text-sm text-gray-500">
-                                                    <FiFolder size={14} />
-                                                    {task.ParentProject?.Name || 'Chưa có dự án'}
-                                                </span>
-                                                <span className="flex items-center gap-1 text-sm text-gray-500 truncate">
-                                                    <FiUser size={14} />
-                                                    {memberNames}
-                                                </span>
-                                            </div>
+                                            <span className={`inline-block px-2.5 py-1 text-xs font-medium rounded-full ${statusStyle.bg} ${statusStyle.text}`}>
+                                                {TASK_STATUS_LABELS[status] || status}
+                                            </span>
                                         </div>
                                     </div>
 
-                                    <div className="flex flex-col items-end gap-1 ml-4">
-                                        <span className={`px-2 py-1 text-xs font-medium rounded whitespace-nowrap ${priorityStyle.bg} ${priorityStyle.text}`}>
-                                            {priorityStyle.label}
-                                        </span>
-                                        {task.End_date && (
-                                            <span className="text-sm text-gray-500 whitespace-nowrap">
-                                                {formatDate(task.End_date)}
+                                    {/* Project & Members */}
+                                    <div className="space-y-2 mb-4">
+                                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                                            <FiFolder size={14} className="flex-shrink-0" />
+                                            <span className="truncate">
+                                                {task.ParentProject?.Name || 'Chưa có dự án'}
                                             </span>
-                                        )}
+                                        </div>
+                                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                                            <FiUser size={14} className="flex-shrink-0" />
+                                            <span className="truncate">
+                                                {memberNames}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    {/* Footer */}
+                                    <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                                        <div className="flex flex-col gap-1">
+                                            <span className={`px-2 py-1 text-xs font-medium rounded ${priorityStyle.bg} ${priorityStyle.text} inline-block w-fit`}>
+                                                {priorityStyle.label}
+                                            </span>
+                                            {task.End_date && (
+                                                <span className="text-xs text-gray-500">
+                                                    📅 {formatDate(task.End_date)}
+                                                </span>
+                                            )}
+                                        </div>
+
+                                        <Link
+                                            to={`/tasks/${task.id}`}
+                                            className="text-blue-600 hover:text-blue-800 p-2 rounded-lg hover:bg-blue-50 transition"
+                                        >
+                                            <FiChevronRight size={20} />
+                                        </Link>
                                     </div>
                                 </div>
-
-                                <div className="flex justify-between items-center">
-                                    <span className={`px-3 py-1 text-sm font-medium rounded-full ${statusStyle.bg} ${statusStyle.text}`}>
-                                        {TASK_STATUS_LABELS[status] || status}
-                                    </span>
-
-                                    <Link
-                                        to={`/tasks/${task.id}`}
-                                        className="text-blue-600 hover:text-blue-800 text-sm font-medium hover:underline"
-                                    >
-                                        Xem chi tiết →
-                                    </Link>
-                                </div>
-                            </div>
-                        );
-                    })}
+                            );
+                        })}
+                    </div>
                 </div>
             )}
 
-            {recentTasks.length > 0 && (
-                <div className="mt-6 text-center">
-                    <Link
-                        to="/tasks"
-                        className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium"
-                    >
-                        Xem tất cả công việc
-                        <FiChevronRight />
-                    </Link>
-                </div>
-            )}
+            {/* Custom scrollbar styling */}
+            <style jsx>{`
+                .overflow-x-auto::-webkit-scrollbar {
+                    height: 8px;
+                }
+                .overflow-x-auto::-webkit-scrollbar-track {
+                    background: #f1f1f1;
+                    border-radius: 10px;
+                }
+                .overflow-x-auto::-webkit-scrollbar-thumb {
+                    background: #cbd5e1;
+                    border-radius: 10px;
+                }
+                .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+                    background: #94a3b8;
+                }
+            `}</style>
         </div>
     );
 };
