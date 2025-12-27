@@ -82,7 +82,7 @@ const TaskList = ({ tasks, loading, pagination, onPageChange }) => {
             </div>
 
             {/* Pagination */}
-            {pagination && pagination.totalPage > 1 && (
+            {pagination && (
                 <div className="mt-4 flex justify-center gap-2">
                     <button
                         onClick={() => onPageChange(pagination.currentPage - 1)}

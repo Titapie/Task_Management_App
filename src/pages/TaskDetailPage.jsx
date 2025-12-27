@@ -42,18 +42,36 @@ const TaskDetailPage = () => {
         }
     };
 
-    if (loading) return <p className="p-6">Đang tải...</p>;
-    if (error) return <p className="p-6 text-red-500">Lỗi: {error}</p>;
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                <div className="text-center">
+                    <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                    <p className="mt-4 text-gray-600">Đang tải...</p>
+                </div>
+            </div>
+        );
+    }
 
-    return (
-        <div className="p-6 max-w-4xl mx-auto">
-            <TaskDetail
-                task={task}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
-            />
-        </div>
-    );
+    if (error) {
+        return (
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                <div className="text-center">
+                    <div className="text-red-500 text-5xl mb-4">⚠️</div>
+                    <p className="text-xl font-semibold text-gray-800 mb-2">Có lỗi xảy ra</p>
+                    <p className="text-gray-600 mb-4">{error}</p>
+                    <button 
+                        onClick={() => navigate('/tasks')}
+                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                    >
+                        Quay lại danh sách task
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    return <TaskDetail task={task} onEdit={handleEdit} onDelete={handleDelete} />;
 };
 
 export default TaskDetailPage;

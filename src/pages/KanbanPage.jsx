@@ -74,11 +74,6 @@ const KanbanPage = () => {
                         🔄 Reset tất cả bộ lọc
                     </button>
                 </div>
-
-                {/* Hướng dẫn */}
-                <div className="bg-blue-50 border border-blue-200 rounded p-3 text-sm text-blue-800">
-                    💡 <strong>Hướng dẫn:</strong> Kéo thả card giữa các cột để thay đổi trạng thái task.
-                </div>
             </div>
 
             {/* Kanban Board - FULL WIDTH */}

@@ -1,3 +1,4 @@
+// src/hooks/useTasks.js
 import { useState, useEffect } from 'react';
 import taskService from '../services/taskService';
 
@@ -6,11 +7,15 @@ const useTasks = (initialParams = {}) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [pagination, setPagination] = useState({
-        page: 1,
-        limit: 10,
-        total: 0,
-        totalPages: 0
+        currentPage: 1,
+        totalPage: 0,
+        totalTask: 0,
+        startIndex: 0,
+        endIndex: 0,
+        hasNextPage: false,
+        hasPrevPage: false
     });
+
     // Tự động fetch khi mount với initialParams
     useEffect(() => {
         if (Object.keys(initialParams).length > 0 || initialParams.page || initialParams.limit) {
@@ -22,15 +27,43 @@ const useTasks = (initialParams = {}) => {
         setLoading(true);
         setError(null);
         try {
-            const data = await taskService.getTasks(params);
-            // Đảm bảo tasks luôn là array
-            setTasks(Array.isArray(data.tasks) ? data.tasks : (Array.isArray(data) ? data : []));
-            if (data.pagination) {
-                setPagination(data.pagination);
+            const response = await taskService.getTasks(params);
+            
+            // Chuẩn hóa: ưu tiên response.data, fallback sang response.tasks hoặc response
+            const tasksData = response?.data || response?.tasks || [];
+            setTasks(Array.isArray(tasksData) ? tasksData : []);
+            
+            // Parse pagination từ API response
+            if (response.pagination) {
+                setPagination(response.pagination);
+            } else {
+                // Fallback: tính pagination từ params nếu API không trả về
+                const currentPage = params.page || 1;
+                const limit = params.limit || 10;
+                const totalTask = Array.isArray(tasksData) ? tasksData.length : 0;
+                
+                setPagination({
+                    currentPage,
+                    totalPage: Math.ceil(totalTask / limit),
+                    totalTask: totalTask,
+                    startIndex: (currentPage - 1) * limit + 1,
+                    endIndex: Math.min(currentPage * limit, totalTask),
+                    hasNextPage: currentPage * limit < totalTask,
+                    hasPrevPage: currentPage > 1
+                });
             }
         } catch (err) {
             setError(err.message);
-            setTasks([]); // Set empty array khi lỗi
+            setTasks([]);
+            setPagination({
+                currentPage: 1,
+                totalPage: 0,
+                totalTask: 0,
+                startIndex: 0,
+                endIndex: 0,
+                hasNextPage: false,
+                hasPrevPage: false
+            });
         } finally {
             setLoading(false);
         }
@@ -48,6 +81,8 @@ const useTasks = (initialParams = {}) => {
         refetch
     };
 };
+
+// Hook để lấy tasks sắp đến hạn (3 ngày tới)
 export const useUpcomingTasks = () => {
     const [upcomingTasks, setUpcomingTasks] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -62,7 +97,8 @@ export const useUpcomingTasks = () => {
             try {
                 const data = await taskService.getUpcomingTasks();
                 if (mounted) {
-                    setUpcomingTasks(Array.isArray(data) ? data : (data.tasks || []));
+                    // Chuẩn hóa response
+                    setUpcomingTasks(Array.isArray(data) ? data : []);
                 }
             } catch (err) {
                 if (mounted) {
@@ -89,7 +125,7 @@ export const useUpcomingTasks = () => {
         setError(null);
         try {
             const data = await taskService.getUpcomingTasks();
-            setUpcomingTasks(Array.isArray(data) ? data : (data.tasks || []));
+            setUpcomingTasks(Array.isArray(data) ? data : []);
         } catch (err) {
             console.error('Error refetching upcoming tasks:', err);
             setError(err.message);
@@ -122,7 +158,8 @@ export const useOverdueTasks = () => {
             try {
                 const data = await taskService.getOverdueTasks();
                 if (mounted) {
-                    setOverdueTasks(Array.isArray(data) ? data : (data.tasks || []));
+                    // Chuẩn hóa response
+                    setOverdueTasks(Array.isArray(data) ? data : []);
                 }
             } catch (err) {
                 if (mounted) {
@@ -149,7 +186,7 @@ export const useOverdueTasks = () => {
         setError(null);
         try {
             const data = await taskService.getOverdueTasks();
-            setOverdueTasks(Array.isArray(data) ? data : (data.tasks || []));
+            setOverdueTasks(Array.isArray(data) ? data : []);
         } catch (err) {
             console.error('Error refetching overdue tasks:', err);
             setError(err.message);
@@ -182,7 +219,8 @@ export const useRecentTasks = (limit = 5) => {
             try {
                 const data = await taskService.getRecentTasks(limit);
                 if (mounted) {
-                    setRecentTasks(Array.isArray(data) ? data : (data.tasks || []));
+                    // Chuẩn hóa response
+                    setRecentTasks(Array.isArray(data) ? data : []);
                 }
             } catch (err) {
                 if (mounted) {
@@ -209,7 +247,7 @@ export const useRecentTasks = (limit = 5) => {
         setError(null);
         try {
             const data = await taskService.getRecentTasks(limit);
-            setRecentTasks(Array.isArray(data) ? data : (data.tasks || []));
+            setRecentTasks(Array.isArray(data) ? data : []);
         } catch (err) {
             console.error('Error fetching recent tasks:', err);
             setError(err.message);
@@ -245,4 +283,5 @@ export const useDeadlineTasks = () => {
         refetch: refetchAll
     };
 };
+
 export default useTasks;
