@@ -211,14 +211,11 @@ class StatsService {
                 }
             );
 
-            console.log('Response status:', response.status);
-
             if (!response.ok) {
                 console.warn(`API returned status ${response.status}, using mock data`);
             }
 
             const result = await response.json();
-            console.log('API Response:', result);
 
             // Xử lý response structure
             let data = null;
@@ -238,12 +235,8 @@ class StatsService {
 
             // Kiểm tra data hợp lệ
             if (data && data.labels && data.created && data.completed) {
-                console.log('Valid data received:', data);
                 return data;
             }
-
-            // Nếu data không hợp lệ, dùng mock data
-            console.warn('Invalid data structure, using mock data');
 
         } catch (error) {
             console.error('Error in getProgressChart:', error);
