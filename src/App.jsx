@@ -1,131 +1,59 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom'
+import Layout from './components/layout/Layout'
+import DashboardPage from './pages/DashboardPage'
 import TasksPage from './pages/TaskPage'
-import CreateTaskPage from './pages/CreateTaskPage';
-import EditTaskPage from './pages/EditTaskPage';
-import TaskDetailPage from './pages/TaskDetailPage';
-import QuickLogin from './pages/QuickLogin'; // Đảm bảo import đúng
-import KanbanPage from './pages/KanbanPage';
-import DashboardPage from "./pages/DashboardPage";
-import ProjectsPage from "./pages/ProjectsPage";
-import ProjectDetailPage from "./pages/ProjectDetailPage";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminUsersPage from "./pages/admin/AdminUsersPage";
-import AdminPage from "./pages/admin/AdminPage.jsx";
+import TaskDetailPage from './pages/TaskDetailPage'
+import KanbanPage from './pages/KanbanPage'
+import ProfilePage from './pages/ProfilePage'
+import SettingsPage from './pages/SettingsPage'
+import QuickLogin from './pages/QuickLogin'
+import AdminDashboard from './pages/admin/AdminDashboard'
+import { useAuth } from './context/AuthContext'
 
-// Component PrivateRoute để bảo vệ route
-const PrivateRoute = ({ children, requireAdmin = false }) => {
-    const token = localStorage.getItem('token');
-    const isAuthenticated = !!token;
-
-    if (!isAuthenticated) {
-        return <Navigate to="/quick-login" replace />;
-    }
-
-    // Kiểm tra nếu cần quyền admin
-    if (requireAdmin) {
-        try {
-            // Tạo helper function để check admin (tránh circular dependency)
-            const isAdmin = () => {
-                try {
-                    const token = localStorage.getItem('token');
-                    if (!token) return false;
-                    const payload = JSON.parse(atob(token.split('.')[1]));
-                    return payload.Role === 'admin';
-                } catch {
-                    return false;
-                }
-            };
-
-            if (!isAdmin()) {
-                return <Navigate to="/quick-login" replace />;
-            }
-        } catch (error) {
-            console.error('Error checking admin status:', error);
-            return <Navigate to="/quick-login" replace />;
-        }
-    }
-
-    return children;
-};
 
 function App() {
+    const { user, loading, isAuthenticated } = useAuth()
+
+    if (loading) {
+        return (
+            <div className="h-screen flex items-center justify-center bg-gray-50 dark:bg-slate-900">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-indigo-600 mx-auto mb-4"></div>
+                    <p className="text-gray-600 dark:text-gray-400">Loading...</p>
+                </div>
+            </div>
+        )
+    }
+
     return (
-        <BrowserRouter>
-            <Routes>
-                {/* Public routes */}
-                <Route path="/quick-login" element={
-                    <QuickLogin onSuccess={() => {}} />
-                } />
+        <Routes>
+            {/* Public route */}
+            <Route
+                path="/login"
+                element={isAuthenticated ? <Navigate to="/dashboard" /> : <QuickLogin />}
+            />
 
-                {/* User routes (cần đăng nhập) */}
-                <Route path="/" element={
-                    <PrivateRoute>
-                        <QuickLogin />
-                    </PrivateRoute>
-                } />
-                <Route path="/dashboard" element={
-                    <PrivateRoute>
-                        <DashboardPage />
-                    </PrivateRoute>
-                } />
-                <Route path="/tasks" element={
-                    <PrivateRoute>
-                        <TasksPage />
-                    </PrivateRoute>
-                } />
-                <Route path="/tasks/create" element={
-                    <PrivateRoute>
-                        <CreateTaskPage />
-                    </PrivateRoute>
-                } />
-                <Route path="/tasks/edit/:id" element={
-                    <PrivateRoute>
-                        <EditTaskPage />
-                    </PrivateRoute>
-                } />
-                <Route path="/tasks/:id" element={
-                    <PrivateRoute>
-                        <TaskDetailPage />
-                    </PrivateRoute>
-                } />
-                <Route path="/kanban" element={
-                    <PrivateRoute>
-                        <KanbanPage />
-                    </PrivateRoute>
-                } />
-                <Route path="/projects" element={
-                    <PrivateRoute>
-                        <ProjectsPage />
-                    </PrivateRoute>
-                } />
-                <Route path="/projects/:id" element={
-                    <PrivateRoute>
-                        <ProjectDetailPage />
-                    </PrivateRoute>
-                } />
-                <Route path="/projects/:projectId/tasks/create" element={
-                    <PrivateRoute>
-                        <CreateTaskPage />
-                    </PrivateRoute>
-                } />
+            {/* Protected routes with Layout */}
+            <Route element={isAuthenticated ? <Layout /> : <Navigate to="/login" />}>
+                {/* Main routes */}
+                <Route path="/dashboard" element={<DashboardPage />} />
+                <Route path="/tasks" element={<TasksPage />} />
+                <Route path="/tasks/:id" element={<TaskDetailPage />} />
+                <Route path="/kanban" element={<KanbanPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/settings" element={<SettingsPage />} />
 
-                {/* Admin routes (cần quyền admin) */}
-                <Route path="/admin" element={<AdminPage />}>
-                    <Route index element={<Navigate to="/admin/dashboard" replace />} />
+                {/* Admin route */}
+                <Route path="/admin" element={<AdminDashboard />} />
 
-                    {/* Dashboard page */}
-                    <Route path="dashboard" element={<AdminDashboard />} />
+                {/* Default redirect */}
+                <Route path="/" element={<Navigate to="/dashboard" />} />
+            </Route>
 
-                    {/* Users page */}
-                    <Route path="users" element={<AdminUsersPage />} />
-                </Route>
-
-                {/* Other routes... */}
-                <Route path="/" element={<AdminDashboard />} />
-                <Route path="/login" element={<QuickLogin />} />
-            </Routes>
-        </BrowserRouter>
-    );
+            {/* 404 */}
+            <Route path="*" element={<Navigate to="/dashboard" />} />
+        </Routes>
+    )
 }
 
 export default App

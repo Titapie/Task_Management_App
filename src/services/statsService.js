@@ -1,7 +1,7 @@
 // services/statsService.js
 import { API_BASE_URL } from '../utils/constants';
 import userService from './userService.js';
-
+import { tokenStore } from '../utils/api';
 class StatsService {
     constructor() {
         this.baseURL = API_BASE_URL || 'http://localhost:5000/api';
@@ -9,7 +9,7 @@ class StatsService {
 
     // Helper method để thêm authorization header
     getHeaders() {
-        const token = localStorage.getItem('token');
+        const token = tokenStore.getAccessToken();
         if (!token) {
             console.warn('No token found in localStorage');
             throw new Error('No authentication token found');

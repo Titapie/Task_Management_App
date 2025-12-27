@@ -4,7 +4,7 @@ import HelpCenterCard from "../HelpCenterCard.jsx";
 
 export default function Sidebar({ onClose }) {
   const menu = [
-    { to: "/", label: "Overview", icon: LayoutGrid },
+    { to: "/dashboard", label: "Dashboard", icon: LayoutGrid },
     { to: "/tasks", label: "Task", icon: ClipboardList },
     { to: "/kanban", label: "Kanban", icon: ClipboardList },
     { to: "/profile", label: "Profile", icon: Users },
