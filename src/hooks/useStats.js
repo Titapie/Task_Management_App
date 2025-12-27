@@ -44,9 +44,7 @@ export function useStats(period = 'month') {
     const formatTaskStatus = (data) => ({
         initial: data?.initial || 0,
         doing: data?.doing || 0,
-        finish: data?.finish || 0,
         pending: data?.pending || 0,
-        notFinish: data?.notFinish || 0
     });
 
     // Fetch tất cả

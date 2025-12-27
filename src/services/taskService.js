@@ -1,8 +1,8 @@
 // src/services/taskService.js
 import { API_BASE_URL } from '../utils/constants';
-
+import { tokenStore } from '../utils/api';
 const getAuthHeaders = () => {
-    const token = localStorage.getItem('token');
+    const token = tokenStore.getAccessToken();
     return {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`

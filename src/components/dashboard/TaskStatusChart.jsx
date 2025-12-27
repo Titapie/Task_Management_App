@@ -41,16 +41,14 @@ const TaskStatusChart = () => {
         value: count,
         status: status
     })).filter(item => item.value > 0);
-
+    const inProgress = (data.initial || 0) + (data.doing || 0) + (data.pending || 0);
     const totalTasks = chartData.reduce((sum, item) => sum + item.value, 0);
 
     // Icon theo trạng thái
     const statusIcons = {
         initial: <FiCircle className="text-gray-400" />,
         doing: <FiActivity className="text-blue-500" />,
-        finish: <FiCheckCircle className="text-green-500" />,
         pending: <FiPauseCircle className="text-yellow-500" />,
-        notFinish: <FiXCircle className="text-red-500" />
     };
 
     return (
@@ -87,8 +85,8 @@ const TaskStatusChart = () => {
                 {/* Danh sách chi tiết */}
                 <div>
                     <div className="mb-9">
-                        <p className="text-sm text-gray-600">Tổng số task:</p>
-                        <p className="text-2xl text-gray-700 font-bold">{totalTasks}</p>
+                        <p className="text-sm text-gray-600">Task đang thực hiện::</p>
+                        <p className="text-2xl text-gray-700 font-bold">{inProgress}</p>
                     </div>
 
                     <div className="space-y-3">
@@ -101,7 +99,10 @@ const TaskStatusChart = () => {
                                     <div>
                                         <p className="font-medium text-gray-800">{item.name}</p>
                                         <p className="text-sm text-gray-500">
-                                            {((item.value / totalTasks) * 100).toFixed(1)}% tổng số
+                                            {item.status === 'finish'
+                                                ? `${((item.value / totalTasks) * 100).toFixed(1)}% tổng số`
+                                                : `${inProgress > 0 ? ((item.value / inProgress) * 100).toFixed(1) : 0}% đang làm`
+                                            }
                                         </p>
                                     </div>
                                 </div>

@@ -1,7 +1,7 @@
 // services/statsService.js
 import { API_BASE_URL } from '../utils/constants';
 import userService from './userService.js';
-
+import { tokenStore } from '../utils/api';
 class StatsService {
     constructor() {
         this.baseURL = API_BASE_URL || 'http://localhost:5000/api';
@@ -9,7 +9,7 @@ class StatsService {
 
     // Helper method để thêm authorization header
     getHeaders() {
-        const token = localStorage.getItem('token');
+        const token = tokenStore.getAccessToken();
         if (!token) {
             console.warn('No token found in localStorage');
             throw new Error('No authentication token found');
@@ -215,7 +215,6 @@ class StatsService {
 
             if (!response.ok) {
                 console.warn(`API returned status ${response.status}, using mock data`);
-                return this.getMockChartData(period);
             }
 
             const result = await response.json();
@@ -261,10 +260,9 @@ class StatsService {
 
             const data = await this.handleResponse(response);
             return data || {
-                completed: 0,
+
                 inProgress: 0,
                 pending: 0,
-                overdue: 0
             };
 
         } catch (error) {
@@ -365,7 +363,6 @@ class StatsService {
             })).sort((a, b) => b.completedTasks - a.completedTasks); // Sort by completed tasks descending
         } catch (error) {
             console.error('Error fetching user performance stats:', error);
-            return this.getMockUserPerformance();
         }
     }
 
@@ -395,38 +392,6 @@ class StatsService {
             console.error('Error fetching tasks:', error);
             return [];
         }
-    }
-
-    // ✅ 10. Mock data helpers
-    getMockChartData(period = 'month') {
-        if (period === 'week') {
-            return [
-                { date: 'Mon', tasks: 5, completed: 2 },
-                { date: 'Tue', tasks: 8, completed: 4 },
-                { date: 'Wed', tasks: 12, completed: 7 },
-                { date: 'Thu', tasks: 15, completed: 10 },
-                { date: 'Fri', tasks: 18, completed: 12 },
-                { date: 'Sat', tasks: 20, completed: 14 },
-                { date: 'Sun', tasks: 22, completed: 16 }
-            ];
-        }
-
-        return [
-            { date: 'Week 1', tasks: 15, completed: 8 },
-            { date: 'Week 2', tasks: 22, completed: 12 },
-            { date: 'Week 3', tasks: 28, completed: 18 },
-            { date: 'Week 4', tasks: 35, completed: 25 }
-        ];
-    }
-
-    getMockUserPerformance() {
-        return [
-            { userId: 1, userName: 'John Doe', userEmail: 'john@example.com', completedTasks: 15, inProgressTasks: 3, totalTasks: 18, projectsCount: 3 },
-            { userId: 2, userName: 'Jane Smith', userEmail: 'jane@example.com', completedTasks: 12, inProgressTasks: 5, totalTasks: 17, projectsCount: 4 },
-            { userId: 3, userName: 'Bob Johnson', userEmail: 'bob@example.com', completedTasks: 8, inProgressTasks: 2, totalTasks: 10, projectsCount: 2 },
-            { userId: 4, userName: 'Alice Brown', userEmail: 'alice@example.com', completedTasks: 6, inProgressTasks: 4, totalTasks: 10, projectsCount: 3 },
-            { userId: 5, userName: 'Charlie Wilson', userEmail: 'charlie@example.com', completedTasks: 5, inProgressTasks: 3, totalTasks: 8, projectsCount: 2 }
-        ];
     }
 
     // ✅ 11. Hàm tổng hợp tất cả stats cho admin

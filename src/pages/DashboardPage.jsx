@@ -9,11 +9,6 @@ import RecentTask from '../components/dashboard/RecentTask';
 const DashboardPage = () => {
     return (
         <div className="p-4 md:p-6 space-y-6">
-            <div>
-                <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Dashboard</h1>
-                <p className="text-gray-600">Tổng quan hiệu suất và công việc của bạn</p>
-            </div>
-
             {/* Tổng quan */}
             <StatsOverview />
 
@@ -23,12 +18,13 @@ const DashboardPage = () => {
                 <div className="lg:col-span-2 space-y-6">
                     <ProgressChart />
                     <TaskStatusChart />
+                    <RecentTask />
                 </div>
 
                 {/* Cột phải: Cảnh báo và task */}
                 <div className="lg:col-span-1 space-y-6">
                     <DeadlineAlert />
-                    <RecentTask />
+
                 </div>
             </div>
         </div>
