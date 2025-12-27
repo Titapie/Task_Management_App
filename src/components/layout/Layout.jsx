@@ -9,7 +9,7 @@ export default function Layout() {
   const [openSidebar, setOpenSidebar] = useState(false);
 
   return (
-    <div className="h-screen flex bg-[#F6F7FB]">
+    <div className="h-screen flex bg-[#F6F7FB] dark:bg-slate-900">
       {/* ===== Desktop Sidebar ===== */}
       <aside className="hidden lg:block w-[260px] shrink-0 h-screen">
         <Sidebar />

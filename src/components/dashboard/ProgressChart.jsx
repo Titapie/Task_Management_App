@@ -102,26 +102,26 @@ const ProgressChart = () => {
     }
 
     return (
-        <div className="bg-white p-6 rounded-xl shadow-sm border">
+        <div className="bg-white dark:bg-slate-700 p-6 rounded-xl shadow-sm border">
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                        <FiTrendingUp className="text-blue-500" />
+                    <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2 dark:text-white">
+                        <FiTrendingUp className="text-blue-500 dark:text-white" />
                         Tiến độ công việc
                     </h3>
-                    <p className="text-sm text-gray-500">Thống kê theo thời gian</p>
+                    <p className="text-sm text-gray-500 dark:text-white">Thống kê theo thời gian</p>
                 </div>
 
-                <div className="flex items-center gap-2">
-                    <div className="flex gap-1 bg-gray-100 p-1 rounded-lg">
+                <div className="flex items-center gap-2 ">
+                    <div className="flex gap-1 bg-gray-100 p-1 rounded-lg dark:bg-slate-500">
                         {['week', 'month', 'year'].map((p) => (
                             <button
                                 key={p}
                                 onClick={() => handlePeriodChange(p)}
-                                className={`px-3 py-1 text-sm rounded transition ${
+                                className={`px-3 py-1  text-sm rounded transition ${
                                     period === p
-                                        ? 'bg-white text-blue-600 shadow-sm'
-                                        : 'text-gray-600 hover:text-gray-800'
+                                        ? 'bg-indigo-600 text-white shadow-sm'
+                                        : 'text-indigo-600  hover:text-gray-800'
                                 }`}
                             >
                                 {p === 'week' ? 'Tuần' : p === 'month' ? 'Tháng' : 'Năm'}

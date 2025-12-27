@@ -16,7 +16,7 @@ const axiosInstance = axios.create({
 // Interceptor để tự động thêm token vào mọi request
 axiosInstance.interceptors.request.use(
     (config) => {
-        const token = tokenStore.getAccessToken();;
+        const token = tokenStore.getAccessToken();
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }

@@ -64,7 +64,7 @@ const DeadlineAlert = () => {
     }
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 ">
             <Link
                 to="/tasks"
                 className="block p-4 bg-indigo-600 text-white rounded-xl text-base shadow-sm hover:text-gray-700 transition text-center"
@@ -76,11 +76,11 @@ const DeadlineAlert = () => {
                 </div>
             </Link>
             {/* Task sắp đến hạn */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border">
+            <div className="bg-white p-6 rounded-xl shadow-sm border dark:bg-slate-700">
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
                         <FiCalendar className="text-blue-500" />
-                        <h3 className="text-lg font-semibold text-gray-800">Sắp đến hạn (3 ngày)</h3>
+                        <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Sắp đến hạn (3 ngày)</h3>
                     </div>
                     <span className="px-3 py-1 bg-blue-100 text-blue-600 text-sm font-medium rounded-full">
                         {upcomingTasks.length} task
@@ -88,7 +88,7 @@ const DeadlineAlert = () => {
                 </div>
 
                 {upcomingTasks.length === 0 ? (
-                    <p className="text-gray-500 text-center py-4">Không có task sắp đến hạn</p>
+                    <p className="text-gray-500 text-center py-4 dark:text-white">Không có task sắp đến hạn</p>
                 ) : (
                     <div className="space-y-3">
                         {upcomingTasks.map((task) => (
@@ -122,11 +122,11 @@ const DeadlineAlert = () => {
             </div>
 
             {/* Task quá hạn */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-red-100">
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-red-100 dark:bg-slate-700">
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
                         <FiAlertCircle className="text-red-500" />
-                        <h3 className="text-lg font-semibold text-gray-800">Quá hạn</h3>
+                        <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Quá hạn</h3>
                     </div>
                     <span className="px-3 py-1 bg-red-100 text-red-600 text-sm font-medium rounded-full">
                         {overdueTasks.length} task

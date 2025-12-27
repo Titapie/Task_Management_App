@@ -8,7 +8,7 @@ import RecentTask from '../components/dashboard/RecentTask';
 
 const DashboardPage = () => {
     return (
-        <div className="p-4 md:p-6 space-y-6">
+        <div className="p-4 md:p-6 space-y-6 dark:bg-slate-900">
             {/* Tổng quan */}
             <StatsOverview />
 

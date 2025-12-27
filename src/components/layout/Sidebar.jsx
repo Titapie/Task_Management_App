@@ -1,10 +1,11 @@
 import { NavLink } from "react-router-dom";
-import { LayoutGrid, ClipboardList, Users, Settings, X } from "lucide-react";
+import {LayoutGrid, ClipboardList, Users, Settings, Briefcase} from "lucide-react";
 import HelpCenterCard from "../HelpCenterCard.jsx";
 
 export default function Sidebar({ onClose }) {
   const menu = [
     { to: "/dashboard", label: "Dashboard", icon: LayoutGrid },
+    { to: "/projects", label: "Projects", icon: Briefcase },
     { to: "/tasks", label: "Task", icon: ClipboardList },
     { to: "/kanban", label: "Kanban", icon: ClipboardList },
     { to: "/profile", label: "Profile", icon: Users },

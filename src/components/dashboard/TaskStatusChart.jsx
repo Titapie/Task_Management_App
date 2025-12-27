@@ -52,12 +52,12 @@ const TaskStatusChart = () => {
     };
 
     return (
-        <div className="bg-white p-3 rounded-xl shadow-sm border">
-            <h3 className="text-lg font-semibold text-gray-800 mb-6">
+        <div className="bg-white p-3 rounded-xl shadow-sm border dark:bg-slate-600">
+            <h3 className="text-lg font-semibold text-gray-800 mb-6 dark:text-white">
                 Phân bố trạng thái công việc
             </h3>
 
-            <div className="grid grid-cols-2 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-2 gap-6 dark:bg-slate-600">
                 {/* Biểu đồ */}
                 <div className="h-64">
                     <ResponsiveContainer width="100%" height="100%">
@@ -85,8 +85,8 @@ const TaskStatusChart = () => {
                 {/* Danh sách chi tiết */}
                 <div>
                     <div className="mb-9">
-                        <p className="text-sm text-gray-600">Task đang thực hiện::</p>
-                        <p className="text-2xl text-gray-700 font-bold">{inProgress}</p>
+                        <p className="text-sm text-gray-600 dark:text-white">Task đang thực hiện::</p>
+                        <p className="text-2xl text-gray-700 font-bold dark:text-white">{inProgress}</p>
                     </div>
 
                     <div className="space-y-3">
