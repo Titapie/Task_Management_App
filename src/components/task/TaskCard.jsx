@@ -1,24 +1,9 @@
 // src/components/tasks/TaskCard.jsx
 import React from 'react';
 import { Clock } from 'lucide-react';
-import { TASK_STATUS_LABELS, PRIORITY_LABELS } from '../../utils/constants';
+import { TASK_STATUS_LABELS, PRIORITY_LABELS, STATUS_COLORS, PRIORITY_COLORS } from '../../utils/constants';
 
 const TaskCard = ({ task, onEdit, onDelete, showActions = false, timeLeft, onClick }) => {
-    // Màu priority
-    const priorityColors = {
-        low: 'bg-green-100 text-green-800',
-        medium: 'bg-yellow-100 text-yellow-800',
-        high: 'bg-red-100 text-red-800',
-    };
-
-    // Màu status
-    const statusColors = {
-        initial: 'bg-gray-100 text-gray-800',
-        doing: 'bg-blue-100 text-blue-800',
-        pending: 'bg-yellow-100 text-yellow-800',
-        finish: 'bg-green-100 text-green-800',
-        notFinish: 'bg-red-100 text-red-800',
-    };
 
     return (
         <div
@@ -46,10 +31,10 @@ const TaskCard = ({ task, onEdit, onDelete, showActions = false, timeLeft, onCli
 
                 {/* Status & Priority Badges */}
                 <div className="flex gap-2 mb-3">
-                    <span className={`px-2 py-1 rounded text-xs font-medium ${statusColors[task.Status] || 'bg-gray-100'}`}>
+                    <span className={`px-2 py-1 rounded text-xs font-medium ${STATUS_COLORS[task.Status] || 'bg-gray-100'}`}>
                         {TASK_STATUS_LABELS[task.Status]}
                     </span>
-                    <span className={`px-2 py-1 rounded text-xs font-medium ${priorityColors[task.Priority] || 'bg-gray-100'}`}>
+                    <span className={`px-2 py-1 rounded text-xs font-medium ${PRIORITY_COLORS[task.Priority] || 'bg-gray-100'}`}>
                         {PRIORITY_LABELS[task.Priority]}
                     </span>
                 </div>

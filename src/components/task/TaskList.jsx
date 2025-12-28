@@ -1,7 +1,8 @@
 // src/components/tasks/TaskList.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TASK_STATUS_LABELS, PRIORITY_LABELS } from '../../utils/constants';
+import { TASK_STATUS_LABELS, PRIORITY_LABELS, STATUS_COLORS, PRIORITY_COLORS } from '../../utils/constants';
+
 
 const TaskList = ({ tasks, loading, pagination, onPageChange }) => {
     const navigate = useNavigate();
@@ -22,12 +23,12 @@ const TaskList = ({ tasks, loading, pagination, onPageChange }) => {
                 <table className="min-w-full bg-white border">
                     <thead className="bg-gray-100">
                     <tr>
-                        <th className="px-4 py-2 text-black border text-left">Tên Task</th>
+                        <th className="px-4 py-2 text-black border text-left">Tên việc</th>
                         <th className="px-4 py-2 text-black border text-left">Mô tả</th>
                         <th className="px-4 py-2 text-black border text-left">Trạng thái</th>
                         <th className="px-4 py-2 text-black border text-left">Ưu tiên</th>
                         <th className="px-4 py-2 text-black border text-left">Dự án</th>
-                        <th className="px-4 py-2 text-black border text-left">Deadline</th>
+                        <th className="px-4 py-2 text-black border text-left">Hạn cuối</th>
                         <th className="px-4 py-2 text-black border text-left">Thao tác</th>
                     </tr>
                     </thead>
@@ -45,14 +46,14 @@ const TaskList = ({ tasks, loading, pagination, onPageChange }) => {
                                 <td className="px-4 py-2 text-black border">{task.TaskName}</td>
                                 <td className="px-4 py-2 text-black border">{task.Description}</td>
                                 <td className="px-4 py-2 border">
-                    <span className="px-2 py-1 rounded text-sm bg-blue-300">
-                      {TASK_STATUS_LABELS[task.Status] || task.Status}
-                    </span>
+                                    <span className={`px-2 py-1 rounded text-sm ${STATUS_COLORS[task.Status] || 'bg-gray-100'}`}>
+                                        {TASK_STATUS_LABELS[task.Status] || task.Status}
+                                    </span>
                                 </td>
                                 <td className="px-4 py-2 border">
-                    <span className="px-2 py-1 rounded text-sm bg-gray-300">
-                      {PRIORITY_LABELS[task.Priority] || task.Priority}
-                    </span>
+                                    <span className={`px-2 py-1 rounded text-sm ${PRIORITY_COLORS[task.Priority] || 'bg-gray-100'}`}>
+                                        {PRIORITY_LABELS[task.Priority] || task.Priority}
+                                    </span>
                                 </td>
                                 <td className="px-4 py-2 text-black border">{task.project_name || '-'}</td>
                                 <td className={`px-4 py-2 text-black border ${isNearDeadline(task.End_date) ? 'bg-red-100 font-bold' : ''}`}>

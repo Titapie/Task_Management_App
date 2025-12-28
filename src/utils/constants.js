@@ -2,12 +2,16 @@ export const TASK_STATUS = {
     INITIAL: 'initial',
     DOING: 'doing',
     PENDING: 'pending',
+    FINISH: 'finish',  
+    NOT_FINISH: 'notFinish',
 };
 
 export const TASK_STATUS_LABELS = {
     [TASK_STATUS.INITIAL]: 'Khởi tạo',
     [TASK_STATUS.DOING]: 'Đang làm',
     [TASK_STATUS.PENDING]: 'Chờ xử lý',
+    [TASK_STATUS.FINISH]: 'Hoàn thành', 
+    [TASK_STATUS.NOT_FINISH]: 'Hỏng',
 };
 
 export const PRIORITY = {
@@ -21,26 +25,29 @@ export const PRIORITY_LABELS = {
     [PRIORITY.MEDIUM]: 'Trung bình',
     [PRIORITY.HIGH]: 'Cao'
 };
+
 export const CHART_COLORS = {
-    PRIMARY: '#3B82F6',
-    SUCCESS: '#10B981',
-    WARNING: '#F59E0B',
-    DANGER: '#EF4444',
-    INFO: '#8B5CF6',
-    GRAY: '#9CA3AF'
+    PRIMARY: 'bg-blue-500',
+    SUCCESS: 'bg-green-500',
+    WARNING: 'bg-yellow-500',
+    DANGER: 'bg-red-500',
+    INFO: 'bg-purple-500',
+    GRAY: 'bg-gray-400'
 };
 
+// Priority colors - badge styles
 export const PRIORITY_COLORS = {
-    high: '#EF4444',
-    medium: '#F59E0B',
-    low: '#10B981'
+    high: 'bg-red-100 text-red-800',
+    medium: 'bg-yellow-100 text-yellow-800',
+    low: 'bg-green-100 text-green-800'
 };
 
 export const STATUS_COLORS = {
-    initial: '#9CA3AF',
-    doing: '#3B82F6',
-    pending: '#F59E0B',
-
+    initial: 'bg-gray-300 text-gray-800',
+    doing: 'bg-blue-300 text-blue-800',
+    pending: 'bg-yellow-300 text-yellow-800',
+    finish: 'bg-green-300 text-green-800',
+    notFinish: 'bg-red-300 text-red-800',
 };
 
 // export const API_BASE_URL = 'http://localhost:5000/api';

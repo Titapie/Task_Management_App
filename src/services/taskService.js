@@ -112,7 +112,7 @@ const taskService = {
 };
 
 export const updateTaskStatus = async (taskId, newStatus) => {
-    const token = localStorage.getItem('token');
+    const token = tokenStore.getAccessToken();
 
     const response = await fetch(`${API_BASE_URL}/tasks/${taskId}/status`, {
         method: 'PATCH',

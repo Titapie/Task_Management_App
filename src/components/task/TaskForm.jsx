@@ -77,7 +77,7 @@ const TaskForm = ({ initialData = {}, onSubmit, onCancel }) => {
                         className="w-full border rounded px-3 py-2"
                     >
                         {Object.values(TASK_STATUS).map(status => (
-                            <option key={status} value={status}>{status}</option>
+                            <option key={status} value={status}>{TASK_STATUS_LABELS[status]}</option>
                         ))}
                     </select>
                     {errors.Status && <p className="text-red-500 text-sm mt-1">{errors.Status}</p>}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { PRIORITY_LABELS, PRIORITY_COLORS } from '../../utils/constants';
 
 const KanbanCard = ({ task }) => {
     const {
@@ -58,15 +59,13 @@ const KanbanCard = ({ task }) => {
 
             {/* Priority Badge */}
             <div className="flex items-center gap-2 mb-2">
-        <span
-            className={`px-2 py-1 rounded text-xs font-medium ${
-                priorityColors[task.Priority] || 'bg-gray-100 text-gray-800'
-            }`}
-        >
-          {task.Priority === 'low' && 'Thấp'}
-            {task.Priority === 'medium' && 'Trung bình'}
-            {task.Priority === 'high' && 'Cao'}
-        </span>
+                <span
+                    className={`px-2 py-1 rounded text-xs font-medium ${
+                        PRIORITY_COLORS[task.Priority] || 'bg-gray-100 text-gray-800'
+                    }`}
+                >
+                    {PRIORITY_LABELS[task.Priority]}
+                </span>
             </div>
 
             {/* Deadline */}
