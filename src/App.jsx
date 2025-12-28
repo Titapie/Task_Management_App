@@ -11,6 +11,7 @@ import SettingsPage from './pages/SettingsPage'
 import QuickLogin from './pages/QuickLogin'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import { useAuth } from './context/AuthContext'
+import ProjectsPage from "./pages/ProjectsPage";
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
                 <Route path="/kanban" element={<KanbanPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/settings" element={<SettingsPage />} />
+                <Route path="/projects" element={<ProjectsPage />} />
 
                 {/* Admin route */}
                 <Route path="/admin" element={<AdminDashboard />} />

@@ -14,7 +14,9 @@ const ProgressChart = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [stats, setStats] = useState({ created: 0, completed: 0 });
-
+    useEffect(() => {
+        fetchChartData();
+    }, [period]);
     // Fetch data từ API
     const fetchChartData = async (selectedPeriod = period) => {
         setLoading(true);
@@ -26,8 +28,6 @@ const ProgressChart = () => {
             // Xử lý response - có thể là response.data hoặc trực tiếp response
             const data = response.data || response;
 
-            console.log('API Response:', data); // Debug log
-
             if (!data || !data.labels || !data.created || !data.completed) {
                 throw new Error('Dữ liệu biểu đồ không hợp lệ');
             }
@@ -38,8 +38,6 @@ const ProgressChart = () => {
                 created: data.created[index] || 0,
                 completed: data.completed[index] || 0
             }));
-
-            console.log('Formatted Data:', formattedData); // Debug log
 
             setChartData(formattedData);
 
@@ -58,16 +56,13 @@ const ProgressChart = () => {
 
     const handlePeriodChange = async (newPeriod) => {
         setPeriod(newPeriod);
-        await fetchChartData(newPeriod);
     };
 
     const refreshChart = () => {
         fetchChartData();
     };
 
-    useEffect(() => {
-        fetchChartData();
-    }, []);
+
 
     if (loading && chartData.length === 0) {
         return (
@@ -102,26 +97,26 @@ const ProgressChart = () => {
     }
 
     return (
-        <div className="bg-white p-6 rounded-xl shadow-sm border">
+        <div className="bg-white dark:bg-slate-700 p-6 rounded-xl shadow-sm border">
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                        <FiTrendingUp className="text-blue-500" />
+                    <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2 dark:text-white">
+                        <FiTrendingUp className="text-blue-500 dark:text-white" />
                         Tiến độ công việc
                     </h3>
-                    <p className="text-sm text-gray-500">Thống kê theo thời gian</p>
+                    <p className="text-sm text-gray-500 dark:text-white">Thống kê theo thời gian</p>
                 </div>
 
-                <div className="flex items-center gap-2">
-                    <div className="flex gap-1 bg-gray-100 p-1 rounded-lg">
+                <div className="flex items-center gap-2 ">
+                    <div className="flex gap-1 bg-gray-100 p-1 rounded-lg dark:bg-slate-500">
                         {['week', 'month', 'year'].map((p) => (
                             <button
                                 key={p}
                                 onClick={() => handlePeriodChange(p)}
-                                className={`px-3 py-1 text-sm rounded transition ${
+                                className={`px-3 py-1  text-sm rounded transition ${
                                     period === p
-                                        ? 'bg-white text-blue-600 shadow-sm'
-                                        : 'text-gray-600 hover:text-gray-800'
+                                        ? 'bg-indigo-600 text-white shadow-sm'
+                                        : 'text-indigo-600  hover:text-gray-800'
                                 }`}
                             >
                                 {p === 'week' ? 'Tuần' : p === 'month' ? 'Tháng' : 'Năm'}

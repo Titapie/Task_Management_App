@@ -60,9 +60,9 @@ const StatsCard = ({
     const colors = colorClasses[color];
 
     return (
-        <div className={`bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-gray-300 transition-all duration-300 group ${className}`}>
+        <div className={`bg-white dark:bg-slate-700 rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-gray-300 transition-all duration-300 group ${className}`}>
             <div className="flex justify-between items-start mb-5">
-                <h3 className="text-sm font-medium text-gray-600 leading-snug">{title}</h3>
+                <h3 className="text-sm dark:text-white font-medium text-gray-600 leading-snug">{title}</h3>
                 {icon && (
                     <div className={`p-2.5 rounded-lg ${colors.bg} ${colors.text} group-hover:scale-110 transition-transform duration-300`}>
                         {React.cloneElement(icon, {
@@ -74,7 +74,7 @@ const StatsCard = ({
             </div>
 
             <div className="flex items-baseline gap-3 mb-2">
-                <p className="text-3xl font-bold text-gray-800 tracking-tight">{value}</p>
+                <p className="text-3xl dark:text-white font-bold text-gray-800 tracking-tight">{value}</p>
                 {change !== undefined && change !== null && (
                     <span className={`text-sm font-semibold flex items-center gap-0.5 px-2 py-1 rounded-md ${
                         change > 0

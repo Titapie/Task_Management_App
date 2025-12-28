@@ -2,7 +2,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="mt-auto py-8 border-t border-slate-100 dark:border-slate-800 transition-colors">
+    <footer className="mt-auto py-8 border-t border-slate-100 dark:border-slate-800 transition-colors dark:bg-slate-900">
       <div className="flex flex-col md:flex-row items-center justify-between gap-4 px-4">
         {/* Bản quyền */}
         <p className="text-sm font-medium text-slate-400 dark:text-slate-500">

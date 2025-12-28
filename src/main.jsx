@@ -7,7 +7,6 @@ import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext'; // ✅ Import
 import './index.css'
 ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
         <BrowserRouter>
             <ThemeProvider> {/* ✅ Theme ngoài cùng */}
                 <AuthProvider> {/* ✅ Auth bên trong */}
@@ -15,5 +14,4 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 </AuthProvider>
             </ThemeProvider>
         </BrowserRouter>
-    </React.StrictMode>
 );

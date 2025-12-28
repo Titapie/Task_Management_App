@@ -79,16 +79,16 @@ const RecentTask = () => {
     }
 
     return (
-        <div className="bg-white p-6 rounded-xl shadow-sm border">
+        <div className="bg-white p-6 rounded-xl shadow-sm border dark:bg-slate-600">
             <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-semibold text-gray-800">Công việc gần đây</h3>
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Công việc gần đây</h3>
                 <div className="flex items-center gap-3">
                     <span className="px-3 py-1 bg-gray-100 text-gray-600 text-sm font-medium rounded-full">
                         {recentTasks.length} task
                     </span>
                     <Link
                         to="/tasks"
-                        className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center gap-1"
+                        className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center gap-1 dark:text-white"
                     >
                         Xem tất cả
                         <FiChevronRight size={16} />
@@ -119,15 +119,15 @@ const RecentTask = () => {
                                 /* ✅ TASK CARD - Fixed width for horizontal layout */
                                 <div
                                     key={task.id}
-                                    className="flex-shrink-0 w-80 p-5 border border-gray-200 rounded-xl hover:border-blue-300 hover:shadow-md transition-all bg-white"
+                                    className=" dark:bg-slate-400 flex-shrink-0 w-80 p-5 border border-gray-200 rounded-xl hover:border-blue-300 hover:shadow-md transition-all bg-white"
                                 >
                                     {/* Header */}
-                                    <div className="flex items-start gap-3 mb-4">
+                                    <div className="flex items-start gap-3 mb-4 ">
                                         <div className={`p-2.5 rounded-lg ${statusStyle.bg} flex-shrink-0`}>
                                             {statusIcons[status] || statusIcons.initial}
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <h4 className="font-semibold text-gray-800 line-clamp-2 mb-2">
+                                            <h4 className="font-semibold text-gray-800 line-clamp-2 mb-2 dark:text-white">
                                                 {task.TaskName || 'Chưa có tên'}
                                             </h4>
                                             <span className={`inline-block px-2.5 py-1 text-xs font-medium rounded-full ${statusStyle.bg} ${statusStyle.text}`}>
@@ -139,14 +139,14 @@ const RecentTask = () => {
                                     {/* Project & Members */}
                                     <div className="space-y-2 mb-4">
                                         <div className="flex items-center gap-2 text-sm text-gray-600">
-                                            <FiFolder size={14} className="flex-shrink-0" />
-                                            <span className="truncate">
+                                            <FiFolder size={14} className="flex-shrink-0 dark:text-white" />
+                                            <span className="truncate dark:text-white">
                                                 {task.ParentProject?.Name || 'Chưa có dự án'}
                                             </span>
                                         </div>
                                         <div className="flex items-center gap-2 text-sm text-gray-600">
-                                            <FiUser size={14} className="flex-shrink-0" />
-                                            <span className="truncate">
+                                            <FiUser size={14} className="flex-shrink-0 dark:text-white" />
+                                            <span className="truncate dark:text-white">
                                                 {memberNames}
                                             </span>
                                         </div>
@@ -159,7 +159,7 @@ const RecentTask = () => {
                                                 {priorityStyle.label}
                                             </span>
                                             {task.End_date && (
-                                                <span className="text-xs text-gray-500">
+                                                <span className="text-xs text-gray-500 dark:text-white">
                                                     📅 {formatDate(task.End_date)}
                                                 </span>
                                             )}
@@ -178,24 +178,6 @@ const RecentTask = () => {
                     </div>
                 </div>
             )}
-
-            {/* Custom scrollbar styling */}
-            <style jsx>{`
-                .overflow-x-auto::-webkit-scrollbar {
-                    height: 8px;
-                }
-                .overflow-x-auto::-webkit-scrollbar-track {
-                    background: #f1f1f1;
-                    border-radius: 10px;
-                }
-                .overflow-x-auto::-webkit-scrollbar-thumb {
-                    background: #cbd5e1;
-                    border-radius: 10px;
-                }
-                .overflow-x-auto::-webkit-scrollbar-thumb:hover {
-                    background: #94a3b8;
-                }
-            `}</style>
         </div>
     );
 };

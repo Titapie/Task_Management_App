@@ -104,7 +104,7 @@ const StatsOverview = () => {
     return (
         <div className="mb-8">
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold text-gray-800">Tổng quan</h2>
+                <h2 className="text-xl font-bold text-gray-800 dark:text-white">Tổng quan</h2>
                 <button
                     onClick={refresh}
                     disabled={loading}
@@ -172,7 +172,7 @@ const StatsOverview = () => {
                 </div>
 
                 {/* ✅ COL 2: Grid 2x2 (4 cards nhỏ) */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4 ">
                     {detailCards.map((card, index) => (
                         <StatsCard
                             key={index}
@@ -186,7 +186,7 @@ const StatsOverview = () => {
                 </div>
 
                 {/* ✅ COL 3: PieChart */}
-                <div className="bg-white h-[400px] p-6 rounded-xl shadow-sm border">
+                <div className="bg-white h-[400px] p-6 rounded-xl shadow-sm border dark:bg-slate-500">
                     <h3 className="text-lg font-semibold text-gray-800 mb-4">
                         Phân bổ công việc
                     </h3>
