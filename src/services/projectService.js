@@ -51,7 +51,6 @@ const projectService = {
                 page: params.page || 1,        // Mặc định trang 1
                 ...params                       // Ghi đè bằng params truyền vào
             };
-
             const response = await axiosInstance.get('/projects', {
                 params: defaultParams
             });
@@ -85,7 +84,6 @@ const projectService = {
             throw error;
         }
     },
-
     // Tạo project mới
     createProject: async (data) => {
         // eslint-disable-next-line no-useless-catch
@@ -131,51 +129,6 @@ const projectService = {
             throw error;
         }
     },
-
-    // Lấy projects với filter nâng cao (cho admin dashboard)
-    getProjectsWithFilters: async (filters = {}) => {
-        // eslint-disable-next-line no-useless-catch
-        try {
-            const {
-                page = 1,
-                limit = 20,
-                search = '',
-                manager_id = '',
-                start_from = '',
-                end_to = '',
-                sortKey = 'created_at',
-                sortValue = 'DESC'
-            } = filters;
-
-            const params = {
-                page,
-                limit,
-                ...(search && { search }),
-                ...(manager_id && { manager_id }),
-                ...(start_from && { start_from }),
-                ...(end_to && { end_to }),
-                ...(sortKey && { sortKey }),
-                ...(sortValue && { sortValue })
-            };
-
-            const response = await axiosInstance.get('/projects', { params });
-            return response;
-        } catch (error) {
-            throw error;
-        }
-    },
-
-    // Lấy thống kê nhanh cho admin (tùy chọn)
-    getAdminStats: async () => {
-        // eslint-disable-next-line no-useless-catch
-        try {
-            // Có thể gọi endpoint stats từ backend nếu có
-            const response = await axiosInstance.get('/stats/project-summary');
-            return response;
-        } catch (error) {
-            throw error;
-        }
-    }
 };
 
 export default projectService;

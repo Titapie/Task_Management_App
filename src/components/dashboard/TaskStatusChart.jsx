@@ -1,7 +1,7 @@
 // components/stats/TaskStatusChart.jsx
 import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
-import { FiCircle, FiActivity, FiCheckCircle, FiPauseCircle, FiXCircle } from 'react-icons/fi';
+import { FiCircle, FiActivity, FiPauseCircle } from 'react-icons/fi';
 import { useTaskStatusStats } from '../../hooks/useStats';
 import { TASK_STATUS_LABELS, STATUS_COLORS } from '../../utils/constants';
 
@@ -101,7 +101,7 @@ const TaskStatusChart = () => {
                                         <p className="text-sm text-gray-500">
                                             {item.status === 'finish'
                                                 ? `${((item.value / totalTasks) * 100).toFixed(1)}% tổng số`
-                                                : `${inProgress > 0 ? ((item.value / inProgress) * 100).toFixed(1) : 0}% đang làm`
+                                                : `${inProgress > 0 ? ((item.value / inProgress) * 100).toFixed(1) : 0}% `
                                             }
                                         </p>
                                     </div>

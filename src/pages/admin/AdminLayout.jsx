@@ -8,7 +8,7 @@ const AdminLayout = () => {
     const [sidebarOpen, setSidebarOpen] = useState(true);
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
+        localStorage.clear();
         window.location.href = '/quick-login';
     };
 

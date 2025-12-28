@@ -121,7 +121,7 @@ const userService = {
      */
     isAdmin: () => {
         try {
-            const token = localStorage.getItem('token');
+            const token = tokenStore.getAccessToken();
             if (!token) {
                 console.log('No token found');
                 return false;

@@ -1,18 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-    Users,
-    Briefcase,
-    ListTodo,
-    Target,
-    Clock,
-    CheckCircle,
-    AlertCircle,
-    Loader2,
-    Award,
-    TextInitial,
-    CalendarX2,
-    ClipboardList
-} from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 import {
     PieChart as RechartsPieChart,
     Pie,
@@ -32,6 +19,7 @@ import statsService from '../../services/statsService';
 import userService from '../../services/userService';
 import projectService from '../../services/projectService';
 import taskService from '../../services/taskService';
+import {CHART_COLORS} from "../../utils/constants.js";
 
 const AdminStats = () => {
     const [loading, setLoading] = useState(true);
@@ -206,35 +194,25 @@ const AdminStats = () => {
         overdue: 0,
     };
 
-    // Chart colors
-    const COLORS = {
-        primary: '#3b82f6',
-        success: '#10b981',
-        warning: '#f59e0b',
-        danger: '#ef4444',
-        purple: '#8b5cf6',
-        info: '#06b6d4'
-    };
-
     // Prepare chart data
     const getTaskStatusChartData = () => {
         if (!taskStatus) return [];
         return [
-            { name: 'Hoàn thành', value: taskStats.finish || 0, color: COLORS.success },
-            { name: 'Đang làm', value: taskStats.doing || 0, color: COLORS.primary },
-            { name: 'Chờ xử lý', value: taskStats.pending || 0, color: COLORS.warning },
-            { name: 'Khởi tạo', value: taskStats.initial || 0, color: COLORS.purple },
-            { name: 'Quá hạn', value: taskStats.overdue || 0, color: COLORS.danger },
+            { name: 'Hoàn thành', value: taskStats.finish || 0, color: CHART_COLORS.SUCCESS },
+            { name: 'Đang làm', value: taskStats.doing || 0, color: CHART_COLORS.PRIMARY },
+            { name: 'Chờ xử lý', value: taskStats.pending || 0, color: CHART_COLORS.WARNING },
+            { name: 'Khởi tạo', value: taskStats.initial || 0, color: CHART_COLORS.GRAY },
+            { name: 'Quá hạn', value: taskStats.overdue || 0, color: CHART_COLORS.DANGER },
         ];
     };
 
     const getProjectChartData = () => {
         if (!projectSummary) return [];
         return [
-            { name: 'Active', value: projectStats.active || 0, color: COLORS.primary },
-            { name: 'Completed', value: projectStats.completed || 0, color: COLORS.success },
-            { name: 'On Hold', value: projectStats.onHold || 0, color: COLORS.warning },
-            { name: 'Overdue', value: projectStats.overdue || 0, color: COLORS.danger }
+            { name: 'Active', value: projectStats.active || 0, color: CHART_COLORS.PRIMARY },
+            { name: 'Completed', value: projectStats.completed || 0, color: CHART_COLORS.SUCCESS },
+            { name: 'On Hold', value: projectStats.onHold || 0, color: CHART_COLORS.WARNING },
+            { name: 'Overdue', value: projectStats.overdue || 0, color: CHART_COLORS.DANGER }
         ];
     };
 
@@ -265,7 +243,7 @@ const AdminStats = () => {
         return (
             <div className="h-full flex items-center justify-center">
                 <div className="text-center">
-                    <Loader2 className="w-12 h-12 text-blue-600 animate-spin mx-auto mb-4" />
+                    <LucideIcons.Loader2 className="w-12 h-12 text-blue-600 animate-spin mx-auto mb-4" />
                     <p className="text-gray-600">Đang tải thống kê...</p>
                 </div>
             </div>
@@ -276,7 +254,7 @@ const AdminStats = () => {
         return (
             <div className="h-full flex items-center justify-center p-6">
                 <div className="bg-white rounded-lg shadow-md p-8 max-w-md w-full text-center">
-                    <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
+                    <LucideIcons.AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
                     <h2 className="text-2xl font-bold text-gray-800 mb-2">Có lỗi xảy ra</h2>
                     <p className="text-gray-600 mb-6">{error}</p>
                     <button
@@ -376,7 +354,7 @@ const AdminStats = () => {
                         <div className="flex flex-col justify-center space-y-3">
                             <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg border border-green-200">
                                 <div className="flex items-center">
-                                    <CheckCircle className="w-8 h-8 text-green-600 mr-3" />
+                                    <LucideIcons.CheckCircle className="w-8 h-8 text-green-600 mr-3" />
                                     <div>
                                         <p className="text-sm text-gray-600">Hoàn thành</p>
                                         <p className="text-2xl font-bold text-gray-900">{taskStats.finish}</p>
@@ -396,7 +374,7 @@ const AdminStats = () => {
 
                             <div className="flex items-center justify-between p-4 bg-yellow-50 rounded-lg border border-yellow-200">
                                 <div className="flex items-center">
-                                    <AlertCircle className="w-8 h-8 text-yellow-600 mr-3" />
+                                    <LucideIcons.AlertCircle className="w-8 h-8 text-yellow-600 mr-3" />
                                     <div>
                                         <p className="text-sm text-gray-600">Chờ xử lý</p>
                                         <p className="text-2xl font-bold text-gray-900">{taskStats.pending}</p>
@@ -404,9 +382,9 @@ const AdminStats = () => {
                                 </div>
                             </div>
 
-                            <div className="flex items-center justify-between p-4 bg-purple-50 rounded-lg border border-purple-200">
+                            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
                                 <div className="flex items-center">
-                                    <TextInitial className="w-8 h-8 text-purple-600 mr-3" />
+                                    <TextInitial className="w-8 h-8 text-gray-600 mr-3" />
                                     <div>
                                         <p className="text-sm text-gray-600">Khởi tạo</p>
                                         <p className="text-2xl font-bold text-gray-900">{taskStats.initial}</p>
@@ -483,12 +461,12 @@ const AdminStats = () => {
                             <AreaChart data={getTopPerformersData()}>
                                 <defs>
                                     <linearGradient id="colorCompleted" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor={COLORS.success} stopOpacity={0.8}/>
-                                        <stop offset="95%" stopColor={COLORS.success} stopOpacity={0.1}/>
+                                        <stop offset="5%" stopColor={CHART_COLORS.SUCCESS} stopOpacity={0.8}/>
+                                        <stop offset="95%" stopColor={CHART_COLORS.SUCCESS} stopOpacity={0.1}/>
                                     </linearGradient>
                                     <linearGradient id="colorProgress" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor={COLORS.primary} stopOpacity={0.8}/>
-                                        <stop offset="95%" stopColor={COLORS.primary} stopOpacity={0.1}/>
+                                        <stop offset="5%" stopColor={CHART_COLORS.PRIMARY} stopOpacity={0.8}/>
+                                        <stop offset="95%" stopColor={CHART_COLORS.PRIMARY} stopOpacity={0.1}/>
                                     </linearGradient>
                                 </defs>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -499,7 +477,7 @@ const AdminStats = () => {
                                 <Area
                                     type="monotone"
                                     dataKey="completed"
-                                    stroke={COLORS.success}
+                                    stroke={CHART_COLORS.SUCCESS}
                                     fillOpacity={1}
                                     fill="url(#colorCompleted)"
                                     name="Hoàn thành"
@@ -507,7 +485,7 @@ const AdminStats = () => {
                                 <Area
                                     type="monotone"
                                     dataKey="inProgress"
-                                    stroke={COLORS.primary}
+                                    stroke={CHART_COLORS.PRIMARY}
                                     fillOpacity={1}
                                     fill="url(#colorProgress)"
                                     name="Đang làm"
@@ -567,7 +545,7 @@ const AdminStats = () => {
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
-                                                <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                                                <LucideIcons.CheckCircle className="w-4 h-4 text-green-500 mr-2" />
                                                 <span className="text-sm font-bold text-green-600">{user.completedTasks || 0}</span>
                                             </div>
                                         </td>

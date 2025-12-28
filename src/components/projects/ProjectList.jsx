@@ -21,8 +21,6 @@ const ProjectList = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [showForm, setShowForm] = useState(false);
     const [editingProject, setEditingProject] = useState(null);
-    const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
-
     // Pagination
     const [pagination, setPagination] = useState({
         currentPage: 1,
@@ -162,7 +160,7 @@ const ProjectList = () => {
                 <button
                     onClick={() => handlePageChange(pagination.currentPage - 1)}
                     disabled={pagination.currentPage === 1}
-                    className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                     Trước
                 </button>
@@ -171,11 +169,11 @@ const ProjectList = () => {
                     <>
                         <button
                             onClick={() => handlePageChange(1)}
-                            className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                            className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300 transition-colors"
                         >
                             1
                         </button>
-                        {startPage > 2 && <span className="px-2">...</span>}
+                        {startPage > 2 && <span className="px-2 dark:text-gray-400">...</span>}
                     </>
                 )}
 
@@ -183,10 +181,10 @@ const ProjectList = () => {
                     <button
                         key={page}
                         onClick={() => handlePageChange(page)}
-                        className={`px-4 py-2 border rounded-lg ${
+                        className={`px-4 py-2 border rounded-lg transition-colors ${
                             page === pagination.currentPage
-                                ? 'bg-blue-600 text-white border-blue-600'
-                                : 'border-gray-300 hover:bg-gray-50'
+                                ? 'bg-blue-600 text-white border-blue-600 dark:bg-blue-500 dark:border-blue-500'
+                                : 'border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300'
                         }`}
                     >
                         {page}
@@ -195,10 +193,10 @@ const ProjectList = () => {
 
                 {endPage < pagination.totalPages && (
                     <>
-                        {endPage < pagination.totalPages - 1 && <span className="px-2">...</span>}
+                        {endPage < pagination.totalPages - 1 && <span className="px-2 dark:text-gray-400">...</span>}
                         <button
                             onClick={() => handlePageChange(pagination.totalPages)}
-                            className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                            className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300 transition-colors"
                         >
                             {pagination.totalPages}
                         </button>
@@ -208,7 +206,7 @@ const ProjectList = () => {
                 <button
                     onClick={() => handlePageChange(pagination.currentPage + 1)}
                     disabled={pagination.currentPage === pagination.totalPages}
-                    className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                     Sau
                 </button>
@@ -219,7 +217,7 @@ const ProjectList = () => {
     // Modal Form
     if (showForm) {
         return (
-            <div className="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center z-50 p-4">
                 <div className="max-w-2xl w-full">
                     <ProjectForm
                         project={editingProject}
@@ -237,20 +235,22 @@ const ProjectList = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
-            <div className="max-w-7xl mx-auto">
+        <div className="min-h-screen bg-gray-50 dark:bg-slate-900 p-6 transition-colors duration-200">
+            <div className="w-full mx-auto">
                 {/* Header */}
                 <div className="mb-8">
                     <div className="flex items-center justify-between mb-6">
                         <div>
-                            <h1 className="text-3xl font-bold text-gray-900">Quản lý dự án</h1>
-                            <p className="text-gray-600 mt-1">
+                            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                                Quản lý dự án
+                            </h1>
+                            <p className="text-gray-600 dark:text-gray-400 mt-1">
                                 Tổng số: {pagination.totalProjects} dự án
                             </p>
                         </div>
                         <button
                             onClick={handleCreateNew}
-                            className="flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl"
+                            className="flex items-center px-6 py-3 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors shadow-lg hover:shadow-xl"
                         >
                             <Plus className="w-5 h-5 mr-2" />
                             Tạo dự án mới
@@ -258,17 +258,17 @@ const ProjectList = () => {
                     </div>
 
                     {/* Search and Filter Bar */}
-                    <div className="bg-white rounded-lg shadow-md p-4 space-y-4">
+                    <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md dark:shadow-slate-700/50 p-4 space-y-4 transition-colors duration-200">
                         <div className="flex flex-col md:flex-row gap-4">
                             {/* Search */}
                             <div className="flex-1 relative">
-                                <Search className="absolute bg-gray-200 left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5 pointer-events-none" />
                                 <input
                                     type="text"
                                     placeholder="Tìm kiếm theo tên dự án..."
                                     value={searchTerm}
                                     onChange={handleSearch}
-                                    className="w-full pl-10 pr-4 py-2 border bg-gray-200 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent placeholder-gray-400 dark:placeholder-gray-500 transition-colors"
                                 />
                             </div>
 
@@ -276,8 +276,10 @@ const ProjectList = () => {
                             <div className="flex gap-2">
                                 <button
                                     onClick={() => setShowFilters(!showFilters)}
-                                    className={`flex items-center px-4 py-2 text-blue-500  bg-gray-200  rounded-lg transition-colors ${
-                                        showFilters ? 'bg-blue-300  text-blue-500' : ' hover:bg-blue-500 hover:text-white'
+                                    className={`flex items-center px-4 py-2 rounded-lg transition-colors ${
+                                        showFilters
+                                            ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400'
+                                            : 'bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400'
                                     }`}
                                 >
                                     <Filter className="w-4 h-4 mr-2" />
@@ -286,44 +288,44 @@ const ProjectList = () => {
 
                                 <button
                                     onClick={handleRefresh}
-                                    className="flex items-center px-4 py-2 bg-gray-200  border  rounded-lg hover:bg-blue-500 hover:text-white transition-colors"
+                                    className="flex items-center px-4 py-2 bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                                     disabled={loading}
                                 >
-                                    <RefreshCw className={`w-4 h-4  text-blue-500 hover:text-white  ${loading ? 'animate-spin' : ''}`} />
+                                    <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
                                 </button>
                             </div>
                         </div>
 
                         {/* Filters Panel */}
                         {showFilters && (
-                            <div className="border-t pt-4 space-y-4">
+                            <div className="border-t border-gray-200 dark:border-gray-700 pt-4 space-y-4">
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                             Từ ngày
                                         </label>
                                         <input
                                             type="date"
                                             value={filters.start_from}
                                             onChange={(e) => handleFilterChange('start_from', e.target.value)}
-                                            className="w-full px-3 py-2 border bg-gray-200 text-gray-400 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors"
                                         />
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                             Đến ngày
                                         </label>
                                         <input
                                             type="date"
                                             value={filters.end_to}
                                             onChange={(e) => handleFilterChange('end_to', e.target.value)}
-                                            className="w-full px-3 py-2 border bg-gray-200 text-gray-400 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors"
                                         />
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                             Sắp xếp theo
                                         </label>
                                         <select
@@ -332,7 +334,7 @@ const ProjectList = () => {
                                                 const [key, value] = e.target.value.split('-');
                                                 setFilters(prev => ({ ...prev, sortKey: key, sortValue: value }));
                                             }}
-                                            className="w-full px-3 py-2 border bg-gray-200 text-gray-400 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors"
                                         >
                                             <option value="created_at-DESC">Mới nhất</option>
                                             <option value="created_at-ASC">Cũ nhất</option>
@@ -346,7 +348,7 @@ const ProjectList = () => {
 
                                 <button
                                     onClick={clearFilters}
-                                    className="text-sm  bg-gray-200 text-blue-600 hover:text-blue-700 font-medium"
+                                    className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors"
                                 >
                                     Xóa tất cả bộ lọc
                                 </button>
@@ -358,37 +360,39 @@ const ProjectList = () => {
                 {/* Content */}
                 {loading && projects.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-20">
-                        <Loader2 className="w-12 h-12 text-blue-600 animate-spin mb-4" />
-                        <p className="text-gray-600">Đang tải dữ liệu...</p>
+                        <Loader2 className="w-12 h-12 text-blue-600 dark:text-blue-400 animate-spin mb-4" />
+                        <p className="text-gray-600 dark:text-gray-400">Đang tải dữ liệu...</p>
                     </div>
                 ) : error ? (
-                    <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
-                        <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-                        <h3 className="text-lg font-semibold text-red-800 mb-2">Có lỗi xảy ra</h3>
-                        <p className="text-red-600 mb-4">{error}</p>
+                    <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6 text-center">
+                        <AlertCircle className="w-12 h-12 text-red-500 dark:text-red-400 mx-auto mb-4" />
+                        <h3 className="text-lg font-semibold text-red-800 dark:text-red-300 mb-2">
+                            Có lỗi xảy ra
+                        </h3>
+                        <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
                         <button
                             onClick={handleRefresh}
-                            className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                            className="px-6 py-2 bg-red-600 dark:bg-red-500 text-white rounded-lg hover:bg-red-700 dark:hover:bg-red-600 transition-colors"
                         >
                             Thử lại
                         </button>
                     </div>
                 ) : projects.length === 0 ? (
-                    <div className="bg-white rounded-lg shadow-md p-12 text-center">
-                        <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <AlertCircle className="w-12 h-12 text-gray-400" />
+                    <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md dark:shadow-slate-700/50 p-12 text-center transition-colors duration-200">
+                        <div className="w-24 h-24 bg-gray-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <AlertCircle className="w-12 h-12 text-gray-400 dark:text-gray-500" />
                         </div>
-                        <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                        <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">
                             Không tìm thấy dự án
                         </h3>
-                        <p className="text-gray-600 mb-6">
+                        <p className="text-gray-600 dark:text-gray-400 mb-6">
                             {searchTerm || filters.start_from || filters.end_to
                                 ? 'Thử thay đổi bộ lọc hoặc từ khóa tìm kiếm'
                                 : 'Bắt đầu bằng cách tạo dự án đầu tiên của bạn'}
                         </p>
                         <button
                             onClick={handleCreateNew}
-                            className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                            className="inline-flex items-center px-6 py-3 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
                         >
                             <Plus className="w-5 h-5 mr-2" />
                             Tạo dự án mới

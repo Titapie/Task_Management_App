@@ -4,6 +4,7 @@ import { FiCheckCircle, FiClock, FiAlertTriangle, FiBarChart2, FiAlertCircle } f
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import StatsCard from './StatsCard';
 import { useOverviewStats } from '../../hooks/useStats';
+import {CHART_COLORS} from "../../utils/constants.js";
 
 const StatsOverview = () => {
     const { data, loading, error, refresh } = useOverviewStats();
@@ -27,7 +28,7 @@ const StatsOverview = () => {
         title: 'Tổng công việc',
         value: data?.totalTasks || 0,
         icon: <FiBarChart2 size={32} />,
-        color: 'blue',
+        color: CHART_COLORS.INFO,
         subtitle: `${data?.completionRate || 0}% hoàn thành`,
         isLarge: true // ✅ Flag để tăng text size
     };
@@ -38,25 +39,25 @@ const StatsOverview = () => {
             title: 'Đã hoàn thành',
             value: data?.completedTasks || 0,
             icon: <FiCheckCircle size={20} />,
-            color: 'green',
+            color: CHART_COLORS.SUCCESS,
         },
         {
             title: 'Đang thực hiện',
             value: data?.inProgressTasks || 0,
             icon: <FiClock size={20} />,
-            color: 'blue',
+            color: CHART_COLORS.PRIMARY,
         },
         {
             title: 'Chưa hoàn thành',
             value: data?.failedTasks || 0,
             icon: <FiAlertTriangle size={20} />,
-            color: 'yellow',
+            color: CHART_COLORS.WARNING,
         },
         {
             title: 'Quá hạn',
             value: data?.overdueTasks || 0,
             icon: <FiAlertCircle size={20} />,
-            color: 'red',
+            color: CHART_COLORS.DANGER,
         }
     ];
 
@@ -65,22 +66,22 @@ const StatsOverview = () => {
         {
             name: 'Hoàn thành',
             value: data?.completedTasks || 0,
-            color: '#10B981'
+            color: CHART_COLORS.SUCCESS
         },
         {
             name: 'Đang làm',
             value: data?.inProgressTasks || 0,
-            color: '#3B82F6'
+            color: CHART_COLORS.PRIMARY
         },
         {
             name: 'Chưa hoàn thành',
             value: data?.failedTasks || 0,
-            color: '#F59E0B'
+            color: CHART_COLORS.WARNING
         },
         {
             name: 'Quá hạn',
             value: data?.overdueTasks || 0,
-            color: '#EF4444'
+            color: CHART_COLORS.DANGER
         }
     ].filter(item => item.value > 0);
 
@@ -108,7 +109,7 @@ const StatsOverview = () => {
                 <button
                     onClick={refresh}
                     disabled={loading}
-                    className="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1 disabled:opacity-50"
+                    className="text-sm text-blue-600 hover:bg-indigo-500 hover:text-white flex items-center gap-1 disabled:opacity-50"
                 >
                     <FiClock size={14} />
                     Làm mới
@@ -119,7 +120,7 @@ const StatsOverview = () => {
             <div className=" grid grid-cols-1 lg:grid-cols-3 gap-6">
 
                 {/* ✅ COL 1: Card tổng (LỚN) */}
-                <div className="h-[400px]">
+                <div className="h-[420px]">
                     <div className="relative bg-indigo-600  rounded-2xl shadow-xl p-8 h-full flex flex-col justify-between overflow-hidden group hover:shadow-2xl transition-all duration-300">
                         {/* Background pattern */}
                         <div className="absolute inset-0 opacity-10">
@@ -186,8 +187,8 @@ const StatsOverview = () => {
                 </div>
 
                 {/* ✅ COL 3: PieChart */}
-                <div className="bg-white h-[400px] p-6 rounded-xl shadow-sm border dark:bg-slate-500">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                <div className="bg-white h-[420px] p-6 rounded-xl shadow-sm border dark:bg-slate-500">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-4 dark:text-white">
                         Phân bổ công việc
                     </h3>
 
@@ -230,7 +231,7 @@ const StatsOverview = () => {
                             </div>
 
                             {/* Legend tự làm */}
-                            <div className="mt-4 space-y-2">
+                            <div className="mt-2 space-y-2">
                                 {pieData.map((item, index) => (
                                     <div key={index} className="flex items-center justify-between text-sm">
                                         <div className="flex items-center gap-2">
@@ -238,9 +239,9 @@ const StatsOverview = () => {
                                                 className="w-3 h-3 rounded-full"
                                                 style={{ backgroundColor: item.color }}
                                             />
-                                            <span className="text-gray-700">{item.name}</span>
+                                            <span className="text-gray-700 dark:text-white">{item.name}</span>
                                         </div>
-                                        <span className="font-semibold text-gray-800">{item.value}</span>
+                                        <span className="font-semibold text-gray-800 dark:text-white">{item.value}</span>
                                     </div>
                                 ))}
                             </div>

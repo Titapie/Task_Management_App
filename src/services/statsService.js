@@ -386,32 +386,5 @@ class StatsService {
             return [];
         }
     }
-
-    // ✅ 11. Hàm tổng hợp tất cả stats cho admin
-    async getAllAdminStats(period = 'month') {
-        try {
-            const [overview, progressChart, taskStatus, projectSummary, userPerformance] = await Promise.all([
-                this.getAdminOverview(),
-                this.getProgressChart(period),
-                this.getTaskStatusStats(),
-                this.getProjectSummary(),
-                this.getUserPerformance()
-            ]);
-
-            return {
-                overview,
-                progressChart,
-                taskStatus,
-                projectSummary,
-                userPerformance
-            };
-
-        } catch (error) {
-            console.error('Error fetching all admin stats:', error);
-            throw error;
-        }
-    }
 }
-
-// Export singleton instance
 export default new StatsService();

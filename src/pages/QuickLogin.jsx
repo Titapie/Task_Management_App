@@ -1,30 +1,43 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import userService from '../services/userService';
 
 const QuickLogin = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
-    const { login } = useAuth(); // ✅ Dùng login từ AuthContext
+    const { login } = useAuth();
 
     const handleQuickLogin = async () => {
         setLoading(true);
         setError(null);
 
         try {
-            // ✅ Gọi login từ AuthContext thay vì fetch trực tiếp
+            // ✅ Gọi login từ AuthContext
             const userData = await login({
                 Email: 'pnhtrieu186@gmail.com',
                 Password: 'password123'
             });
 
             console.log('✅ Login successful:', userData);
+            console.log('📋 User Role:', userData?.Role);
 
-            // ✅ Redirect dựa vào role
-            if (userData.Role === 'admin') {
-                console.log('➡️ Redirecting to /admin');
-                navigate('/admin', { replace: true });
+            // ✅ Đợi một chút để AuthContext update state
+            await new Promise(resolve => setTimeout(resolve, 200));
+
+            // ✅ Kiểm tra role và redirect - kiểm tra cả 2 cách
+            const isAdminFromUser = userData?.Role === 'admin';
+            const isAdminFromToken = userService.isAdmin();
+
+            console.log('🔐 Is Admin (from userData):', isAdminFromUser);
+            console.log('🔐 Is Admin (from token):', isAdminFromToken);
+
+            const isAdmin = isAdminFromUser || isAdminFromToken;
+
+            if (isAdmin) {
+                console.log('➡️ Redirecting to /admin/dashboard');
+                navigate('/admin/dashboard', { replace: true });
             } else {
                 console.log('➡️ Redirecting to /dashboard');
                 navigate('/dashboard', { replace: true });
@@ -72,14 +85,15 @@ const QuickLogin = () => {
                             Đang đăng nhập...
                         </span>
                     ) : (
-                        '🚀 Quick Login'
+                        '🚀 Quick Login as Admin'
                     )}
                 </button>
 
                 <div className="mt-6 p-4 bg-gray-50 dark:bg-slate-700 rounded-lg">
                     <p className="text-xs text-gray-600 dark:text-gray-400 text-center">
-                        📧 Email: pnhtrieu186@gmail.com<br />
-                        🔑 Password: password123
+                        📧 Email: admin@gmail.com<br />
+                        🔑 Password: password123<br />
+                        👤 Role: Admin
                     </p>
                 </div>
             </div>
