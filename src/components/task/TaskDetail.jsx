@@ -1,7 +1,7 @@
 // src/components/tasks/TaskDetail.jsx
 import React from 'react';
 import { Clock, Users, CheckCircle2 } from 'lucide-react';
-import { TASK_STATUS_LABELS, PRIORITY_LABELS } from '../../utils/constants';
+import { TASK_STATUS_LABELS, PRIORITY_LABELS, STATUS_COLORS,PRIORITY_COLORS } from '../../utils/constants';
 
 const TaskDetail = ({ task, onEdit, onDelete }) => {
     if (!task) return null;
@@ -64,7 +64,7 @@ const TaskDetail = ({ task, onEdit, onDelete }) => {
 
                             {/* Description */}
                             <div className="mb-8">
-                                <h2 className="text-xl font-bold text-gray-900 mb-3">Description</h2>
+                                <h2 className="text-xl font-bold text-gray-900 mb-3">Mô tả công việc</h2>
                                 <p className="text-gray-600 leading-relaxed">
                                     {task.Description || 'Không có mô tả'}
                                 </p>
@@ -111,14 +111,14 @@ const TaskDetail = ({ task, onEdit, onDelete }) => {
                             <div className="space-y-4 text-sm">
                                 <div>
                                     <span className="text-gray-500 block mb-1">Trạng thái</span>
-                                    <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 rounded-lg font-medium">
+                                    <span className={`inline-block px-3 py-1 rounded-lg font-medium ${STATUS_COLORS[task.Status]}`}>
                                         {TASK_STATUS_LABELS[task.Status]}
                                     </span>
                                 </div>
 
                                 <div>
                                     <span className="text-gray-500 block mb-1">Ưu tiên</span>
-                                    <span className="inline-block px-3 py-1 bg-gray-100 text-gray-700 rounded-lg font-medium">
+                                    <span className={`inline-block px-3 py-1 rounded-lg font-medium ${PRIORITY_COLORS[task.Priority]}`}>
                                         {PRIORITY_LABELS[task.Priority]}
                                     </span>
                                 </div>

@@ -9,6 +9,7 @@ import TaskSearch from '../components/task/TaskSearch';
 import ExportButton from '../components/common/ExportButton';
 import { ChevronLeft, ChevronRight, Filter } from 'lucide-react';
 import { getTimeLeft } from '../utils/dateHelpers';
+import { TASK_ROUTES } from '../routes/taskRoutes';
 
 const TasksPage = () => {
     const navigate = useNavigate();
@@ -189,7 +190,7 @@ const TasksPage = () => {
                 
                 <div className='flex gap-2'>
                     <button
-                        onClick={() => navigate('/tasks/create')}
+                        onClick={() => navigate(TASK_ROUTES.CREATE)}
                         className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
                     >
                         Tạo Task
@@ -250,7 +251,7 @@ const TasksPage = () => {
                                 key={task.id}
                                 task={task}
                                 timeLeft={getTimeLeft(task.End_date)}
-                                onClick={() => navigate(`/tasks/${task.id}`)}
+                                onClick={() => navigate(TASK_ROUTES.DETAIL(task.id))}
                             />
                         ))
                     )}

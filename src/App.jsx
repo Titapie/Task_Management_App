@@ -3,6 +3,8 @@ import Layout from './components/layout/Layout'
 import DashboardPage from './pages/DashboardPage'
 import TasksPage from './pages/TaskPage'
 import TaskDetailPage from './pages/TaskDetailPage'
+import CreateTaskPage from './pages/CreateTaskPage'
+import EditTaskPage from './pages/EditTaskPage'
 import KanbanPage from './pages/KanbanPage'
 import ProfilePage from './pages/ProfilePage'
 import SettingsPage from './pages/SettingsPage'
@@ -38,6 +40,8 @@ function App() {
                 {/* Main routes */}
                 <Route path="/dashboard" element={<DashboardPage />} />
                 <Route path="/tasks" element={<TasksPage />} />
+                <Route path="/tasks/create" element={<CreateTaskPage />} />
+                <Route path="/tasks/:id/edit" element={<EditTaskPage />} />
                 <Route path="/tasks/:id" element={<TaskDetailPage />} />
                 <Route path="/kanban" element={<KanbanPage />} />
                 <Route path="/profile" element={<ProfilePage />} />

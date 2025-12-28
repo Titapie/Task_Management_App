@@ -1,9 +1,12 @@
 // src/components/tasks/TaskForm.jsx
 import React, { useState } from 'react';
-import { TASK_STATUS, PRIORITY } from '../../utils/constants';
+import { TASK_STATUS, PRIORITY, TASK_STATUS_LABELS, PRIORITY_LABELS } from '../../utils/constants';
+import Button from '../common/Button';
+import Input from '../common/Input';
+import Select from '../common/Select';
+import DatePicker from '../common/DatePicker';
 
-const TaskForm = ({ initialData = {}, onSubmit, onCancel }) => {
-
+const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
     const [formData, setFormData] = useState({
         TaskName: initialData.TaskName || '',
         Description: initialData.Description || '',
@@ -11,7 +14,7 @@ const TaskForm = ({ initialData = {}, onSubmit, onCancel }) => {
         Priority: initialData.Priority || PRIORITY.MEDIUM,
         Start_date: initialData.Start_date || '',
         End_date: initialData.End_date || '',
-        project_id: initialData.project_id || null
+        project_id: initialData.project_id || ''
     });
 
     const [errors, setErrors] = useState({});
@@ -45,99 +48,177 @@ const TaskForm = ({ initialData = {}, onSubmit, onCancel }) => {
         }
     };
 
+    const statusOptions = Object.values(TASK_STATUS).map(status => ({
+        value: status,
+        label: TASK_STATUS_LABELS[status]
+    }));
+
+    const priorityOptions = Object.values(PRIORITY).map(priority => ({
+        value: priority,
+        label: PRIORITY_LABELS[priority] || priority
+    }));
+
+    const projectOptions = [
+        { value: '', label: 'Không thuộc dự án nào' },
+        ...projects.map(project => ({
+            value: project.id,
+            label: project.ProjectName
+        }))
+    ];
+
     return (
-        <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-                <label className="block text-sm font-medium mb-1">Tên Task *</label>
-                <input
-                    type="text"
-                    value={formData.TaskName}
-                    onChange={(e) => handleChange('TaskName', e.target.value)}
-                    className="w-full border rounded px-3 py-2"
-                />
-                {errors.TaskName && <p className="text-red-500 text-sm mt-1">{errors.TaskName}</p>}
+        <div className="min-h-screen bg-gray-50">
+            <div className="max-w-7xl mx-auto p-6">
+                <form onSubmit={handleSubmit}>
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        {/* Main Content - Left Column (2/3) */}
+                        <div className="lg:col-span-2 space-y-6">
+                            {/* Header Preview */}
+                            <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
+                                <div className="aspect-video bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
+                                    <div className="text-white text-9xl font-bold opacity-30">
+                                        {formData.TaskName ? formData.TaskName.charAt(0).toUpperCase() : 'T'}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Task Information */}
+                            <div className="bg-white rounded-2xl shadow-sm p-6 space-y-6">
+                                <div>
+                                    <h2 className="text-xl font-bold text-gray-900 mb-4">Thông tin cơ bản</h2>
+                                    
+                                    <div className="space-y-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                                Tên Task *
+                                            </label>
+                                            <Input
+                                                type="text"
+                                                value={formData.TaskName}
+                                                onChange={(e) => handleChange('TaskName', e.target.value)}
+                                                placeholder="Nhập tên task..."
+                                            />
+                                            {errors.TaskName && (
+                                                <p className="text-red-500 text-sm mt-1">{errors.TaskName}</p>
+                                            )}
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                                Mô tả
+                                            </label>
+                                            <textarea
+                                                value={formData.Description}
+                                                onChange={(e) => handleChange('Description', e.target.value)}
+                                                className="w-full px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm outline-none resize-none"
+                                                rows="4"
+                                                placeholder="Mô tả chi tiết về task..."
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Time Range */}
+                                <div>
+                                    <h2 className="text-xl font-bold text-gray-900 mb-4">Thời gian thực hiện</h2>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                                Ngày bắt đầu
+                                            </label>
+                                            <DatePicker
+                                                value={formData.Start_date}
+                                                onChange={(e) => handleChange('Start_date', e.target.value)}
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                                Ngày kết thúc
+                                            </label>
+                                            <DatePicker
+                                                value={formData.End_date}
+                                                onChange={(e) => handleChange('End_date', e.target.value)}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Sidebar - Right Column (1/3) */}
+                        <div className="lg:col-span-1">
+                            <div className="bg-white rounded-2xl shadow-sm p-6 sticky top-6 space-y-6">
+                                <h3 className="text-lg font-bold text-gray-900">Phân loại</h3>
+
+                                <div className="space-y-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Trạng thái *
+                                        </label>
+                                        <Select
+                                            value={formData.Status}
+                                            onChange={(e) => handleChange('Status', e.target.value)}
+                                            options={statusOptions}
+                                        />
+                                        {errors.Status && (
+                                            <p className="text-red-500 text-sm mt-1">{errors.Status}</p>
+                                        )}
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Ưu tiên *
+                                        </label>
+                                        <Select
+                                            value={formData.Priority}
+                                            onChange={(e) => handleChange('Priority', e.target.value)}
+                                            options={priorityOptions}
+                                        />
+                                        {errors.Priority && (
+                                            <p className="text-red-500 text-sm mt-1">{errors.Priority}</p>
+                                        )}
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Dự án
+                                        </label>
+                                        <Select
+                                            value={formData.project_id}
+                                            onChange={(e) => handleChange('project_id', e.target.value)}
+                                            options={projectOptions}
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Action Buttons */}
+                                <div className="pt-6 border-t space-y-3">
+                                    <Button
+                                        type="submit"
+                                        variant="primary"
+                                        className="w-full"
+                                    >
+                                        {initialData?.id ? 'Cập nhật Task' : 'Tạo Task'}
+                                    </Button>
+                                    
+                                    {onCancel && (
+                                        <Button
+                                            type="button"
+                                            onClick={onCancel}
+                                            variant="outline"
+                                            className="w-full"
+                                        >
+                                            Hủy
+                                        </Button>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
-
-            <div>
-                <label className="block text-sm font-medium mb-1">Mô tả</label>
-                <textarea
-                    value={formData.Description}
-                    onChange={(e) => handleChange('Description', e.target.value)}
-                    className="w-full border rounded px-3 py-2"
-                    rows="3"
-                />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-                <div>
-                    <label className="block text-sm font-medium mb-1">Trạng thái *</label>
-                    <select
-                        value={formData.Status}
-                        onChange={(e) => handleChange('Status', e.target.value)}
-                        className="w-full border rounded px-3 py-2"
-                    >
-                        {Object.values(TASK_STATUS).map(status => (
-                            <option key={status} value={status}>{TASK_STATUS_LABELS[status]}</option>
-                        ))}
-                    </select>
-                    {errors.Status && <p className="text-red-500 text-sm mt-1">{errors.Status}</p>}
-                </div>
-
-                <div>
-                    <label className="block text-sm font-medium mb-1">Ưu tiên *</label>
-                    <select
-                        value={formData.Priority}
-                        onChange={(e) => handleChange('Priority', e.target.value)}
-                        className="w-full border rounded px-3 py-2"
-                    >
-                        {Object.values(PRIORITY).map(priority => (
-                            <option key={priority} value={priority}>{priority}</option>
-                        ))}
-                    </select>
-                    {errors.Priority && <p className="text-red-500 text-sm mt-1">{errors.Priority}</p>}
-                </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-                <div>
-                    <label className="block text-sm font-medium mb-1">Ngày bắt đầu</label>
-                    <input
-                        type="date"
-                        value={formData.Start_date}
-                        onChange={(e) => handleChange('Start_date', e.target.value)}
-                        className="w-full border rounded px-3 py-2"
-                    />
-                </div>
-
-                <div>
-                    <label className="block text-sm font-medium mb-1">Ngày kết thúc</label>
-                    <input
-                        type="date"
-                        value={formData.End_date}
-                        onChange={(e) => handleChange('End_date', e.target.value)}
-                        className="w-full border rounded px-3 py-2"
-                    />
-                </div>
-            </div>
-
-            <div className="flex gap-2 pt-4">
-                <button
-                    type="submit"
-                    className="px-4 py-2 bg-blue-500 text-blax rounded"
-                >
-                    {initialData.id ? 'Cập nhật' : 'Tạo mới'}
-                </button>
-                {onCancel && (
-                    <button
-                        type="button"
-                        onClick={onCancel}
-                        className="px-4 py-2 bg-gray-300 rounded"
-                    >
-                        Hủy
-                    </button>
-                )}
-            </div>
-        </form>
+        </div>
     );
 };
 

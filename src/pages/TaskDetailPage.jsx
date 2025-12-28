@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import TaskDetail from '../components/task/TaskDetail';
 import taskService from '../services/taskService';
+import TASK_ROUTES from '../routes/taskRoutes';
 
 const TaskDetailPage = () => {
     const { id } = useParams();
@@ -27,7 +28,7 @@ const TaskDetailPage = () => {
     }, [id]);
 
     const handleEdit = () => {
-        navigate(`/tasks/edit/${id}`);
+        navigate(TASK_ROUTES.EDIT(id));
     };
 
     const handleDelete = async () => {
@@ -35,7 +36,7 @@ const TaskDetailPage = () => {
             try {
                 await taskService.deleteTask(id);
                 alert('Xóa task thành công!');
-                navigate('/tasks');
+                navigate(TASK_ROUTES.LIST);
             } catch (err) {
                 alert('Lỗi: ' + err.message);
             }
@@ -61,7 +62,7 @@ const TaskDetailPage = () => {
                     <p className="text-xl font-semibold text-gray-800 mb-2">Có lỗi xảy ra</p>
                     <p className="text-gray-600 mb-4">{error}</p>
                     <button 
-                        onClick={() => navigate('/tasks')}
+                        onClick={() => navigate(TASK_ROUTES.LIST)}
                         className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                     >
                         Quay lại danh sách task

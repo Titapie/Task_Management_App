@@ -2,7 +2,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TASK_STATUS_LABELS, PRIORITY_LABELS, STATUS_COLORS, PRIORITY_COLORS } from '../../utils/constants';
-
+import { TASK_ROUTES } from '../../routes/taskRoutes';
 
 const TaskList = ({ tasks, loading, pagination, onPageChange }) => {
     const navigate = useNavigate();
@@ -62,13 +62,13 @@ const TaskList = ({ tasks, loading, pagination, onPageChange }) => {
                                 <td className="px-4 py-2 border">
                                     <div className="flex gap-2">
                                         <button
-                                            onClick={() => navigate(`/tasks/${task.id}`)}
+                                            onClick={() => navigate(TASK_ROUTES.DETAIL(task.id))}
                                             className="px-2 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600 transition"
                                         >
                                             Xem
                                         </button>
                                         <button
-                                            onClick={() => navigate(`/tasks/edit/${task.id}`)}
+                                            onClick={() => navigate(TASK_ROUTES.EDIT(task.id))}
                                             className="px-2 py-1 bg-yellow-500 text-white rounded text-sm hover:bg-yellow-600 transition"
                                         >
                                             Sửa

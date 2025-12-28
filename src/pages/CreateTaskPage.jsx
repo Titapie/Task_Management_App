@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TaskForm from '../components/task/TaskForm';
 import taskService from '../services/taskService';
+import TASK_ROUTES from '../routes/taskRoutes';
 
 const CreateTaskPage = () => {
     const navigate = useNavigate();
@@ -15,7 +16,7 @@ const CreateTaskPage = () => {
         try {
             await taskService.createTask(formData);
             alert('Tạo task thành công!');
-            navigate('/tasks');
+            navigate(TASK_ROUTES.LIST);
         } catch (err) {
             setError(err.message);
         } finally {
@@ -38,7 +39,7 @@ const CreateTaskPage = () => {
             ) : (
                 <TaskForm
                     onSubmit={handleSubmit}
-                    onCancel={() => navigate('/tasks')}
+                    onCancel={() => navigate(TASK_ROUTES.LIST)}
                 />
             )}
         </div>
