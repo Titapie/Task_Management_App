@@ -67,12 +67,10 @@ const DeadlineAlert = () => {
         <div className="space-y-6 ">
             <Link
                 to="/tasks"
-                className="block p-4 bg-indigo-600 text-white rounded-xl text-base shadow-sm hover:text-gray-700 transition text-center"
+                className="block p-4 bg-indigo-600 text-white rounded-xl text-base shadow-sm hover:bg-blue-500 hover:text-white transition text-center"
             >
                 <div className="flex items-center justify-center gap-2">
-                    <FiChevronRight className="rotate-180" />
                     <span className="font-medium">Xem tất cả công việc</span>
-                    <FiChevronRight />
                 </div>
             </Link>
             {/* Task sắp đến hạn */}
@@ -90,18 +88,15 @@ const DeadlineAlert = () => {
                 {upcomingTasks.length === 0 ? (
                     <p className="text-gray-500 text-center py-4 dark:text-white">Không có task sắp đến hạn</p>
                 ) : (
-                    <div className="space-y-3">
+                    <div className="space-y-3  rounded-lg">
                         {upcomingTasks.map((task) => (
-                            <div key={task.id} className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition">
+                            <div key={task.id} className="flex items-center bg-yellow-50 justify-between p-3  rounded-lg ">
                                 <div className="flex items-center gap-3">
                                     <div className={`p-2 rounded-lg ${priorityColors[task.Priority?.toLowerCase()] || 'bg-gray-100 text-gray-800'}`}>
                                         <FiClock />
                                     </div>
                                     <div>
                                         <p className="font-medium text-gray-800">{task.TaskName}</p>
-                                        <p className="text-sm text-gray-500">
-                                            {task.ParentProject?.Name || 'Chưa có dự án'}
-                                        </p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-4">
@@ -113,7 +108,6 @@ const DeadlineAlert = () => {
                                             {getPriorityLabel(task.Priority?.toLowerCase())}
                                         </span>
                                     </div>
-                                    <FiChevronRight className="text-gray-400" />
                                 </div>
                             </div>
                         ))}
@@ -145,9 +139,6 @@ const DeadlineAlert = () => {
                                     </div>
                                     <div>
                                         <p className="font-medium text-gray-800">{task.TaskName}</p>
-                                        <p className="text-sm text-gray-500">
-                                            {task.ParentProject?.Name || 'Chưa có dự án'}
-                                        </p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-4">

@@ -1,46 +1,53 @@
 // components/stats/StatsCard.jsx
 import React from 'react';
+import { CHART_COLORS } from '../../utils/constants';
 
 const StatsCard = ({
                        title,
                        value,
                        icon,
-                       color = 'blue',
+                       color = 'primary',
                        change,
                        subtitle,
                        isLoading = false,
-                       className = '' // ✅ THÊM prop className
+                       className = ''
                    }) => {
     const colorClasses = {
-        blue: {
+        primary: {
             bg: 'bg-blue-50',
             text: 'text-blue-600',
-            border: 'border-blue-100'
+            border: 'border-blue-100',
+            hex: CHART_COLORS.PRIMARY
         },
-        green: {
+        success: {
             bg: 'bg-green-50',
             text: 'text-green-600',
-            border: 'border-green-100'
+            border: 'border-green-100',
+            hex: CHART_COLORS.SUCCESS
         },
-        red: {
+        danger: {
             bg: 'bg-red-50',
             text: 'text-red-600',
-            border: 'border-red-100'
+            border: 'border-red-100',
+            hex: CHART_COLORS.DANGER
         },
-        yellow: {
+        warning: {
             bg: 'bg-yellow-50',
             text: 'text-yellow-600',
-            border: 'border-yellow-100'
+            border: 'border-yellow-100',
+            hex: CHART_COLORS.WARNING
         },
-        purple: {
+        info: {
             bg: 'bg-purple-50',
             text: 'text-purple-600',
-            border: 'border-purple-100'
+            border: 'border-purple-100',
+            hex: CHART_COLORS.INFO
         },
         gray: {
             bg: 'bg-gray-50',
             text: 'text-gray-600',
-            border: 'border-gray-100'
+            border: 'border-gray-100',
+            hex: CHART_COLORS.GRAY
         }
     };
 
@@ -57,7 +64,7 @@ const StatsCard = ({
         );
     }
 
-    const colors = colorClasses[color];
+    const colors = colorClasses[color] || colorClasses.primary;
 
     return (
         <div className={`bg-white dark:bg-slate-700 rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-gray-300 transition-all duration-300 group ${className}`}>

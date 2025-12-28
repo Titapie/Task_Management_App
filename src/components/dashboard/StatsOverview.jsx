@@ -4,6 +4,7 @@ import { FiCheckCircle, FiClock, FiAlertTriangle, FiBarChart2, FiAlertCircle } f
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import StatsCard from './StatsCard';
 import { useOverviewStats } from '../../hooks/useStats';
+import {CHART_COLORS} from "../../utils/constants.js";
 
 const StatsOverview = () => {
     const { data, loading, error, refresh } = useOverviewStats();
@@ -108,7 +109,7 @@ const StatsOverview = () => {
                 <button
                     onClick={refresh}
                     disabled={loading}
-                    className="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1 disabled:opacity-50"
+                    className="text-sm text-blue-600 hover:bg-indigo-500 hover:text-white flex items-center gap-1 disabled:opacity-50"
                 >
                     <FiClock size={14} />
                     Làm mới
@@ -119,7 +120,7 @@ const StatsOverview = () => {
             <div className=" grid grid-cols-1 lg:grid-cols-3 gap-6">
 
                 {/* ✅ COL 1: Card tổng (LỚN) */}
-                <div className="h-[400px]">
+                <div className="h-[420px]">
                     <div className="relative bg-indigo-600  rounded-2xl shadow-xl p-8 h-full flex flex-col justify-between overflow-hidden group hover:shadow-2xl transition-all duration-300">
                         {/* Background pattern */}
                         <div className="absolute inset-0 opacity-10">
@@ -186,7 +187,7 @@ const StatsOverview = () => {
                 </div>
 
                 {/* ✅ COL 3: PieChart */}
-                <div className="bg-white h-[400px] p-6 rounded-xl shadow-sm border dark:bg-slate-500">
+                <div className="bg-white h-[420px] p-6 rounded-xl shadow-sm border dark:bg-slate-500">
                     <h3 className="text-lg font-semibold text-gray-800 mb-4">
                         Phân bổ công việc
                     </h3>
@@ -230,7 +231,7 @@ const StatsOverview = () => {
                             </div>
 
                             {/* Legend tự làm */}
-                            <div className="mt-4 space-y-2">
+                            <div className="mt-2 space-y-2">
                                 {pieData.map((item, index) => (
                                     <div key={index} className="flex items-center justify-between text-sm">
                                         <div className="flex items-center gap-2">

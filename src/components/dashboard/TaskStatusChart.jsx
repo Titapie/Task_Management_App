@@ -101,7 +101,7 @@ const TaskStatusChart = () => {
                                         <p className="text-sm text-gray-500">
                                             {item.status === 'finish'
                                                 ? `${((item.value / totalTasks) * 100).toFixed(1)}% tổng số`
-                                                : `${inProgress > 0 ? ((item.value / inProgress) * 100).toFixed(1) : 0}% đang làm`
+                                                : `${inProgress > 0 ? ((item.value / inProgress) * 100).toFixed(1) : 0}% `
                                             }
                                         </p>
                                     </div>
