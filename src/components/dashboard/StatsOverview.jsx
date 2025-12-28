@@ -28,7 +28,7 @@ const StatsOverview = () => {
         title: 'Tổng công việc',
         value: data?.totalTasks || 0,
         icon: <FiBarChart2 size={32} />,
-        color: 'blue',
+        color: CHART_COLORS.INFO,
         subtitle: `${data?.completionRate || 0}% hoàn thành`,
         isLarge: true // ✅ Flag để tăng text size
     };
@@ -39,25 +39,25 @@ const StatsOverview = () => {
             title: 'Đã hoàn thành',
             value: data?.completedTasks || 0,
             icon: <FiCheckCircle size={20} />,
-            color: 'green',
+            color: CHART_COLORS.SUCCESS,
         },
         {
             title: 'Đang thực hiện',
             value: data?.inProgressTasks || 0,
             icon: <FiClock size={20} />,
-            color: 'blue',
+            color: CHART_COLORS.PRIMARY,
         },
         {
             title: 'Chưa hoàn thành',
             value: data?.failedTasks || 0,
             icon: <FiAlertTriangle size={20} />,
-            color: 'yellow',
+            color: CHART_COLORS.WARNING,
         },
         {
             title: 'Quá hạn',
             value: data?.overdueTasks || 0,
             icon: <FiAlertCircle size={20} />,
-            color: 'red',
+            color: CHART_COLORS.DANGER,
         }
     ];
 
@@ -66,22 +66,22 @@ const StatsOverview = () => {
         {
             name: 'Hoàn thành',
             value: data?.completedTasks || 0,
-            color: '#10B981'
+            color: CHART_COLORS.SUCCESS
         },
         {
             name: 'Đang làm',
             value: data?.inProgressTasks || 0,
-            color: '#3B82F6'
+            color: CHART_COLORS.PRIMARY
         },
         {
             name: 'Chưa hoàn thành',
             value: data?.failedTasks || 0,
-            color: '#F59E0B'
+            color: CHART_COLORS.WARNING
         },
         {
             name: 'Quá hạn',
             value: data?.overdueTasks || 0,
-            color: '#EF4444'
+            color: CHART_COLORS.DANGER
         }
     ].filter(item => item.value > 0);
 
@@ -188,7 +188,7 @@ const StatsOverview = () => {
 
                 {/* ✅ COL 3: PieChart */}
                 <div className="bg-white h-[420px] p-6 rounded-xl shadow-sm border dark:bg-slate-500">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-4 dark:text-white">
                         Phân bổ công việc
                     </h3>
 
@@ -239,9 +239,9 @@ const StatsOverview = () => {
                                                 className="w-3 h-3 rounded-full"
                                                 style={{ backgroundColor: item.color }}
                                             />
-                                            <span className="text-gray-700">{item.name}</span>
+                                            <span className="text-gray-700 dark:text-white">{item.name}</span>
                                         </div>
-                                        <span className="font-semibold text-gray-800">{item.value}</span>
+                                        <span className="font-semibold text-gray-800 dark:text-white">{item.value}</span>
                                     </div>
                                 ))}
                             </div>

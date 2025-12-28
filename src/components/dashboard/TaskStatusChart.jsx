@@ -1,7 +1,7 @@
 // components/stats/TaskStatusChart.jsx
 import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
-import { FiCircle, FiActivity, FiCheckCircle, FiPauseCircle, FiXCircle } from 'react-icons/fi';
+import { FiCircle, FiActivity, FiPauseCircle } from 'react-icons/fi';
 import { useTaskStatusStats } from '../../hooks/useStats';
 import { TASK_STATUS_LABELS, STATUS_COLORS } from '../../utils/constants';
 

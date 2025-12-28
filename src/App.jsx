@@ -16,6 +16,7 @@ import AddMemberForm from "./components/projects/AddMemberForm"
 import AdminRoute from "./routes/AdminRoute.jsx"
 import AdminLayout from "./pages/admin/AdminLayout.jsx";
 import AdminUsersPage from "./pages/admin/AdminUsersPage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
 
 
 function App() {
@@ -42,7 +43,7 @@ function App() {
                         ? user?.Role === 'admin'
                             ? <Navigate to="/admin/dashboard" replace />
                             : <Navigate to="/dashboard" replace />
-                        : <QuickLogin />
+                        : <LoginPage />
                 }
             />
 

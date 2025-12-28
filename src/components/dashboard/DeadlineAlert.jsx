@@ -1,6 +1,6 @@
 // components/stats/DeadlineAlert.jsx
 import React from 'react';
-import { FiAlertCircle, FiClock, FiCalendar, FiChevronRight } from 'react-icons/fi';
+import { FiAlertCircle, FiClock, FiCalendar } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { useDeadlineTasks } from '../../hooks/useTasks';
 

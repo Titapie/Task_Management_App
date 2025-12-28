@@ -79,47 +79,10 @@ const AddMembersForm = () => {
 
                 if (usersResponse.success) {
                     usersList = usersResponse.users || usersResponse.data || [];
-
-                    // Fetch full details (Email, Role) for each user
-                    console.log('Fetching full details for', usersList.length, 'users...');
-                    const usersWithDetails = await Promise.all(
-                        usersList.map(async (user) => {
-                            try {
-                                // Fetch full user details by ID
-                                const detailResponse = await userService.getUser(user.id);
-                                if (detailResponse.success) {
-                                    const fullUser = detailResponse.user || detailResponse.data;
-                                    return {
-                                        ...user,
-                                        Email: fullUser.Email,
-                                        Role: fullUser.Role
-                                    };
-                                }
-                                return user;
-                            } catch (err) {
-                                console.error(`Failed to fetch details for user ${user.id}:`, err);
-                                return user;
-                            }
-                        })
-                    );
-
-                    usersList = usersWithDetails;
-                    console.log('Users with full details:', usersList.length);
-                } else {
-                    // Fallback: get all users
-                    const allUsersResp = await userService.getAllUsers();
-                    if (allUsersResp.success) {
-                        usersList = allUsersResp.users || allUsersResp.data || [];
-                    }
                 }
 
                 // Lọc bỏ users có role là 'admin' (case-insensitive)
                 const filteredUsers = usersList.filter(user => !isAdmin(user));
-
-                console.log('All users:', usersList.length);
-                console.log('Filtered users (non-admin):', filteredUsers.length);
-                console.log('Admin users filtered out:', usersList.filter(user => isAdmin(user)).length);
-
                 setAllUsers(filteredUsers);
 
             } catch (err) {
@@ -153,7 +116,6 @@ const AddMembersForm = () => {
             return true;
         });
 
-        console.log('Available users to add:', available.length);
         return available;
     };
 
@@ -217,25 +179,6 @@ const AddMembersForm = () => {
         const firstInitial = user.FirstName?.charAt(0) || '';
         const lastInitial = user.LastName?.charAt(0) || '';
         return `${firstInitial}${lastInitial}`.toUpperCase();
-    };
-
-    // Get user role badge
-    const getUserRoleBadge = (user) => {
-        if (!user) return null;
-
-        const roleKey = user.Role?.toLowerCase() || 'user';
-        const badges = {
-            admin: { bg: 'bg-red-100', text: 'text-red-700', label: 'Admin' },
-            user: { bg: 'bg-blue-100', text: 'text-blue-700', label: 'User' }
-        };
-
-        const badge = badges[roleKey] || { bg: 'bg-gray-100', text: 'text-gray-700', label: user.Role };
-
-        return (
-            <span className={`px-2 py-1 ${badge.bg} ${badge.text} text-xs font-medium rounded ml-2`}>
-                {badge.label}
-            </span>
-        );
     };
 
     // Handle form submission
@@ -321,8 +264,8 @@ const AddMembersForm = () => {
     const availableUsers = getFilteredAvailableUsers();
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-            <div className="max-w-4xl mx-auto px-6 py-8">
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 ">
+            <div className="w-full mx-auto px-6 py-8 dark:bg-slate-900">
                 {/* Success Message */}
                 {success && (
                     <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-green-500 rounded-lg p-4 mb-6 shadow-sm">
@@ -339,18 +282,18 @@ const AddMembersForm = () => {
                 )}
 
                 {/* Header */}
-                <div className="bg-white rounded-2xl shadow-lg p-8 mb-6 border border-gray-100">
+                <div className="bg-white rounded-2xl shadow-lg p-8 mb-6 border border-gray-100 dark:bg-slate-700">
                     <div className="flex items-start justify-between mb-6">
                         <div>
                             <div className="flex items-center gap-3 mb-2">
                                 <div>
-                                    <h1 className="text-2xl font-bold text-gray-900">Thêm thành viên vào dự án</h1>
-                                    <p className="text-gray-600">
+                                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Thêm thành viên vào dự án</h1>
+                                    <p className="text-gray-600 dark:text-white">
                                         {project?.Name || 'Đang tải...'}
                                     </p>
                                 </div>
                             </div>
-                            <p className="text-sm text-gray-500 mt-2">
+                            <p className="text-sm text-gray-500 mt-2 dark:text-white">
                                 Manager/Lead: {project?.manager_name || 'Chưa có'}
                             </p>
                         </div>
@@ -369,9 +312,8 @@ const AddMembersForm = () => {
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Selected Users Section */}
                     {selectedUsers.length > 0 && (
-                        <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
-                            <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                                <LucideIcons.Users className="w-5 h-5 text-blue-600" />
+                        <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 dark:bg-slate-700">
+                            <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2 dark:text-white">
                                 Thành viên đã chọn ({selectedUsers.length})
                             </h2>
 
@@ -381,14 +323,14 @@ const AddMembersForm = () => {
                                     if (!user) return null;
 
                                     return (
-                                        <div key={userId} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                        <div key={userId} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200 dark:bg-slate-500">
                                             <div className="flex items-center gap-3">
                                                 <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center text-white font-semibold">
                                                     {getUserInitials(user)}
                                                 </div>
                                                 <div>
-                                                    <p className="font-medium text-gray-900">{formatUserName(user)}</p>
-                                                    <p className="text-sm text-gray-500">{user.Email}</p>
+                                                    <p className="font-medium text-gray-900 dark:text-white">{formatUserName(user)}</p>
+                                                    <p className="text-sm text-gray-500 dark:text-white">{user.Email}</p>
                                                 </div>
                                             </div>
 
@@ -421,9 +363,8 @@ const AddMembersForm = () => {
                     )}
 
                     {/* Available Users Section */}
-                    <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                            <LucideIcons.Search className="w-5 h-5 text-blue-600" />
+                    <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 dark:bg-slate-700">
+                        <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2 dark:text-white">
                             Chọn thành viên mới
                         </h2>
 
@@ -435,12 +376,12 @@ const AddMembersForm = () => {
                                 placeholder="Tìm kiếm theo tên hoặc email..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white shadow-sm"
+                                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white shadow-sm dark:bg-slate-500"
                             />
                         </div>
 
                         {/* Available Users List */}
-                        <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
+                        <div className="space-y-3 max-h-96 overflow-y-auto pr-2 ">
                             {availableUsers.length === 0 ? (
                                 <div className="text-center py-8 text-gray-500">
                                     <LucideIcons.Users className="w-12 h-12 text-gray-300 mx-auto mb-3" />
@@ -450,22 +391,19 @@ const AddMembersForm = () => {
                                             : 'Không có thành viên nào khả dụng để thêm'
                                         }
                                     </p>
-                                    <p className="text-sm text-gray-400 mt-1">
-                                        (Người dùng admin và thành viên hiện tại đã bị ẩn)
-                                    </p>
                                 </div>
                             ) : (
                                 availableUsers.map(user => (
-                                    <div key={user.id} className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors border border-gray-100">
+                                    <div key={user.id} className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors border border-gray-100 dark:bg-slate-500">
                                         <div className="flex items-center gap-3">
                                             <div className="w-10 h-10 bg-gradient-to-br from-gray-300 to-gray-400 rounded-full flex items-center justify-center text-white font-semibold">
                                                 {getUserInitials(user)}
                                             </div>
                                             <div>
                                                 <div className="flex items-center">
-                                                    <p className="font-medium text-gray-900">{formatUserName(user)}</p>
+                                                    <p className="font-medium text-gray-900 dark:text-white">{formatUserName(user)}</p>
                                                 </div>
-                                                <p className="text-sm text-gray-500">{user.Email}</p>
+                                                <p className="text-sm text-gray-500 dark:text-white">ID Người dùng: {user.id}</p>
                                             </div>
                                         </div>
 
@@ -485,22 +423,21 @@ const AddMembersForm = () => {
 
                     {/* Current Members Preview */}
                     {currentMembers.length > 0 && (
-                        <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
-                            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                                <LucideIcons.Users className="w-5 h-5 text-green-600" />
+                        <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 dark:bg-slate-700">
+                            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2 dark:text-white">
                                 Thành viên hiện tại ({currentMembers.length})
                             </h3>
                             <div className="flex flex-wrap gap-3">
                                 {currentMembers.map(member => (
-                                    <div key={member.id} className="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-xl">
-                                        <div className="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center text-white text-xs font-medium">
+                                    <div key={member.id} className="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-xl dark:bg-slate-500">
+                                        <div className="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center text-white text-xs font-medium ">
                                             {getUserInitials(member)}
                                         </div>
                                         <div>
                                             <div className="flex items-center">
-                                                <p className="text-sm font-medium text-gray-900">{formatUserName(member)}</p>
+                                                <p className="text-sm font-medium text-gray-900 dark:text-white">{formatUserName(member)}</p>
                                             </div>
-                                            <p className="text-xs text-gray-500">
+                                            <p className="text-xs text-gray-500 dark:text-white">
                                                 {member.id === project?.Manager_id ? 'Lead' : member.role || 'member'}
                                             </p>
                                         </div>

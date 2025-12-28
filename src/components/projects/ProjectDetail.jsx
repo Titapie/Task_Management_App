@@ -343,8 +343,8 @@ const ProjectDetail = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-            <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 ">
+            <div className="w-full mx-auto px-6 py-8 dark:bg-slate-900">
                 {/* Overdue Alert */}
                 {isOverdue() && (
                     <div className="bg-gradient-to-r from-red-50 to-rose-50 border-l-4 border-red-500 rounded-lg p-4 mb-6 shadow-sm">
@@ -361,13 +361,13 @@ const ProjectDetail = () => {
                 )}
 
                 {/* Header Section */}
-                <div className="bg-white rounded-2xl shadow-lg p-8 mb-6 border border-gray-100">
-                    <div className="flex items-start justify-between">
+                <div className="bg-white rounded-2xl shadow-lg p-8 mb-6 border border-gray-100 dark:bg-slate-700">
+                    <div className="flex items-start justify-between ">
                         <div className="flex-1">
                             <div className="flex items-center gap-3 mb-3">
                                 <div>
-                                    <h1 className="text-4xl font-bold text-gray-900 mb-2">{project.Name}</h1>
-                                    <div className="flex items-center gap-2 text-gray-600">
+                                    <h1 className="text-4xl font-bold text-gray-900 mb-2 dark:text-white">{project.Name}</h1>
+                                    <div className="flex items-center gap-2 text-gray-600 dark:text-white">
                                         <LucideIcons.Users className="w-4 h-4" />
                                         <span className="text-sm">Quản lý: {getManagerName()}</span>
                                     </div>
@@ -377,12 +377,12 @@ const ProjectDetail = () => {
                             {/* Progress Bar */}
                             <div className="mt-6">
                                 <div className="flex items-center justify-between mb-2">
-                                    <span className="text-sm font-medium text-gray-700">Tiến độ hoàn thành</span>
-                                    <span className="text-2xl font-bold bg-black bg-clip-text text-transparent">
+                                    <span className="text-sm font-medium text-gray-700 dark:text-white">Tiến độ hoàn thành</span>
+                                    <span className="text-2xl font-bold bg-black bg-clip-text text-transparent dark:text-white">
                                         {completionRate}%
                                     </span>
                                 </div>
-                                <div className="h-3 bg-gray-200 rounded-full overflow-hidden shadow-inner">
+                                <div className="h-3 bg-gray-200 rounded-full overflow-hidden shadow-inner ">
                                     <div
                                         className={`h-full ${getProgressColor(completionRate)} rounded-full transition-all duration-500 shadow-sm`}
                                         style={{ width: `${completionRate}%` }}
@@ -446,58 +446,58 @@ const ProjectDetail = () => {
                 </div>
 
                 {/* Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-                    <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6 ">
+                    <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all dark:bg-slate-700">
                         <div className="flex items-center justify-between mb-3">
-                            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                                <LucideIcons.ListTodo className="w-6 h-6 text-blue-600" />
+                            <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
+                                <LucideIcons.ListTodo className="w-6 h-6 text-indigo-600" />
                             </div>
                         </div>
-                        <p className="text-3xl font-bold text-gray-800 mb-1">
+                        <p className="text-3xl font-bold text-gray-800 mb-1 dark:text-white">
                             {project.total_tasks || project.totalTasks || tasks.length || 0}
                         </p>
-                        <p className="text-sm text-gray-600">Tổng tasks đang tham gia</p>
+                        <p className="text-sm text-gray-600 dark:text-white">Tổng tasks đang tham gia</p>
                     </div>
 
-                    <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all">
+                    <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all dark:bg-slate-700">
                         <div className="flex items-center justify-between mb-3">
                             <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center">
                                 <LucideIcons.CheckCircle className="w-6 h-6 text-emerald-600" />
                             </div>
                         </div>
-                        <p className="text-3xl font-bold text-gray-800 mb-1">
+                        <p className="text-3xl font-bold text-gray-800 mb-1 dark:text-white">
                             {project.completed_tasks || project.completedTasks || tasks.filter(t => t.Status === 'finish').length || 0}
                         </p>
-                        <p className="text-sm text-gray-600">Hoàn thành</p>
+                        <p className="text-sm text-gray-600 dark:text-white">Hoàn thành</p>
                     </div>
 
-                    <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all">
+                    <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all dark:bg-slate-700">
                         <div className="flex items-center justify-between mb-3">
                             <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
                                 <LucideIcons.Target className="w-6 h-6 text-blue-600" />
                             </div>
                         </div>
-                        <p className="text-3xl font-bold text-gray-800 mb-1">
+                        <p className="text-3xl font-bold text-gray-800 mb-1 dark:text-white">
                             {project.in_progress_tasks || project.inProgressTasks || tasks.filter(t => t.Status === 'doing').length || 0}
                         </p>
-                        <p className="text-sm text-gray-600">Đang thực hiện</p>
+                        <p className="text-sm text-gray-600 dark:text-white">Đang thực hiện</p>
                     </div>
 
-                    <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all">
+                    <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all dark:bg-slate-700">
                         <div className="flex items-center justify-between mb-3">
                             <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
                                 <LucideIcons.AlertCircle className="w-6 h-6 text-gray-600" />
                             </div>
                         </div>
-                        <p className="text-3xl font-bold text-gray-800 mb-1">
-                            {project.not_finish_tasks || project.notFinishTasks || tasks.filter(t => t.Status === 'initial').length || 0}
+                        <p className="text-3xl font-bold text-gray-800 mb-1 dark:text-white">
+                            {project.not_finish_tasks || project.notFinishTasks || tasks.filter(t => t.Status === 'notFinish').length || 0}
                         </p>
-                        <p className="text-sm text-gray-600">Chưa hoàn thành</p>
+                        <p className="text-sm text-gray-600 dark:text-white">Chưa hoàn thành</p>
                     </div>
                 </div>
 
                 {/* Tabs */}
-                <div className="bg-white rounded-2xl shadow-lg border border-gray-100">
+                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 dark:bg-slate-700">
                     <div className="border-b border-gray-200">
                         <div className="flex gap-1 p-2">
                             <button
@@ -526,33 +526,32 @@ const ProjectDetail = () => {
                     </div>
 
                     {/* Tab Content */}
-                    <div className="p-6">
+                    <div className="p-6 ">
                         {activeTab === 'overview' ? (
-                            <div className="space-y-6">
+                            <div className="space-y-6 ">
                                 {/* Project Information */}
-                                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-6 border border-gray-200">
-                                    <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                                        <LucideIcons.BarChart3 className="w-5 h-5 text-blue-600" />
+                                <div className="bg-gray-100 rounded-xl p-6 border border-gray-200 dark:bg-slate-500">
+                                    <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2 dark:text-white">
                                         Thông tin dự án
                                     </h3>
                                     <div className="space-y-4">
                                         {project.Description && (
                                             <div>
-                                                <p className="text-sm font-medium text-gray-600 mb-2">Mô tả</p>
-                                                <p className="text-gray-800 bg-white rounded-lg p-4">{project.Description}</p>
+                                                <p className="text-sm font-medium text-gray-600 mb-2 dark:text-white">Mô tả</p>
+                                                <p className="text-gray-800 bg-white rounded-lg p-4 dark:bg-slate-300 ">{project.Description}</p>
                                             </div>
                                         )}
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <div className="bg-white rounded-lg p-4">
-                                                <p className="text-sm font-medium text-gray-600 mb-2 flex items-center gap-2">
+                                            <div className="bg-white rounded-lg p-4 dark:bg-slate-300">
+                                                <p className="text-sm font-medium text-gray-600 mb-2 flex items-center gap-2 ">
                                                     <LucideIcons.Calendar className="w-4 h-4" />
                                                     Ngày bắt đầu
                                                 </p>
                                                 <p className="text-gray-800 font-semibold">{formatDate(project.Start_date)}</p>
                                             </div>
 
-                                            <div className="bg-white rounded-lg p-4">
+                                            <div className="bg-white rounded-lg p-4 dark:bg-slate-300">
                                                 <p className="text-sm font-medium text-gray-600 mb-2 flex items-center gap-2">
                                                     <LucideIcons.Calendar className="w-4 h-4" />
                                                     Ngày kết thúc
@@ -565,18 +564,17 @@ const ProjectDetail = () => {
 
                                 {/* Team Members */}
                                 {project.ProjectMembers && project.ProjectMembers.length > 0 && (
-                                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-6 border border-gray-200">
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                                            <LucideIcons.Users className="w-5 h-5 text-blue-600" />
+                                    <div className="bg-gray-100 rounded-xl p-6 border border-gray-200 dark:bg-slate-500">
+                                        <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2 dark:text-white">
                                             Thành viên dự án ({project.ProjectMembers.length})
                                         </h3>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
                                             {project.ProjectMembers.map((member) => (
                                                 <div
                                                     key={member.id}
-                                                    className="bg-white rounded-lg p-4 hover:shadow-md transition-all border border-gray-200 hover:border-blue-300"
+                                                    className="bg-white rounded-lg p-4 hover:shadow-md transition-all border border-gray-200 hover:border-blue-300 dark:bg-slate-300"
                                                 >
-                                                    <div className="flex items-center gap-3">
+                                                    <div className="flex items-center gap-3 ">
                                                         <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-semibold shadow-md">
                                                             {member.FirstName.charAt(0)}{member.LastName.charAt(0)}
                                                         </div>
@@ -598,13 +596,13 @@ const ProjectDetail = () => {
                                 {/* Task Filters */}
                                 <div className="flex flex-col md:flex-row gap-4">
                                     <div className="flex-1 relative">
-                                        <LucideIcons.Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                                        <LucideIcons.Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 " />
                                         <input
                                             type="text"
                                             placeholder="Tìm kiếm task..."
                                             value={taskSearch}
                                             onChange={(e) => setTaskSearch(e.target.value)}
-                                            className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white shadow-sm"
+                                            className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white shadow-sm dark:bg-slate-500"
                                         />
                                     </div>
 
@@ -663,15 +661,15 @@ const ProjectDetail = () => {
                                             <div
                                                 key={task.id}
                                                 onClick={() => handleTaskClick(task.id)}
-                                                className="bg-white border border-gray-200 rounded-xl p-5 hover:shadow-lg hover:border-blue-300 transition-all cursor-pointer group"
+                                                className="bg-white border border-gray-200 rounded-xl p-5 hover:shadow-lg hover:border-blue-300 transition-all cursor-pointer group dark:bg-slate-500"
                                             >
                                                 <div className="flex items-start justify-between mb-4">
                                                     <div className="flex-1 min-w-0">
-                                                        <h4 className="font-semibold text-gray-900 mb-2 text-lg group-hover:text-blue-600 transition-colors">
+                                                        <h4 className="font-semibold text-gray-900 mb-2 text-lg transition-colors dark:text-white">
                                                             {task.TaskName}
                                                         </h4>
                                                         {task.Description && (
-                                                            <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+                                                            <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed dark:text-white">
                                                                 {task.Description}
                                                             </p>
                                                         )}
@@ -685,14 +683,14 @@ const ProjectDetail = () => {
                                                 <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                                                     <div className="flex items-center gap-4">
                                                         {task.End_date && (
-                                                            <div className="flex items-center gap-2 text-sm text-gray-600">
+                                                            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-white">
                                                                 <LucideIcons.Calendar className="w-4 h-4" />
                                                                 <span>Hạn: {formatDate(task.End_date)}</span>
                                                             </div>
                                                         )}
                                                         {task.TaskMembers && task.TaskMembers.length > 0 && (
                                                             <div className="flex items-center gap-2">
-                                                                <LucideIcons.Users className="w-4 h-4 text-gray-600" />
+                                                                <LucideIcons.Users className="w-4 h-4 text-gray-600 dark:text-white" />
                                                                 <div className="flex -space-x-2">
                                                                     {task.TaskMembers.slice(0, 3).map((member) => (
                                                                         <div

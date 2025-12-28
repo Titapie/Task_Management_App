@@ -1,18 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-    Users,
-    Search,
-    RefreshCw,
-    Shield,
-    User,
-    Loader2,
-    AlertCircle,
-    Edit,
-    X,
-    Save,
-    Crown,
-    UserCheck
-} from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 import userService from '../../services/userService';
 
 const UserList = () => {
@@ -154,7 +141,7 @@ const UserList = () => {
         return (
             <div className="min-h-screen bg-gray-50 flex items-center justify-center">
                 <div className="text-center">
-                    <Loader2 className="w-12 h-12 text-blue-600 animate-spin mx-auto mb-4" />
+                    <LucideIcons.Loader2 className="w-12 h-12 text-blue-600 animate-spin mx-auto mb-4" />
                     <p className="text-gray-600">Đang tải danh sách users...</p>
                 </div>
             </div>
@@ -165,7 +152,7 @@ const UserList = () => {
         return (
             <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
                 <div className="bg-white rounded-lg shadow-md p-8 max-w-md w-full text-center">
-                    <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
+                    <LucideIcons.AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
                     <h2 className="text-2xl font-bold text-gray-800 mb-2">Có lỗi xảy ra</h2>
                     <p className="text-gray-600 mb-6">{error}</p>
                     <button
@@ -351,7 +338,7 @@ const UserList = () => {
                                                         className="inline-flex items-center px-3 py-1 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
                                                     >
                                                         {savingRole ? (
-                                                            <Loader2 className="w-4 h-4 animate-spin" />
+                                                            <LucideIcons.Loader2 className="w-4 h-4 animate-spin" />
                                                         ) : (
                                                             <>
                                                                 <Save className="w-4 h-4 mr-1" />
@@ -373,7 +360,7 @@ const UserList = () => {
                                                     onClick={() => handleEditRole(user)}
                                                     className="inline-flex items-center px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                                                 >
-                                                    <Edit className="w-4 h-4 mr-1" />
+                                                    <LucideIcons.Edit className="w-4 h-4 mr-1" />
                                                     Sửa Role
                                                 </button>
                                             )}
