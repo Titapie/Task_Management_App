@@ -81,7 +81,7 @@ const KanbanCard = ({ task }) => {
             {/* Project */}
             {task.ParentProject?.Name && (
                 <div className="text-xs text-gray-500 mb-2">
-                    📁 {task.ParentProject.Name}
+                    {task.ParentProject.Name}
                 </div>
             )}
 

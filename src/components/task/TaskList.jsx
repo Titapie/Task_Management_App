@@ -3,6 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TASK_STATUS_LABELS, PRIORITY_LABELS, STATUS_COLORS, PRIORITY_COLORS } from '../../utils/constants';
 import { TASK_ROUTES } from '../../routes/taskRoutes';
+import Button from '../common/Button';
 
 const TaskList = ({ tasks, loading, pagination, onPageChange }) => {
     const navigate = useNavigate();
@@ -27,16 +28,14 @@ const TaskList = ({ tasks, loading, pagination, onPageChange }) => {
                         <th className="px-4 py-2 text-black border text-left">Mô tả</th>
                         <th className="px-4 py-2 text-black border text-left">Trạng thái</th>
                         <th className="px-4 py-2 text-black border text-left">Ưu tiên</th>
-                        <th className="px-4 py-2 text-black border text-left">Dự án</th>
                         <th className="px-4 py-2 text-black border text-left">Hạn cuối</th>
                         <th className="px-4 py-2 text-black border text-left">Thao tác</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {/* LUÔN RENDER TBODY - Không check tasks.length */}
                     {(!tasks || tasks.length === 0) ? (
                         <tr>
-                            <td colSpan="7" className="px-4 py-8 text-center text-gray-500">
+                            <td colSpan="6" className="px-4 py-8 text-center text-gray-500">
                                 Không có task phù hợp với bộ lọc
                             </td>
                         </tr>
@@ -55,24 +54,22 @@ const TaskList = ({ tasks, loading, pagination, onPageChange }) => {
                                         {PRIORITY_LABELS[task.Priority] || task.Priority}
                                     </span>
                                 </td>
-                                <td className="px-4 py-2 text-black border">{task.project_name || '-'}</td>
                                 <td className={`px-4 py-2 text-black border ${isNearDeadline(task.End_date) ? 'bg-red-100 font-bold' : ''}`}>
                                     {task.End_date ? new Date(task.End_date).toLocaleDateString('vi-VN') : '-'}
                                 </td>
                                 <td className="px-4 py-2 border">
                                     <div className="flex gap-2">
-                                        <button
+                                        <Button
                                             onClick={() => navigate(TASK_ROUTES.DETAIL(task.id))}
-                                            className="px-2 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600 transition"
                                         >
                                             Xem
-                                        </button>
-                                        <button
+                                        </Button>
+                                        <Button
                                             onClick={() => navigate(TASK_ROUTES.EDIT(task.id))}
-                                            className="px-2 py-1 bg-yellow-500 text-white rounded text-sm hover:bg-yellow-600 transition"
+                                            className="hover:bg-yellow-600 bg-yellow-500 text-white"
                                         >
                                             Sửa
-                                        </button>
+                                        </Button>
                                     </div>
                                 </td>
                             </tr>

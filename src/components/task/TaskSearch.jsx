@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Button from '../common/Button';
+import Input from '../common/Input';
 
 const TaskSearch = ({ onSearch, placeholder = "Tìm kiếm task..." }) => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -21,7 +23,7 @@ const TaskSearch = ({ onSearch, placeholder = "Tìm kiếm task..." }) => {
     return (
         <div className="mb-4">
             <div className="flex gap-2">
-                <input
+                <Input
                     type="text"
                     placeholder={placeholder}
                     value={searchTerm}
@@ -29,20 +31,12 @@ const TaskSearch = ({ onSearch, placeholder = "Tìm kiếm task..." }) => {
                     onKeyPress={handleKeyPress}
                     className="flex-1 border rounded px-4 py-2"
                 />
-                <button
+                <Button
                     onClick={handleSearch}
                     className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
                 >
-                    🔍 Tìm
-                </button>
-                {searchTerm && (
-                    <button
-                        onClick={handleClear}
-                        className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition"
-                    >
-                        ✖ Xóa
-                    </button>
-                )}
+                    Tìm
+                </Button>
             </div>
         </div>
     );

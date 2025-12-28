@@ -62,7 +62,7 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
         { value: '', label: 'Không thuộc dự án nào' },
         ...projects.map(project => ({
             value: project.id,
-            label: project.ProjectName
+            label: project.Name
         }))
     ];
 
@@ -93,7 +93,6 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
                                                 Tên Task *
                                             </label>
                                             <Input
-                                                type="text"
                                                 value={formData.TaskName}
                                                 onChange={(e) => handleChange('TaskName', e.target.value)}
                                                 placeholder="Nhập tên task..."
@@ -108,9 +107,10 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
                                                 Mô tả
                                             </label>
                                             <Input
+                                                multiline={true}
+                                                rows={4}
                                                 value={formData.Description}
                                                 onChange={(e) => handleChange('Description', e.target.value)}
-                                                rows="4"
                                                 placeholder="Mô tả chi tiết về task..."
                                             />
                                         </div>
@@ -183,11 +183,17 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
                                         <label className="block text-sm font-medium text-gray-700 mb-2">
                                             Dự án
                                         </label>
-                                        <Select
-                                            value={formData.project_id}
-                                            onChange={(e) => handleChange('project_id', e.target.value)}
-                                            options={projectOptions}
-                                        />
+                                        {initialData.id ? (
+                                            <div className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-700">
+                                                {initialData.project_name || 'Không thuộc dự án nào'}
+                                            </div>
+                                        ) : (
+                                            <Select
+                                                value={formData.project_id}
+                                                onChange={(e) => handleChange('project_id', e.target.value)}
+                                                options={projectOptions}
+                                            />
+                                        )}
                                     </div>
                                 </div>
 

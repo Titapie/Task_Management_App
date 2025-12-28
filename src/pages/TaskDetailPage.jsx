@@ -4,6 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import TaskDetail from '../components/task/TaskDetail';
 import taskService from '../services/taskService';
 import TASK_ROUTES from '../routes/taskRoutes';
+import Button from '../components/common/Button';
+import Loading from '../components/common/Loading';
 
 const TaskDetailPage = () => {
     const { id } = useParams();
@@ -44,14 +46,7 @@ const TaskDetailPage = () => {
     };
 
     if (loading) {
-        return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                <div className="text-center">
-                    <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-                    <p className="mt-4 text-gray-600">Đang tải...</p>
-                </div>
-            </div>
-        );
+        return <Loading />;
     }
 
     if (error) {
@@ -61,12 +56,12 @@ const TaskDetailPage = () => {
                     <div className="text-red-500 text-5xl mb-4">⚠️</div>
                     <p className="text-xl font-semibold text-gray-800 mb-2">Có lỗi xảy ra</p>
                     <p className="text-gray-600 mb-4">{error}</p>
-                    <button 
+                    <Button
                         onClick={() => navigate(TASK_ROUTES.LIST)}
                         className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                     >
                         Quay lại danh sách task
-                    </button>
+                    </Button>
                 </div>
             </div>
         );

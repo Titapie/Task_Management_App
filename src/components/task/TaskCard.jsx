@@ -2,9 +2,10 @@
 import React from 'react';
 import { Clock } from 'lucide-react';
 import { TASK_STATUS_LABELS, PRIORITY_LABELS, STATUS_COLORS, PRIORITY_COLORS } from '../../utils/constants';
+import { getProjectNameById } from '../../utils/helpers';
 
-const TaskCard = ({ task, onEdit, onDelete, showActions = false, timeLeft, onClick }) => {
-
+const TaskCard = ({ task, onEdit, onDelete, showActions = false, timeLeft, onClick, projects = [] }) => {
+console.log('Task data in TaskCard:', task); // Thêm dòng này
     return (
         <div
             onClick={onClick}
@@ -24,9 +25,8 @@ const TaskCard = ({ task, onEdit, onDelete, showActions = false, timeLeft, onCli
                     {task.TaskName}
                 </h3>
 
-                {/* Category */}
                 <p className="text-sm text-gray-600 mb-3">
-                    {task.ParentProject?.Description || 'No category'}
+                    {getProjectNameById(task.project_id, projects)}
                 </p>
 
                 {/* Status & Priority Badges */}

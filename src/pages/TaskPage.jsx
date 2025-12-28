@@ -1,5 +1,5 @@
 // src/pages/TasksPageCard.jsx
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useTasks, { useUpcomingTasks } from '../hooks/useTasks';
 import TaskCard from '../components/task/TaskCard';
@@ -9,7 +9,12 @@ import TaskSearch from '../components/task/TaskSearch';
 import ExportButton from '../components/common/ExportButton';
 import { ChevronLeft, ChevronRight, Filter } from 'lucide-react';
 import { getTimeLeft } from '../utils/dateHelpers';
+import { getProjectNameById } from '../utils/helpers';
+import projectService from '../services/projectService';
 import { TASK_ROUTES } from '../routes/taskRoutes';
+import Button from '../components/common/Button';
+import Select from '../components/common/Select';
+import Loading from '../components/common/Loading';
 
 const TasksPage = () => {
     const navigate = useNavigate();
@@ -39,6 +44,8 @@ const TasksPage = () => {
         sortKey: 'End_date',
         sortValue: 'ASC'
     });
+
+    const [projects, setProjects] = useState([]);
 
     const { tasks, loading, error, refetch, pagination } = useTasks(params);
     const { upcomingTasks, loading: loadingUpcoming, refetch: refetchUpcoming } = useUpcomingTasks();
@@ -138,8 +145,20 @@ const TasksPage = () => {
         }
     };
 
+    useEffect(() => {
+    const fetchProjects = async () => {
+        try {
+            const response = await projectService.getAllProjectsNoPagination();
+            setProjects(response.projects || response.data || []);
+        } catch (err) {
+            console.error('Lỗi khi tải danh sách dự án:', err);
+        }
+    };
+    fetchProjects();
+}, []);
+
     if (loading && params.page === 1) {
-        return <div className="p-6 text-center">Đang tải...</div>;
+        return <Loading />;
     }
 
     if (error) {
@@ -165,36 +184,38 @@ const TasksPage = () => {
             {/* Filters and Sort */}
             <div className="mb-6 flex gap-4 items-center justify-between flex-wrap">
                 <div className='flex gap-4 items-center'>
-                    <button
+                    <Button
+                        variant="outline"
                         onClick={() => setShowFilters(!showFilters)}
-                        className="px-4 py-2 border border-gray-300 rounded-lg flex items-center gap-2 hover:bg-gray-100"
+                        className="flex items-center gap-2"
                     >
-                        <Filter size={20} />
-                        Filters
-                    </button>
+                        <>
+                            <Filter size={20} />
+                            Filters
+                        </>
+                    </Button>
 
-                    <select
+                    <Select
                         value={`${sortConfig.sortKey}-${sortConfig.sortValue}`}
                         onChange={(e) => {
                             const [key, value] = e.target.value.split('-');
                             handleSortChange(key, value);
                         }}
-                        className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                    >
-                        <option value="End_date-ASC">Sort By: Deadline (Sớm nhất)</option>
-                        <option value="End_date-DESC">Sort By: Deadline (Muộn nhất)</option>
-                        <option value="created_at-DESC">Sort By: Mới nhất</option>
-                        <option value="Priority-DESC">Sort By: Ưu tiên cao</option>
-                    </select>
+                        options={[
+                            { value: 'End_date-ASC', label: 'Sort By: Deadline (Sớm nhất)' },
+                            { value: 'End_date-DESC', label: 'Sort By: Deadline (Muộn nhất)' },
+                            { value: 'created_at-DESC', label: 'Sort By: Mới nhất' },
+                            { value: 'Priority-DESC', label: 'Sort By: Ưu tiên cao' }
+                        ]}
+                    />
                 </div>
                 
                 <div className='flex gap-2'>
-                    <button
+                    <Button
                         onClick={() => navigate(TASK_ROUTES.CREATE)}
-                        className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
                     >
                         Tạo Task
-                    </button>
+                    </Button>
                     <ExportButton filters={params} />
                 </div>
             </div>
@@ -222,18 +243,18 @@ const TasksPage = () => {
                         </span>
                     </h2>
                     <div className="flex gap-2">
-                        <button
+                        <Button
+                            variant="outline"
                             onClick={() => scroll(timeLimitRef, 'left')}
-                            className="p-2 rounded-lg border border-gray-300 hover:bg-gray-100"
                         >
                             <ChevronLeft size={20} />
-                        </button>
-                        <button
+                        </Button>
+                        <Button
+                            variant="outline"
                             onClick={() => scroll(timeLimitRef, 'right')}
-                            className="p-2 rounded-lg border border-gray-300 hover:bg-gray-100"
                         >
                             <ChevronRight size={20} />
-                        </button>
+                        </Button>
                     </div>
                 </div>
                 <div
@@ -242,7 +263,7 @@ const TasksPage = () => {
                     style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                 >
                     {loadingUpcoming ? (
-                        <div className="text-gray-500">Đang tải...</div>
+                        <Loading />
                     ) : filteredUpcomingTasks.length === 0 ? (
                         <div className="text-gray-500">Không có task sắp đến hạn</div>
                     ) : (
@@ -250,6 +271,7 @@ const TasksPage = () => {
                             <TaskCard
                                 key={task.id}
                                 task={task}
+                                projects={projects}
                                 timeLeft={getTimeLeft(task.End_date)}
                                 onClick={() => navigate(TASK_ROUTES.DETAIL(task.id))}
                             />
