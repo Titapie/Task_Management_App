@@ -6,7 +6,17 @@ import TaskFilter from '../components/task/TaskFilter';
 import TaskDeadlineFilter from '../components/task/TaskDeadlineFilter';
 
 const KanbanPage = () => {
-    const [filters, setFilters] = useState({});
+    // Temp filters (chưa apply)
+    const [tempFilters, setTempFilters] = useState({
+        Status: '',
+        Priority: '',
+        search: '',
+        deadline_from: '',
+        deadline_to: ''
+    });
+
+    // Applied filters (đã apply, truyền xuống KanbanBoard)
+    const [appliedFilters, setAppliedFilters] = useState({});
 
     // Helper: Xóa keys có giá trị rỗng
     const cleanFilters = (obj) => {
@@ -19,14 +29,37 @@ const KanbanPage = () => {
         return cleaned;
     };
 
-    const handleFilterChange = (newFilters) => {
-        // Chỉ giữ lại filters mới, không merge với filters cũ
-        const cleaned = cleanFilters(newFilters);
-        setFilters(cleaned);
+    // Handle single filter change (chỉ update temp)
+    const handleFilterChange = (field, value) => {
+        setTempFilters({
+            ...tempFilters,
+            [field]: value
+        });
     };
 
+    // Handle search (apply ngay)
+    const handleSearch = (search) => {
+        const newFilters = { ...tempFilters, search };
+        setTempFilters(newFilters);
+        setAppliedFilters(cleanFilters(newFilters));
+    };
+
+    // Apply filters
+    const handleApplyFilters = () => {
+        setAppliedFilters(cleanFilters(tempFilters));
+    };
+
+    // Reset all filters
     const handleResetAll = () => {
-        setFilters({});
+        const resetFilters = {
+            Status: '',
+            Priority: '',
+            search: '',
+            deadline_from: '',
+            deadline_to: ''
+        };
+        setTempFilters(resetFilters);
+        setAppliedFilters({});
     };
 
     return (
@@ -49,36 +82,50 @@ const KanbanPage = () => {
                         Tìm kiếm
                     </label>
                     <TaskSearch
-                        onSearch={(search) => handleFilterChange({ ...filters, search })}
+                        onSearch={handleSearch}
                         placeholder="Tìm theo tên task..."
                     />
                 </div>
 
-                {/* Task Filter - Hide Status (vì đã có columns) */}
+                {/* Task Filter */}
                 <TaskFilter
-                    onFilterChange={(newFilters) => handleFilterChange({ ...filters, ...newFilters })}
-                    showStatusFilter={false}
+                    filters={tempFilters}
+                    onFilterChange={handleFilterChange}
+                    onApply={handleApplyFilters}
+                    onReset={handleResetAll}
+                    showDeadlineFilter={false}
                 />
 
                 {/* Deadline Filter */}
-                <TaskDeadlineFilter
-                    onFilterChange={(newFilters) => handleFilterChange({ ...filters, ...newFilters })}
-                />
+                <div className="mt-4">
+                    <TaskDeadlineFilter
+                        onFilterChange={(newFilters) => {
+                            const updated = { ...tempFilters, ...newFilters };
+                            setTempFilters(updated);
+                        }}
+                    />
+                </div>
 
-                {/* Reset All */}
-                <div className="mb-4">
+                {/* Apply/Reset Buttons */}
+                <div className="mt-4 flex gap-2">
+                    <button
+                        onClick={handleApplyFilters}
+                        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+                    >
+                        Áp dụng bộ lọc
+                    </button>
                     <button
                         onClick={handleResetAll}
                         className="px-4 py-2 bg-red-100 text-red-700 rounded hover:bg-red-200 transition"
                     >
-                        🔄 Reset tất cả bộ lọc
+                        🔄 Reset tất cả
                     </button>
                 </div>
             </div>
 
             {/* Kanban Board - FULL WIDTH */}
             <div className="w-full">
-                <KanbanBoard filters={filters} />
+                <KanbanBoard filters={appliedFilters} />
             </div>
         </div>
     );
