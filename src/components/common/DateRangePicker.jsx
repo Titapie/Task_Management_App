@@ -32,10 +32,38 @@ export default function DateRangePicker() {
         focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-900/50
         transition-all duration-200
         placeholder-gray-400 dark:placeholder-slate-400
-        cursor-pointer"
+        cursor-pointer
+        animate-fade-in-fast"
       />
       
       <style jsx global>{`
+        /* Animation for calendar popup */
+        .react-datepicker {
+          animation: fade-in 0.3s ease-out, scale-in 0.2s ease-out !important;
+        }
+
+        @keyframes fade-in {
+          0% { 
+            opacity: 0; 
+            transform: translateY(-10px); 
+          }
+          100% { 
+            opacity: 1; 
+            transform: translateY(0); 
+          }
+        }
+
+        @keyframes scale-in {
+          0% { 
+            opacity: 0; 
+            transform: scale(0.95); 
+          }
+          100% { 
+            opacity: 1; 
+            transform: scale(1); 
+          }
+        }
+
         /* Dark mode styles for react-datepicker */
         .dark .react-datepicker {
           background-color: rgb(51 65 85) !important;

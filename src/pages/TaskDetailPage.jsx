@@ -51,14 +51,14 @@ const TaskDetailPage = () => {
 
     if (error) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+            <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center animate-fade-in">
                 <div className="text-center">
                     <div className="text-red-500 text-5xl mb-4">⚠️</div>
-                    <p className="text-xl font-semibold text-gray-800 mb-2">Có lỗi xảy ra</p>
-                    <p className="text-gray-600 mb-4">{error}</p>
+                    <p className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">Có lỗi xảy ra</p>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">{error}</p>
                     <Button
                         onClick={() => navigate(TASK_ROUTES.LIST)}
-                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-transform hover:scale-105 active:scale-95"
                     >
                         Quay lại danh sách task
                     </Button>

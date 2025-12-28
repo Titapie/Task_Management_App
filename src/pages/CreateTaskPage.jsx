@@ -34,9 +34,9 @@ const CreateTaskPage = () => {
 
     return (
         <>
-            <div className="bg-white border-b sticky top-0 z-10">
+            <div className="bg-white dark:bg-gray-800 border-b dark:border-gray-700 sticky top-0 z-10 animate-fade-in">
                 <div className="max-w-7xl mx-auto px-6 py-4">
-                    <h1 className="text-2xl font-bold text-gray-900">Tạo Task Mới</h1>
+                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Tạo Task Mới</h1>
                 </div>
             </div>
 

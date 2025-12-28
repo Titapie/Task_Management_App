@@ -14,11 +14,11 @@ const TaskFilter = ({
     showDeadlineFilter = false 
 }) => {
     return (
-        <div className={`${DARK_MODE_COLORS.BG_PRIMARY} p-4 rounded-lg shadow-sm border ${DARK_MODE_COLORS.BORDER_PRIMARY}`}>
+        <div className={`${DARK_MODE_COLORS.BG_PRIMARY} p-6 rounded-xl shadow-lg border ${DARK_MODE_COLORS.BORDER_PRIMARY} transition-all duration-300`}>
             {/* Filter Row */}
-            <div className="grid grid-cols-4 gap-4 mb-4">
+            <div className={`grid ${showDeadlineFilter ? 'grid-cols-4' : 'grid-cols-2'} gap-4 mb-6`}>
                 {/* Status Filter */}
-                <div>
+                <div className="animate-fade-in-fast" style={{ animationDelay: '0ms' }}>
                     <label className={`block text-sm font-medium ${DARK_MODE_COLORS.TEXT_LABEL} mb-2`}>
                         Trạng thái
                     </label>
@@ -36,7 +36,7 @@ const TaskFilter = ({
                 </div>
 
                 {/* Priority Filter */}
-                <div>
+                <div className="animate-fade-in-fast" style={{ animationDelay: '100ms' }}>
                     <label className={`block text-sm font-medium ${DARK_MODE_COLORS.TEXT_LABEL} mb-2`}>
                         Ưu tiên
                     </label>
@@ -55,7 +55,7 @@ const TaskFilter = ({
 
                 {/* Deadline From */}
                 {showDeadlineFilter && (
-                    <div>
+                    <div className="animate-fade-in-fast" style={{ animationDelay: '200ms' }}>
                         <label className={`block text-sm font-medium ${DARK_MODE_COLORS.TEXT_LABEL} mb-2`}>
                             Deadline từ
                         </label>
@@ -68,7 +68,7 @@ const TaskFilter = ({
 
                 {/* Deadline To */}
                 {showDeadlineFilter && (
-                    <div>
+                    <div className="animate-fade-in-fast" style={{ animationDelay: '300ms' }}>
                         <label className={`block text-sm font-medium ${DARK_MODE_COLORS.TEXT_LABEL} mb-2`}>
                             Deadline đến
                         </label>
@@ -81,16 +81,20 @@ const TaskFilter = ({
             </div>
 
             {/* Action Buttons */}
-            <div className="flex gap-2">
+            <div className="flex gap-3 animate-fade-in" style={{ animationDelay: '400ms' }}>
                 <Button
                     onClick={onApply}
+                    className="transition-transform hover:scale-105 active:scale-95"
                 >
                     Áp dụng
                 </Button>
                 <Button
                     onClick={onReset}
+                    variant="outline"
+                    className="transition-transform hover:scale-105 active:scale-95 flex items-center gap-2"
                 >
-                    <RefreshCcw />
+                    <RefreshCcw size={16} />
+                    Reset
                 </Button>
             </div>
 

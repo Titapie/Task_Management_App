@@ -19,7 +19,7 @@ const TaskUpcoming = ({ tasks, loading, projects, onNavigate }) => {
 
     return (
         <div className="mb-8">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-4 animate-fade-in">
                 <h2 className={`text-2xl font-bold ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                     Sắp đến hạn
                     <span className={`text-sm font-normal ml-2 ${DARK_MODE_COLORS.TEXT_SECONDARY}`}>
@@ -30,12 +30,14 @@ const TaskUpcoming = ({ tasks, loading, projects, onNavigate }) => {
                     <Button
                         variant="outline"
                         onClick={() => scroll('left')}
+                        className="transition-transform hover:scale-110"
                     >
                         <ChevronLeft size={20} />
                     </Button>
                     <Button
                         variant="outline"
                         onClick={() => scroll('right')}
+                        className="transition-transform hover:scale-110"
                     >
                         <ChevronRight size={20} />
                     </Button>
@@ -43,15 +45,17 @@ const TaskUpcoming = ({ tasks, loading, projects, onNavigate }) => {
             </div>
             <div
                 ref={timeLimitRef}
-                className="flex gap-4 overflow-x-auto pb-4"
+                className="flex gap-4 overflow-x-auto pb-4 animate-slide-up"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
                 {loading ? (
                     <Loading />
                 ) : tasks.length === 0 ? (
-                    <div className={DARK_MODE_COLORS.TEXT_SECONDARY}>Không có task sắp đến hạn</div>
+                    <div className={`${DARK_MODE_COLORS.TEXT_SECONDARY} animate-fade-in`}>
+                        Không có task sắp đến hạn
+                    </div>
                 ) : (
-                    tasks.map(task => (
+                    tasks.map((task) => (
                         <TaskCard
                             key={task.id}
                             task={task}

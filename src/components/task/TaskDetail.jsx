@@ -27,13 +27,13 @@ const TaskDetail = ({ task, onEdit, onDelete }) => {
     ];
 
     return (
-        <div className={`min-h-screen ${DARK_MODE_COLORS.BG_SECONDARY}`}>
+        <div className={`min-h-screen ${DARK_MODE_COLORS.BG_SECONDARY} animate-fade-in`}>
             <div className="max-w-7xl mx-auto p-6">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* Main Content - Left Column (2/3) */}
                     <div className="lg:col-span-2 space-y-6">
                         {/* Media Preview */}
-                        <div className={`${DARK_MODE_COLORS.BG_PRIMARY} rounded-2xl overflow-hidden shadow-sm`}>
+                        <div className={`${DARK_MODE_COLORS.BG_PRIMARY} rounded-2xl overflow-hidden shadow-sm animate-scale-in`}>
                             <div className={`aspect-video ${DARK_MODE_COLORS.BG_GRADIENT} flex items-center justify-center`}>
                                 <div className="text-white text-9xl font-bold opacity-30">
                                     {task.TaskName.charAt(0).toUpperCase()}
@@ -46,7 +46,7 @@ const TaskDetail = ({ task, onEdit, onDelete }) => {
                             <h1 className={`text-3xl font-bold ${DARK_MODE_COLORS.TEXT_PRIMARY} mb-3`}>{task.TaskName}</h1>
                             
                             <div className={`flex items-center gap-4 text-sm ${DARK_MODE_COLORS.TEXT_SECONDARY} mb-4`}>
-                                <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-lg font-medium">
+                                <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-lg font-medium transition-all hover:scale-105">
                                     {task.project_name || 'Không thuộc dự án nào'}
                                 </span>
                             </div>
@@ -89,13 +89,13 @@ const TaskDetail = ({ task, onEdit, onDelete }) => {
                             <div className={`flex gap-3 mt-8 pt-6 border-t ${DARK_MODE_COLORS.BORDER_PRIMARY}`}>
                                 <button
                                     onClick={onEdit}
-                                    className={`px-6 py-2.5 ${DARK_MODE_COLORS.BTN_PRIMARY} text-white rounded-lg font-medium transition-colors`}
+                                    className={`px-6 py-2.5 ${DARK_MODE_COLORS.BTN_PRIMARY} text-white rounded-lg font-medium transition-transform hover:scale-105 active:scale-95`}
                                 >
                                     Chỉnh sửa
                                 </button>
                                 <button
                                     onClick={onDelete}
-                                    className={`px-6 py-2.5 ${DARK_MODE_COLORS.BTN_DANGER} text-white rounded-lg font-medium transition-colors`}
+                                    className={`px-6 py-2.5 ${DARK_MODE_COLORS.BTN_DANGER} text-white rounded-lg font-medium transition-transform hover:scale-105 active:scale-95`}
                                 >
                                     Xóa
                                 </button>
@@ -111,14 +111,14 @@ const TaskDetail = ({ task, onEdit, onDelete }) => {
                             <div className="space-y-4 text-sm">
                                 <div>
                                     <span className={`${DARK_MODE_COLORS.TEXT_SECONDARY} block mb-1`}>Trạng thái</span>
-                                    <span className={`inline-block px-3 py-1 rounded-lg font-medium ${STATUS_COLORS[task.Status]}`}>
+                                    <span className={`inline-block px-3 py-1 rounded-lg font-medium ${STATUS_COLORS[task.Status]} transition-all hover:scale-105`}>
                                         {TASK_STATUS_LABELS[task.Status]}
                                     </span>
                                 </div>
 
                                 <div>
                                     <span className={`${DARK_MODE_COLORS.TEXT_SECONDARY} block mb-1`}>Ưu tiên</span>
-                                    <span className={`inline-block px-3 py-1 rounded-lg font-medium ${PRIORITY_COLORS[task.Priority]}`}>
+                                    <span className={`inline-block px-3 py-1 rounded-lg font-medium ${PRIORITY_COLORS[task.Priority]} transition-all hover:scale-105`}>
                                         {PRIORITY_LABELS[task.Priority]}
                                     </span>
                                 </div>
@@ -159,7 +159,7 @@ const TaskDetail = ({ task, onEdit, onDelete }) => {
                                         <span className={`${DARK_MODE_COLORS.TEXT_SECONDARY} block mb-2`}>Thành viên</span>
                                         <div className="flex flex-wrap gap-2">
                                             {task.TaskMembers.map((member) => (
-                                                <span key={member.id} className={`px-3 py-1 ${DARK_MODE_COLORS.BADGE_GRAY} rounded-lg text-sm`}>
+                                                <span key={member.id} className={`px-3 py-1 ${DARK_MODE_COLORS.BADGE_GRAY} rounded-lg text-sm transition-all hover:scale-105`}>
                                                     {member.FirstName} {member.LastName}
                                                 </span>
                                             ))}

@@ -13,6 +13,7 @@ export default function DatePicker(props) {
       transition-all duration-200
       hover:border-slate-400 dark:hover:border-slate-500
       cursor-pointer
+      animate-fade-in-fast
       [color-scheme:light] dark:[color-scheme:dark]"
     />
   );

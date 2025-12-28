@@ -29,11 +29,11 @@ const TaskSearch = ({ onSearch, placeholder = "Tìm kiếm task..." }) => {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    className="flex-1 border rounded px-4 py-2"
+                    className="flex-1 border rounded px-4 py-2 transition-all duration-200 focus:animate-scale-in"
                 />
                 <Button
                     onClick={handleSearch}
-                    className="px-4 py-2 text-white rounded transition"
+                    className="px-4 py-2 text-white rounded transition-transform hover:scale-105"
                 >
                     Tìm
                 </Button>

@@ -31,6 +31,7 @@ const Input = ({
     focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-900/50 
     transition-all duration-200
     hover:border-slate-400 dark:hover:border-slate-500
+    animate-fade-in-fast
     ${className}`;
 
   if (multiline) {

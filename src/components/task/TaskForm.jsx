@@ -67,14 +67,14 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
     ];
 
     return (
-        <div className={`min-h-screen ${DARK_MODE_COLORS.BG_SECONDARY}`}>
+        <div className={`min-h-screen ${DARK_MODE_COLORS.BG_SECONDARY} animate-fade-in`}>
             <div className="max-w-7xl mx-auto p-6">
                 <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                         {/* Main Content - Left Column (2/3) */}
                         <div className="lg:col-span-2 space-y-6">
                             {/* Header Preview */}
-                            <div className={`${DARK_MODE_COLORS.BG_PRIMARY} rounded-2xl overflow-hidden shadow-sm`}>
+                            <div className={`${DARK_MODE_COLORS.BG_PRIMARY} rounded-2xl overflow-hidden shadow-sm animate-scale-in`}>
                                 <div className={`aspect-video ${DARK_MODE_COLORS.BG_GRADIENT} flex items-center justify-center`}>
                                     <div className="text-white text-9xl font-bold opacity-30">
                                         {formData.TaskName ? formData.TaskName.charAt(0).toUpperCase() : 'T'}
@@ -96,9 +96,10 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
                                                 value={formData.TaskName}
                                                 onChange={(e) => handleChange('TaskName', e.target.value)}
                                                 placeholder="Nhập tên task..."
+                                                className="transition-all duration-200 focus:scale-[1.01]"
                                             />
                                             {errors.TaskName && (
-                                                <p className="text-red-500 dark:text-red-400 text-sm mt-1">{errors.TaskName}</p>
+                                                <p className="text-red-500 dark:text-red-400 text-sm mt-1 animate-slide-down">{errors.TaskName}</p>
                                             )}
                                         </div>
 
@@ -112,6 +113,7 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
                                                 value={formData.Description}
                                                 onChange={(e) => handleChange('Description', e.target.value)}
                                                 placeholder="Mô tả chi tiết về task..."
+                                                className="transition-all duration-200 focus:scale-[1.01]"
                                             />
                                         </div>
                                     </div>
@@ -128,6 +130,7 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
                                             <DatePicker
                                                 value={formData.Start_date}
                                                 onChange={(e) => handleChange('Start_date', e.target.value)}
+                                                className="transition-all duration-200 focus:scale-[1.01]"
                                             />
                                         </div>
 
@@ -138,6 +141,7 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
                                             <DatePicker
                                                 value={formData.End_date}
                                                 onChange={(e) => handleChange('End_date', e.target.value)}
+                                                className="transition-all duration-200 focus:scale-[1.01]"
                                             />
                                         </div>
                                     </div>
@@ -159,9 +163,10 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
                                             value={formData.Status}
                                             onChange={(e) => handleChange('Status', e.target.value)}
                                             options={statusOptions}
+                                            className="transition-all duration-200 focus:scale-[1.01]"
                                         />
                                         {errors.Status && (
-                                            <p className="text-red-500 dark:text-red-400 text-sm mt-1">{errors.Status}</p>
+                                            <p className="text-red-500 dark:text-red-400 text-sm mt-1 animate-slide-down">{errors.Status}</p>
                                         )}
                                     </div>
 
@@ -173,9 +178,10 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
                                             value={formData.Priority}
                                             onChange={(e) => handleChange('Priority', e.target.value)}
                                             options={priorityOptions}
+                                            className="transition-all duration-200 focus:scale-[1.01]"
                                         />
                                         {errors.Priority && (
-                                            <p className="text-red-500 dark:text-red-400 text-sm mt-1">{errors.Priority}</p>
+                                            <p className="text-red-500 dark:text-red-400 text-sm mt-1 animate-slide-down">{errors.Priority}</p>
                                         )}
                                     </div>
 
@@ -192,6 +198,7 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
                                                 value={formData.project_id}
                                                 onChange={(e) => handleChange('project_id', e.target.value)}
                                                 options={projectOptions}
+                                                className="transition-all duration-200 focus:scale-[1.01]"
                                             />
                                         )}
                                     </div>
@@ -202,7 +209,7 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
                                     <Button
                                         type="submit"
                                         variant="primary"
-                                        className="w-full"
+                                        className="w-full transition-transform hover:scale-105 active:scale-95"
                                     >
                                         {initialData?.id ? 'Cập nhật Task' : 'Tạo Task'}
                                     </Button>
@@ -212,7 +219,7 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
                                             type="button"
                                             onClick={onCancel}
                                             variant="outline"
-                                            className="w-full"
+                                            className="w-full transition-transform hover:scale-105 active:scale-95"
                                         >
                                             Hủy
                                         </Button>

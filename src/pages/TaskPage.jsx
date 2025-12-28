@@ -8,7 +8,7 @@ import TaskSearch from '../components/task/TaskSearch';
 import TaskSort from '../components/task/TaskSort';
 import TaskUpcoming from '../components/task/TaskUpcoming';
 import ExportButton from '../components/common/ExportButton';
-import { Filter } from 'lucide-react';
+import { Filter, ChevronDown } from 'lucide-react';
 import { getProjectNameById } from '../utils/helpers';
 import projectService from '../services/projectService';
 import { TASK_ROUTES } from '../routes/taskRoutes';
@@ -172,20 +172,24 @@ const TasksPage = () => {
             </div>
 
             {/* Search */}
-            <TaskSearch onSearch={handleSearch} placeholder="Search Task" />
+            <div className="animate-slide-down">
+                <TaskSearch onSearch={handleSearch} placeholder="Search Task" />
+            </div>
 
             {/* Filters and Sort */}
-            <div className="mb-6 flex gap-4 items-center justify-between flex-wrap">
+            <div className="mb-6 flex gap-4 items-center justify-between flex-wrap animate-fade-in-fast">
                 <div className='flex gap-4 items-center'>
                     <Button
                         variant="outline"
                         onClick={() => setShowFilters(!showFilters)}
-                        className="flex items-center gap-2"
+                        className="flex items-center gap-2 transition-all duration-200"
                     >
-                        <>
-                            <Filter size={20} />
-                            Filters
-                        </>
+                        <Filter size={20} />
+                        Filters
+                        <ChevronDown 
+                            size={16} 
+                            className={`transition-transform duration-300 ${showFilters ? 'rotate-180' : ''}`}
+                        />
                     </Button>
 
                     <TaskSort 
@@ -197,6 +201,7 @@ const TasksPage = () => {
                 <div className='flex gap-2'>
                     <Button
                         onClick={() => navigate(TASK_ROUTES.CREATE)}
+                        className="transition-transform hover:scale-105"
                     >
                         Tạo Task
                     </Button>
@@ -204,29 +209,35 @@ const TasksPage = () => {
                 </div>
             </div>
 
-            {/* Filters Section */}
-            {showFilters && (
-                <div className="mb-6 animate-slide-down overflow-hidden">
-                    <TaskFilter
-                        filters={tempFilters}
-                        onFilterChange={handleFilterChange}
-                        onApply={handleApplyFilters}
-                        onReset={handleResetFilters}
-                        showDeadlineFilter={true}
-                    />
-                </div>
-            )}
+            {/* Filters Section with improved animation */}
+            <div 
+                className={`mb-6 overflow-hidden transition-all duration-300 ease-in-out ${
+                    showFilters 
+                        ? 'max-h-[500px] opacity-100 animate-slide-down' 
+                        : 'max-h-0 opacity-0'
+                }`}
+            >
+                <TaskFilter
+                    filters={tempFilters}
+                    onFilterChange={handleFilterChange}
+                    onApply={handleApplyFilters}
+                    onReset={handleResetFilters}
+                    showDeadlineFilter={true}
+                />
+            </div>
 
             {/* Upcoming Tasks Section */}
-            <TaskUpcoming
-                tasks={filteredUpcomingTasks}
-                loading={loadingUpcoming}
-                projects={projects}
-                onNavigate={(taskId) => navigate(TASK_ROUTES.DETAIL(taskId))}
-            />
+            <div className="animate-slide-up">
+                <TaskUpcoming
+                    tasks={filteredUpcomingTasks}
+                    loading={loadingUpcoming}
+                    projects={projects}
+                    onNavigate={(taskId) => navigate(TASK_ROUTES.DETAIL(taskId))}
+                />
+            </div>
 
             {/* All Tasks Table */}
-            <div className="mb-8">
+            <div className="mb-8 animate-fade-in-slow">
                 <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4 transition-colors duration-300">
                     Tất cả công việc
                 </h2>
@@ -239,7 +250,7 @@ const TasksPage = () => {
             </div>
 
             {/* Stats */}
-            <div className="text-sm text-gray-600 dark:text-gray-300 mt-4 transition-colors duration-300">
+            <div className="text-sm text-gray-600 dark:text-gray-300 mt-4 transition-colors duration-300 animate-slide-up">
                 {pagination && (
                     <>
                         Tổng số tasks: {pagination.totalTask || 0} | 

@@ -5,21 +5,21 @@ import { TASK_STATUS_LABELS, PRIORITY_LABELS, STATUS_COLORS, PRIORITY_COLORS, DA
 import { getProjectNameById } from '../../utils/helpers';
 
 const TaskCard = ({ task, onEdit, onDelete, showActions = false, timeLeft, onClick, projects = [] }) => {
-console.log('Task data in TaskCard:', task); // Thêm dòng này
+    console.log('Task data in TaskCard:', task);
     return (
         <div
             onClick={onClick}
-            className={`min-w-[320px] ${DARK_MODE_COLORS.BG_CARD} rounded-lg shadow-sm border ${DARK_MODE_COLORS.BORDER_PRIMARY} overflow-hidden cursor-pointer ${DARK_MODE_COLORS.CARD_SHADOW} transition-shadow`}
+            className={`min-w-[320px] ${DARK_MODE_COLORS.BG_CARD} rounded-lg shadow-sm border ${DARK_MODE_COLORS.BORDER_PRIMARY} overflow-hidden cursor-pointer ${DARK_MODE_COLORS.CARD_SHADOW} transition-all duration-300 hover:scale-105 hover:shadow-xl animate-scale-in`}
         >
             {/* Image Thumbnail */}
-            <div className={`h-40 ${DARK_MODE_COLORS.BG_GRADIENT} flex items-center justify-center`}>
+            <div className={`h-40 ${DARK_MODE_COLORS.BG_GRADIENT} flex items-center justify-center animate-fade-in`}>
                 <div className="text-white text-6xl font-bold opacity-20">
                     {task.TaskName.charAt(0).toUpperCase()}
                 </div>
             </div>
 
             {/* Content */}
-            <div className="p-4">
+            <div className="p-4 animate-slide-up">
                 {/* Title */}
                 <h3 className={`font-bold text-lg ${DARK_MODE_COLORS.TEXT_PRIMARY} mb-2 line-clamp-2`}>
                     {task.TaskName}
@@ -31,10 +31,10 @@ console.log('Task data in TaskCard:', task); // Thêm dòng này
 
                 {/* Status & Priority Badges */}
                 <div className="flex gap-2 mb-3">
-                    <span className={`px-2 py-1 rounded text-xs font-medium ${STATUS_COLORS[task.Status] || DARK_MODE_COLORS.BADGE_GRAY}`}>
+                    <span className={`px-2 py-1 rounded text-xs font-medium ${STATUS_COLORS[task.Status] || DARK_MODE_COLORS.BADGE_GRAY} transition-transform hover:scale-110`}>
                         {TASK_STATUS_LABELS[task.Status]}
                     </span>
-                    <span className={`px-2 py-1 rounded text-xs font-medium ${PRIORITY_COLORS[task.Priority] || DARK_MODE_COLORS.BADGE_GRAY}`}>
+                    <span className={`px-2 py-1 rounded text-xs font-medium ${PRIORITY_COLORS[task.Priority] || DARK_MODE_COLORS.BADGE_GRAY} transition-transform hover:scale-110`}>
                         {PRIORITY_LABELS[task.Priority]}
                     </span>
                 </div>
@@ -43,7 +43,7 @@ console.log('Task data in TaskCard:', task); // Thêm dòng này
                 <div className={`flex items-center justify-between pt-3 border-t ${DARK_MODE_COLORS.BORDER_SECONDARY}`}>
                     {/* Time Left */}
                     <div className={`flex items-center gap-1 text-sm ${DARK_MODE_COLORS.TEXT_SECONDARY}`}>
-                        <Clock size={16} />
+                        <Clock size={16} className="animate-bounce-subtle" />
                         <span>{timeLeft || 'No deadline'}</span>
                     </div>
 
@@ -53,7 +53,7 @@ console.log('Task data in TaskCard:', task); // Thêm dòng này
                             {task.TaskMembers.slice(0, 3).map((member, idx) => (
                                 <div
                                     key={member.id}
-                                    className={`w-8 h-8 rounded-full bg-blue-500 dark:bg-blue-600 text-white text-xs flex items-center justify-center border-2 ${DARK_MODE_COLORS.BG_CARD}`}
+                                    className={`w-8 h-8 rounded-full bg-blue-500 dark:bg-blue-600 text-white text-xs flex items-center justify-center border-2 ${DARK_MODE_COLORS.BG_CARD} transition-transform hover:scale-125 hover:z-10`}
                                     style={{ borderColor: 'inherit' }}
                                     title={`${member.FirstName} ${member.LastName}`}
                                 >
@@ -61,7 +61,7 @@ console.log('Task data in TaskCard:', task); // Thêm dòng này
                                 </div>
                             ))}
                             {task.TaskMembers.length > 3 && (
-                                <div className={`w-8 h-8 rounded-full bg-gray-400 dark:bg-slate-600 text-white text-xs flex items-center justify-center border-2 ${DARK_MODE_COLORS.BG_CARD}`}
+                                <div className={`w-8 h-8 rounded-full bg-gray-400 dark:bg-slate-600 text-white text-xs flex items-center justify-center border-2 ${DARK_MODE_COLORS.BG_CARD} transition-transform hover:scale-125 hover:z-10`}
                                     style={{ borderColor: 'inherit' }}
                                 >
                                     +{task.TaskMembers.length - 3}
