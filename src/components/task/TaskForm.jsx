@@ -107,10 +107,9 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
                                             <label className="block text-sm font-medium text-gray-700 mb-2">
                                                 Mô tả
                                             </label>
-                                            <textarea
+                                            <Input
                                                 value={formData.Description}
                                                 onChange={(e) => handleChange('Description', e.target.value)}
-                                                className="w-full px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm outline-none resize-none"
                                                 rows="4"
                                                 placeholder="Mô tả chi tiết về task..."
                                             />

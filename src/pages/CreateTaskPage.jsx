@@ -1,48 +1,51 @@
-import React, { useState } from 'react';
+// src/pages/CreateTaskPage.jsx
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TaskForm from '../components/task/TaskForm';
 import taskService from '../services/taskService';
+import projectService from '../services/projectService';
 import TASK_ROUTES from '../routes/taskRoutes';
 
 const CreateTaskPage = () => {
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [projects, setProjects] = useState([]);
+
+    useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                const response = await projectService.getAllProjectsNoPagination();
+                setProjects(response.projects || response.data || []);
+            } catch (err) {
+                console.error('Lỗi khi tải danh sách dự án:', err);
+            }
+        };
+        fetchProjects();
+    }, []);
 
     const handleSubmit = async (formData) => {
-        console.log('Data nhận được:', formData);
-        setLoading(true);
-        setError(null);
         try {
             await taskService.createTask(formData);
             alert('Tạo task thành công!');
             navigate(TASK_ROUTES.LIST);
         } catch (err) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
+            alert('Lỗi: ' + err.message);
         }
     };
 
     return (
-        <div className="p-6 max-w-2xl mx-auto">
-            <h1 className="text-3xl font-bold mb-6">Tạo Task Mới</h1>
-
-            {error && (
-                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                    {error}
+        <>
+            <div className="bg-white border-b sticky top-0 z-10">
+                <div className="max-w-7xl mx-auto px-6 py-4">
+                    <h1 className="text-2xl font-bold text-gray-900">Tạo Task Mới</h1>
                 </div>
-            )}
+            </div>
 
-            {loading ? (
-                <p>Đang tạo task...</p>
-            ) : (
-                <TaskForm
-                    onSubmit={handleSubmit}
-                    onCancel={() => navigate(TASK_ROUTES.LIST)}
-                />
-            )}
-        </div>
+            <TaskForm
+                projects={projects}
+                onSubmit={handleSubmit}
+                onCancel={() => navigate(TASK_ROUTES.LIST)}
+            />
+        </>
     );
 };
 
