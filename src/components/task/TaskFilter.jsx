@@ -1,6 +1,6 @@
 // src/components/tasks/TaskFilter.jsx
 import React from 'react';
-import { TASK_STATUS, TASK_STATUS_LABELS, PRIORITY, PRIORITY_LABELS } from '../../utils/constants';
+import { TASK_STATUS, TASK_STATUS_LABELS, PRIORITY, PRIORITY_LABELS, DARK_MODE_COLORS } from '../../utils/constants';
 import Select from '../common/Select';
 import DatePicker from '../common/DatePicker';
 import Button from '../common/Button';
@@ -14,12 +14,12 @@ const TaskFilter = ({
     showDeadlineFilter = false 
 }) => {
     return (
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+        <div className={`${DARK_MODE_COLORS.BG_PRIMARY} p-4 rounded-lg shadow-sm border ${DARK_MODE_COLORS.BORDER_PRIMARY}`}>
             {/* Filter Row */}
             <div className="grid grid-cols-4 gap-4 mb-4">
                 {/* Status Filter */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className={`block text-sm font-medium ${DARK_MODE_COLORS.TEXT_LABEL} mb-2`}>
                         Trạng thái
                     </label>
                     <Select
@@ -37,7 +37,7 @@ const TaskFilter = ({
 
                 {/* Priority Filter */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className={`block text-sm font-medium ${DARK_MODE_COLORS.TEXT_LABEL} mb-2`}>
                         Ưu tiên
                     </label>
                     <Select
@@ -56,7 +56,7 @@ const TaskFilter = ({
                 {/* Deadline From */}
                 {showDeadlineFilter && (
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className={`block text-sm font-medium ${DARK_MODE_COLORS.TEXT_LABEL} mb-2`}>
                             Deadline từ
                         </label>
                         <DatePicker
@@ -69,7 +69,7 @@ const TaskFilter = ({
                 {/* Deadline To */}
                 {showDeadlineFilter && (
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className={`block text-sm font-medium ${DARK_MODE_COLORS.TEXT_LABEL} mb-2`}>
                             Deadline đến
                         </label>
                         <DatePicker

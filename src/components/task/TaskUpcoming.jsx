@@ -5,6 +5,7 @@ import Button from '../common/Button';
 import Loading from '../common/Loading';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { getTimeLeft } from '../../utils/dateHelpers';
+import { DARK_MODE_COLORS } from '../../utils/constants';
 
 const TaskUpcoming = ({ tasks, loading, projects, onNavigate }) => {
     const timeLimitRef = useRef(null);
@@ -19,9 +20,9 @@ const TaskUpcoming = ({ tasks, loading, projects, onNavigate }) => {
     return (
         <div className="mb-8">
             <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-bold text-gray-800">
+                <h2 className={`text-2xl font-bold ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                     Sắp đến hạn
-                    <span className="text-sm font-normal text-gray-600 ml-2">
+                    <span className={`text-sm font-normal ml-2 ${DARK_MODE_COLORS.TEXT_SECONDARY}`}>
                         (3 ngày tới)
                     </span>
                 </h2>
@@ -48,7 +49,7 @@ const TaskUpcoming = ({ tasks, loading, projects, onNavigate }) => {
                 {loading ? (
                     <Loading />
                 ) : tasks.length === 0 ? (
-                    <div className="text-gray-500">Không có task sắp đến hạn</div>
+                    <div className={DARK_MODE_COLORS.TEXT_SECONDARY}>Không có task sắp đến hạn</div>
                 ) : (
                     tasks.map(task => (
                         <TaskCard

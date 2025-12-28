@@ -1,6 +1,6 @@
 // src/components/tasks/TaskForm.jsx
 import React, { useState } from 'react';
-import { TASK_STATUS, PRIORITY, TASK_STATUS_LABELS, PRIORITY_LABELS } from '../../utils/constants';
+import { TASK_STATUS, PRIORITY, TASK_STATUS_LABELS, PRIORITY_LABELS, DARK_MODE_COLORS } from '../../utils/constants';
 import Button from '../common/Button';
 import Input from '../common/Input';
 import Select from '../common/Select';
@@ -67,15 +67,15 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
     ];
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className={`min-h-screen ${DARK_MODE_COLORS.BG_SECONDARY}`}>
             <div className="max-w-7xl mx-auto p-6">
                 <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                         {/* Main Content - Left Column (2/3) */}
                         <div className="lg:col-span-2 space-y-6">
                             {/* Header Preview */}
-                            <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
-                                <div className="aspect-video bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
+                            <div className={`${DARK_MODE_COLORS.BG_PRIMARY} rounded-2xl overflow-hidden shadow-sm`}>
+                                <div className={`aspect-video ${DARK_MODE_COLORS.BG_GRADIENT} flex items-center justify-center`}>
                                     <div className="text-white text-9xl font-bold opacity-30">
                                         {formData.TaskName ? formData.TaskName.charAt(0).toUpperCase() : 'T'}
                                     </div>
@@ -83,13 +83,13 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
                             </div>
 
                             {/* Task Information */}
-                            <div className="bg-white rounded-2xl shadow-sm p-6 space-y-6">
+                            <div className={`${DARK_MODE_COLORS.BG_PRIMARY} rounded-2xl shadow-sm p-6 space-y-6`}>
                                 <div>
-                                    <h2 className="text-xl font-bold text-gray-900 mb-4">Thông tin cơ bản</h2>
+                                    <h2 className={`text-xl font-bold ${DARK_MODE_COLORS.TEXT_PRIMARY} mb-4`}>Thông tin cơ bản</h2>
                                     
                                     <div className="space-y-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            <label className={`block text-sm font-medium ${DARK_MODE_COLORS.TEXT_LABEL} mb-2`}>
                                                 Tên Task *
                                             </label>
                                             <Input
@@ -98,12 +98,12 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
                                                 placeholder="Nhập tên task..."
                                             />
                                             {errors.TaskName && (
-                                                <p className="text-red-500 text-sm mt-1">{errors.TaskName}</p>
+                                                <p className="text-red-500 dark:text-red-400 text-sm mt-1">{errors.TaskName}</p>
                                             )}
                                         </div>
 
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            <label className={`block text-sm font-medium ${DARK_MODE_COLORS.TEXT_LABEL} mb-2`}>
                                                 Mô tả
                                             </label>
                                             <Input
@@ -119,10 +119,10 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
 
                                 {/* Time Range */}
                                 <div>
-                                    <h2 className="text-xl font-bold text-gray-900 mb-4">Thời gian thực hiện</h2>
+                                    <h2 className={`text-xl font-bold ${DARK_MODE_COLORS.TEXT_PRIMARY} mb-4`}>Thời gian thực hiện</h2>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            <label className={`block text-sm font-medium ${DARK_MODE_COLORS.TEXT_LABEL} mb-2`}>
                                                 Ngày bắt đầu
                                             </label>
                                             <DatePicker
@@ -132,7 +132,7 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
                                         </div>
 
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            <label className={`block text-sm font-medium ${DARK_MODE_COLORS.TEXT_LABEL} mb-2`}>
                                                 Ngày kết thúc
                                             </label>
                                             <DatePicker
@@ -147,12 +147,12 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
 
                         {/* Sidebar - Right Column (1/3) */}
                         <div className="lg:col-span-1">
-                            <div className="bg-white rounded-2xl shadow-sm p-6 sticky top-6 space-y-6">
-                                <h3 className="text-lg font-bold text-gray-900">Phân loại</h3>
+                            <div className={`${DARK_MODE_COLORS.BG_PRIMARY} rounded-2xl shadow-sm p-6 sticky top-6 space-y-6`}>
+                                <h3 className={`text-lg font-bold ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Phân loại</h3>
 
                                 <div className="space-y-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        <label className={`block text-sm font-medium ${DARK_MODE_COLORS.TEXT_LABEL} mb-2`}>
                                             Trạng thái *
                                         </label>
                                         <Select
@@ -161,12 +161,12 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
                                             options={statusOptions}
                                         />
                                         {errors.Status && (
-                                            <p className="text-red-500 text-sm mt-1">{errors.Status}</p>
+                                            <p className="text-red-500 dark:text-red-400 text-sm mt-1">{errors.Status}</p>
                                         )}
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        <label className={`block text-sm font-medium ${DARK_MODE_COLORS.TEXT_LABEL} mb-2`}>
                                             Ưu tiên *
                                         </label>
                                         <Select
@@ -175,16 +175,16 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
                                             options={priorityOptions}
                                         />
                                         {errors.Priority && (
-                                            <p className="text-red-500 text-sm mt-1">{errors.Priority}</p>
+                                            <p className="text-red-500 dark:text-red-400 text-sm mt-1">{errors.Priority}</p>
                                         )}
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        <label className={`block text-sm font-medium ${DARK_MODE_COLORS.TEXT_LABEL} mb-2`}>
                                             Dự án
                                         </label>
                                         {initialData.id ? (
-                                            <div className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-700">
+                                            <div className={`px-3 py-2 ${DARK_MODE_COLORS.BG_INPUT} border ${DARK_MODE_COLORS.BORDER_INPUT} rounded-lg ${DARK_MODE_COLORS.TEXT_LABEL}`}>
                                                 {initialData.project_name || 'Không thuộc dự án nào'}
                                             </div>
                                         ) : (
@@ -198,7 +198,7 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
                                 </div>
 
                                 {/* Action Buttons */}
-                                <div className="pt-6 border-t space-y-3">
+                                <div className={`pt-6 border-t ${DARK_MODE_COLORS.BORDER_PRIMARY} space-y-3`}>
                                     <Button
                                         type="submit"
                                         variant="primary"

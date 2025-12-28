@@ -11,7 +11,7 @@ import KanbanColumn from './KanbanColumn';
 import KanbanCard from './KanbanCard';
 import useTasks from '../../hooks/useTasks';
 import { updateTaskStatus } from '../../services/taskService';
-import { TASK_STATUS, TASK_STATUS_LABELS } from '../../utils/constants';
+import { TASK_STATUS, TASK_STATUS_LABELS, DARK_MODE_COLORS } from '../../utils/constants';
 
 const KanbanBoard = ({ filters }) => {
     // Hook tự động fetch với limit lớn cho Kanban
@@ -29,11 +29,11 @@ const KanbanBoard = ({ filters }) => {
 
     // Cấu hình 5 cột với màu đầy đủ
     const columns = [
-        { status: TASK_STATUS.INITIAL, title: TASK_STATUS_LABELS[TASK_STATUS.INITIAL], colorClass: 'text-gray-600' },
-        { status: TASK_STATUS.DOING, title: TASK_STATUS_LABELS[TASK_STATUS.DOING], colorClass: 'text-blue-600' },
-        { status: TASK_STATUS.PENDING, title: TASK_STATUS_LABELS[TASK_STATUS.PENDING], colorClass: 'text-yellow-600' },
-        { status: TASK_STATUS.FINISH, title: TASK_STATUS_LABELS[TASK_STATUS.FINISH], colorClass: 'text-green-600' },
-        { status: TASK_STATUS.NOT_FINISH, title: TASK_STATUS_LABELS[TASK_STATUS.NOT_FINISH], colorClass: 'text-red-600' },
+        { status: TASK_STATUS.INITIAL, title: TASK_STATUS_LABELS[TASK_STATUS.INITIAL], colorClass: 'text-gray-600 dark:text-gray-400' },
+        { status: TASK_STATUS.DOING, title: TASK_STATUS_LABELS[TASK_STATUS.DOING], colorClass: 'text-blue-600 dark:text-blue-400' },
+        { status: TASK_STATUS.PENDING, title: TASK_STATUS_LABELS[TASK_STATUS.PENDING], colorClass: 'text-yellow-600 dark:text-yellow-400' },
+        { status: TASK_STATUS.FINISH, title: TASK_STATUS_LABELS[TASK_STATUS.FINISH], colorClass: 'text-green-600 dark:text-green-400' },
+        { status: TASK_STATUS.NOT_FINISH, title: TASK_STATUS_LABELS[TASK_STATUS.NOT_FINISH], colorClass: 'text-red-600 dark:text-red-400' },
     ];
 
     // Sync tasks từ hook
@@ -95,14 +95,14 @@ const KanbanBoard = ({ filters }) => {
     if (loading) {
         return (
             <div className="flex justify-center items-center h-96">
-                <div className="text-gray-500">Đang tải...</div>
+                <div className={DARK_MODE_COLORS.TEXT_TERTIARY}>Đang tải...</div>
             </div>
         );
     }
 
     if (error) {
         return (
-            <div className="bg-red-50 text-red-600 p-4 rounded">
+            <div className={`${DARK_MODE_COLORS.NEAR_DEADLINE} text-red-600 dark:text-red-300 p-4 rounded`}>
                 Lỗi: {error}
             </div>
         );
@@ -129,7 +129,7 @@ const KanbanBoard = ({ filters }) => {
 
             <DragOverlay>
                 {activeTask ? (
-                    <div className="rotate-3 opacity-90">
+                    <div className="rotate-3 opacity-90 transition-transform duration-150">
                         <KanbanCard task={activeTask} />
                     </div>
                 ) : null}

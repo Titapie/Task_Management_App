@@ -155,7 +155,7 @@ const TasksPage = () => {
     if (error) {
         return (
             <div className="p-6">
-                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl dark:bg-red-900/30 dark:border-red-700 dark:text-red-200 transition-all duration-300 animate-fade-in">
                     Lỗi: {error}
                 </div>
             </div>
@@ -163,10 +163,12 @@ const TasksPage = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <div className="min-h-screen bg-gray-50 dark:bg-slate-900 p-6 transition-colors duration-300">
             {/* Header */}
-            <div className="mb-6">
-                <h1 className="text-3xl font-bold text-gray-800">Explore Task</h1>
+            <div className="mb-6 animate-fade-in">
+                <h1 className="text-3xl font-bold text-gray-800 dark:text-white transition-colors duration-300">
+                    Explore Task
+                </h1>
             </div>
 
             {/* Search */}
@@ -204,7 +206,7 @@ const TasksPage = () => {
 
             {/* Filters Section */}
             {showFilters && (
-                <div className="mb-6">
+                <div className="mb-6 animate-slide-down overflow-hidden">
                     <TaskFilter
                         filters={tempFilters}
                         onFilterChange={handleFilterChange}
@@ -225,7 +227,9 @@ const TasksPage = () => {
 
             {/* All Tasks Table */}
             <div className="mb-8">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">Tất cả công việc</h2>
+                <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4 transition-colors duration-300">
+                    Tất cả công việc
+                </h2>
                 <TaskList 
                     tasks={tasks}
                     loading={loading}
@@ -235,7 +239,7 @@ const TasksPage = () => {
             </div>
 
             {/* Stats */}
-            <div className="text-sm text-gray-600 mt-4">
+            <div className="text-sm text-gray-600 dark:text-gray-300 mt-4 transition-colors duration-300">
                 {pagination && (
                     <>
                         Tổng số tasks: {pagination.totalTask || 0} | 
