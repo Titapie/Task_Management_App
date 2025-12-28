@@ -44,7 +44,7 @@ const ProjectCard = ({ project}) => {
     return (
         <div
             onClick={handleCardClick}
-            className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-200 hover:border-blue-400 overflow-hidden"
+            className="bg-white rounded-lg shadow-md hover:shadow-xl  transition-all duration-300 cursor-pointer border border-gray-200 hover:border-blue-400 overflow-hidden"
         >
             {/* Header */}
             <div className="p-6 border-b border-gray-100">
