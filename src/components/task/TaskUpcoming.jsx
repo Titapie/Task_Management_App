@@ -1,0 +1,68 @@
+// src/components/task/TaskUpcomingSection.jsx
+import React, { useRef } from 'react';
+import TaskCard from './TaskCard';
+import Button from '../common/Button';
+import Loading from '../common/Loading';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { getTimeLeft } from '../../utils/dateHelpers';
+
+const TaskUpcoming = ({ tasks, loading, projects, onNavigate }) => {
+    const timeLimitRef = useRef(null);
+
+    const scroll = (direction) => {
+        if (timeLimitRef.current) {
+            const scrollAmount = direction === 'left' ? -400 : 400;
+            timeLimitRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+    };
+
+    return (
+        <div className="mb-8">
+            <div className="flex items-center justify-between mb-4">
+                <h2 className="text-2xl font-bold text-gray-800">
+                    Sắp đến hạn
+                    <span className="text-sm font-normal text-gray-600 ml-2">
+                        (3 ngày tới)
+                    </span>
+                </h2>
+                <div className="flex gap-2">
+                    <Button
+                        variant="outline"
+                        onClick={() => scroll('left')}
+                    >
+                        <ChevronLeft size={20} />
+                    </Button>
+                    <Button
+                        variant="outline"
+                        onClick={() => scroll('right')}
+                    >
+                        <ChevronRight size={20} />
+                    </Button>
+                </div>
+            </div>
+            <div
+                ref={timeLimitRef}
+                className="flex gap-4 overflow-x-auto pb-4"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+                {loading ? (
+                    <Loading />
+                ) : tasks.length === 0 ? (
+                    <div className="text-gray-500">Không có task sắp đến hạn</div>
+                ) : (
+                    tasks.map(task => (
+                        <TaskCard
+                            key={task.id}
+                            task={task}
+                            projects={projects}
+                            timeLeft={getTimeLeft(task.End_date)}
+                            onClick={() => onNavigate(task.id)}
+                        />
+                    ))
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default TaskUpcoming;

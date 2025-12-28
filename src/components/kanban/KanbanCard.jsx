@@ -2,6 +2,7 @@ import React from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { PRIORITY_LABELS, PRIORITY_COLORS } from '../../utils/constants';
+import { formatDate, isDeadlineSoon } from '../../utils/dateHelpers';
 
 const KanbanCard = ({ task }) => {
     const {
@@ -17,29 +18,6 @@ const KanbanCard = ({ task }) => {
         transform: CSS.Transform.toString(transform),
         transition,
         opacity: isDragging ? 0.5 : 1,
-    };
-
-    // Hàm format date
-    const formatDate = (date) => {
-        if (!date) return 'Chưa có';
-        return new Date(date).toLocaleDateString('vi-VN');
-    };
-
-    // Hàm kiểm tra deadline gần (≤3 ngày)
-    const isDeadlineSoon = (deadline) => {
-        if (!deadline) return false;
-        const today = new Date();
-        const deadlineDate = new Date(deadline);
-        const diffTime = deadlineDate - today;
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        return diffDays <= 3 && diffDays >= 0;
-    };
-
-    // Màu priority
-    const priorityColors = {
-        low: 'bg-green-100 text-green-800',
-        medium: 'bg-yellow-100 text-yellow-800',
-        high: 'bg-red-100 text-red-800',
     };
 
     return (
@@ -73,8 +51,8 @@ const KanbanCard = ({ task }) => {
                 <div className="text-sm text-gray-600 mb-2">
                     <span className="font-medium">Deadline:</span>{' '}
                     <span className={isDeadlineSoon(task.End_date) ? 'text-red-600 font-semibold' : ''}>
-            {formatDate(task.End_date)}
-          </span>
+                        {formatDate(task.End_date)}
+                    </span>
                 </div>
             )}
 

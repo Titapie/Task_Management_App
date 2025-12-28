@@ -1,20 +1,19 @@
 export const TASK_STATUS = {
     INITIAL: 'initial',
     DOING: 'doing',
-    FINISH: 'finish',
     PENDING: 'pending',
-    FINISH: 'finish',  
+    FINISH: 'finish',
     NOT_FINISH: 'notFinish',
 };
 
 export const TASK_STATUS_LABELS = {
     [TASK_STATUS.INITIAL]: 'Khởi tạo',
     [TASK_STATUS.DOING]: 'Đang làm',
-    [TASK_STATUS.FINISH]: 'Hoàn thành',
     [TASK_STATUS.PENDING]: 'Chờ xử lý',
-    [TASK_STATUS.FINISH]: 'Hoàn thành', 
+    [TASK_STATUS.FINISH]: 'Hoàn thành',
     [TASK_STATUS.NOT_FINISH]: 'Hỏng',
 };
+
 export const PRIORITY = {
     LOW: 'low',
     MEDIUM: 'medium',

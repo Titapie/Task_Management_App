@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { TASK_STATUS_LABELS, PRIORITY_LABELS, STATUS_COLORS, PRIORITY_COLORS } from '../../utils/constants';
 import { TASK_ROUTES } from '../../routes/taskRoutes';
 import Button from '../common/Button';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const TaskList = ({ tasks, loading, pagination, onPageChange }) => {
     const navigate = useNavigate();
@@ -80,24 +81,24 @@ const TaskList = ({ tasks, loading, pagination, onPageChange }) => {
             </div>
 
             {/* Pagination */}
-            {pagination && (
+            {pagination && tasks.length > 0 && (
                 <div className="mt-4 flex justify-center gap-2">
                     <button
                         onClick={() => onPageChange(pagination.currentPage - 1)}
                         disabled={pagination.currentPage === 1}
                         className="px-4 py-2 border rounded disabled:opacity-50 hover:bg-gray-100 transition"
                     >
-                        Trước
+                        <ChevronLeft size={16} />
                     </button>
                     <span className="px-4 py-2">
-            Trang {pagination.currentPage} / {pagination.totalPage}
+            {pagination.currentPage} / {pagination.totalPage}
           </span>
                     <button
                         onClick={() => onPageChange(pagination.currentPage + 1)}
-                        disabled={pagination.currentPage === pagination.totalPage}
+                        disabled={pagination.currentPage >= pagination.totalPage}
                         className="px-4 py-2 border rounded disabled:opacity-50 hover:bg-gray-100 transition"
                     >
-                        Sau
+                        <ChevronRight size={16} />
                     </button>
                 </div>
             )}

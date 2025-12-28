@@ -15,7 +15,7 @@ import { TASK_STATUS, TASK_STATUS_LABELS } from '../../utils/constants';
 
 const KanbanBoard = ({ filters }) => {
     // Hook tự động fetch với limit lớn cho Kanban
-    const { tasks, loading, error, refetch } = useTasks({ ...filters, limit: 1000 });
+    const { tasks, loading, error } = useTasks({ ...filters, limit: 1000 });
     const [activeTask, setActiveTask] = useState(null);
     const [localTasks, setLocalTasks] = useState([]);
 
@@ -27,7 +27,7 @@ const KanbanBoard = ({ filters }) => {
         })
     );
 
-    // Cấu hình 5 cột
+    // Cấu hình 5 cột với màu đầy đủ
     const columns = [
         { status: TASK_STATUS.INITIAL, title: TASK_STATUS_LABELS[TASK_STATUS.INITIAL], colorClass: 'text-gray-600' },
         { status: TASK_STATUS.DOING, title: TASK_STATUS_LABELS[TASK_STATUS.DOING], colorClass: 'text-blue-600' },
@@ -35,17 +35,6 @@ const KanbanBoard = ({ filters }) => {
         { status: TASK_STATUS.FINISH, title: TASK_STATUS_LABELS[TASK_STATUS.FINISH], colorClass: 'text-green-600' },
         { status: TASK_STATUS.NOT_FINISH, title: TASK_STATUS_LABELS[TASK_STATUS.NOT_FINISH], colorClass: 'text-red-600' },
     ];
-
-    // CHỈ refetch khi filters thay đổi (không phải lần đầu mount)
-    useEffect(() => {
-        // Skip lần đầu mount vì hook đã tự fetch
-        const filtersString = JSON.stringify(filters);
-
-        // Chỉ refetch khi filters thực sự có giá trị
-        if (Object.keys(filters).length > 0) {
-            refetch({ ...filters, limit: 1000 });
-        }
-    }, [JSON.stringify(filters)]); // Dùng JSON.stringify để so sánh object
 
     // Sync tasks từ hook
     useEffect(() => {
@@ -126,7 +115,6 @@ const KanbanBoard = ({ filters }) => {
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
         >
-            {/* LUÔN HIỂN THỊ CÁC CỘT - Bỏ check localTasks.length === 0 */}
             <div className="flex gap-4 overflow-x-auto pb-4 min-h-screen">
                 {columns.map((col) => (
                     <KanbanColumn

@@ -1,6 +1,34 @@
 // src/utils/dateHelpers.js
 
 /**
+ * Format date theo định dạng vi-VN (dd/mm/yyyy)
+ * @param {string|Date} date - Ngày cần format
+ * @returns {string} - Ngày đã format hoặc 'Chưa có'
+ */
+export const formatDate = (date) => {
+    if (!date) return 'Chưa có';
+    const dateObj = new Date(date);
+    if (isNaN(dateObj.getTime())) return 'Chưa có';
+    return dateObj.toLocaleDateString('vi-VN');
+};
+
+/**
+ * Kiểm tra deadline gần (≤3 ngày)
+ * @param {string|Date} deadline - Ngày deadline
+ * @returns {boolean}
+ */
+export const isDeadlineSoon = (deadline) => {
+    if (!deadline) return false;
+    const today = new Date();
+    const deadlineDate = new Date(deadline);
+    if (isNaN(deadlineDate.getTime())) return false;
+    
+    const diffTime = deadlineDate - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays <= 3 && diffDays >= 0;
+};
+
+/**
  * Tính thời gian còn lại đến deadline
  * @param {string|Date} endDate - Ngày kết thúc
  * @returns {string|null} - Thời gian còn lại hoặc null
