@@ -53,4 +53,9 @@ export const authService = {
     const res = await api.post("/auth/change-password", data);
     return res.data;
   },
+  /* ================= UPDATE PROFILE ================= */
+  async updateProfile(data) {
+    const res = await api.patch("/users/profile", data);
+    return res.data;
+  },
 };

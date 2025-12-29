@@ -1,27 +1,47 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { Camera } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import { authService } from "../../services/authService";
 import Input from "../common/Input";
 
 export default function EditProfileModal({ onClose }) {
   const { user, refreshUser } = useAuth();
+  const fileInputRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     FirstName: user?.FirstName || "",
     LastName: user?.LastName || "",
-    Phone: user?.Phone || "",
-    Address: user?.Address || "",
+    avatar: user?.AvatarUrl || user?.avatar || "",
   });
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Giới hạn kích thước ảnh (ví dụ: 2MB)
+      if (file.size > 2 * 1024 * 1024) {
+        setError("Ảnh quá lớn. Vui lòng chọn ảnh dưới 2MB.");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData((prev) => ({ ...prev, avatar: reader.result }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSave = async () => {
     setIsLoading(true);
+    setError("");
     try {
       await authService.updateProfile(formData);
       await refreshUser();
       onClose();
-    } catch (error) {
-      console.error("Update failed:", error);
-      
+    } catch (err) {
+      console.error("Update failed:", err);
+      setError(err?.response?.data?.message || "Cập nhật thất bại");
     } finally {
       setIsLoading(false);
     }
@@ -33,6 +53,44 @@ export default function EditProfileModal({ onClose }) {
         <h3 className="text-lg font-bold text-slate-900 dark:text-white">
           Edit Profile
         </h3>
+
+        {error && (
+          <div className="p-3 text-sm text-red-600 bg-red-50 rounded-lg">
+            {error}
+          </div>
+        )}
+
+        {/* Avatar Upload */}
+        <div className="flex justify-center mb-2">
+          <div className="relative">
+            <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-slate-100 dark:border-slate-800 bg-slate-200 flex items-center justify-center">
+              {formData.avatar ? (
+                <img
+                  src={formData.avatar}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span className="text-3xl font-bold text-slate-400">
+                  {(formData.FirstName?.[0] || "U").toUpperCase()}
+                </span>
+              )}
+            </div>
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="absolute bottom-0 right-0 p-2 bg-blue-600 rounded-full text-white hover:bg-blue-700 transition-colors shadow-sm"
+            >
+              <Camera size={16} />
+            </button>
+<input
+              type="file"
+              ref={fileInputRef}
+              className="hidden"
+              accept="image/*"
+              onChange={handleFileChange}
+            />
+          </div>
+        </div>
 
         <div className="grid grid-cols-2 gap-3">
           <Input
@@ -52,22 +110,6 @@ export default function EditProfileModal({ onClose }) {
             className="dark:bg-slate-800 dark:border-slate-700 dark:text-white"
           />
         </div>
-
-        <Input
-          placeholder="Phone"
-          value={formData.Phone}
-          onChange={(e) => setFormData({ ...formData, Phone: e.target.value })}
-          className="dark:bg-slate-800 dark:border-slate-700 dark:text-white"
-        />
-
-        <Input
-          placeholder="Address"
-          value={formData.Address}
-          onChange={(e) =>
-            setFormData({ ...formData, Address: e.target.value })
-          }
-          className="dark:bg-slate-800 dark:border-slate-700 dark:text-white"
-        />
 
         <div className="flex gap-3 pt-4">
           <button
