@@ -259,8 +259,7 @@ const TasksPage = () => {
                 {pagination && (
                     <>
                         Tổng số tasks: {pagination.totalTask || 0} | 
-                        Sắp đến hạn: {filteredUpcomingTasks.length} | 
-                        Hiển thị: {pagination.startIndex}-{pagination.endIndex}
+                        Sắp đến hạn: {filteredUpcomingTasks.length}
                     </>
                 )}
             </div>

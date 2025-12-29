@@ -60,6 +60,7 @@ export default function LoginPage() {
               Email
             </label>
             <Input
+            variant="light"
               type="email"
               placeholder="email@domain.com"
               value={email}
