@@ -1,16 +1,10 @@
-import { api, tokenStore } from "../utils/api";
+import { api } from "../utils/api";
 
 export const authService = {
   /* ================= LOGIN ================= */
   async login(payload) {
     const res = await api.post("/auth/login", payload);
-
-    tokenStore.setTokens({
-      accessToken: res.data.token,
-      refreshToken: res.data.refreshToken,
-    });
-
-    return res.data;
+    return res.data; 
   },
 
   /* ================= REGISTER ================= */
@@ -27,25 +21,18 @@ export const authService = {
 
   /* ================= LOGOUT ================= */
   async logout() {
-    try {
-      await api.post("/auth/logout");
-    } finally {
-      tokenStore.clear();
-    }
+    await api.post("/auth/logout");
   },
 
-  /* ================= REFRESH (manual nếu cần) ================= */
-  async refresh() {
-    const refreshToken = tokenStore.getRefreshToken();
+  /* ================= REFRESH (OPTIONAL) ================= */
+  async refresh(refreshToken) {
     const res = await api.post("/auth/refresh", { refreshToken });
-
-    tokenStore.setTokens({ accessToken: res.data.accessToken });
-    return res.data;
+    return res.data; // backend trả { token }
   },
 
   /* ================= FORGOT PASSWORD ================= */
-  async forgotPassword(email) {
-    const res = await api.post("/auth/forgot-password", { Email: email });
+  async forgotPassword(payload) {
+    const res = await api.post("/auth/forgot-password", payload);
     return res.data;
   },
 
@@ -57,14 +44,12 @@ export const authService = {
 
   /* ================= RESET PASSWORD ================= */
   async resetPassword(data) {
-   
     const res = await api.post("/auth/reset-password", data);
     return res.data;
   },
 
   /* ================= CHANGE PASSWORD ================= */
   async changePassword(data) {
-    // { oldPassword, newPassword, confirmPassword }
     const res = await api.post("/auth/change-password", data);
     return res.data;
   },
