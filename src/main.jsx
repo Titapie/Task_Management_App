@@ -1,10 +1,17 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+// main.jsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
+import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext'; // ✅ Import
 import './index.css'
-import App from './App.jsx'
-
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+ReactDOM.createRoot(document.getElementById('root')).render(
+        <BrowserRouter>
+            <ThemeProvider> {/* ✅ Theme ngoài cùng */}
+                <AuthProvider> {/* ✅ Auth bên trong */}
+                    <App />
+                </AuthProvider>
+            </ThemeProvider>
+        </BrowserRouter>
+);

@@ -1,0 +1,73 @@
+// src/pages/TaskDetailPage.jsx
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import TaskDetail from '../components/task/TaskDetail';
+import taskService from '../services/taskService';
+import TASK_ROUTES from '../routes/taskRoutes';
+import Button from '../components/common/Button';
+import Loading from '../components/common/Loading';
+
+const TaskDetailPage = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const [task, setTask] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchTask = async () => {
+            try {
+                const data = await taskService.getTaskById(id);
+                // Backend trả về {success, message, task}
+                setTask(data.task || data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchTask();
+    }, [id]);
+
+    const handleEdit = () => {
+        navigate(TASK_ROUTES.EDIT(id));
+    };
+
+    const handleDelete = async () => {
+        if (window.confirm('Bạn có chắc muốn xóa task này?')) {
+            try {
+                await taskService.deleteTask(id);
+                alert('Xóa task thành công!');
+                navigate(TASK_ROUTES.LIST);
+            } catch (err) {
+                alert('Lỗi: ' + err.message);
+            }
+        }
+    };
+
+    if (loading) {
+        return <Loading />;
+    }
+
+    if (error) {
+        return (
+            <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center animate-fade-in">
+                <div className="text-center">
+                    <div className="text-red-500 text-5xl mb-4">⚠️</div>
+                    <p className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">Có lỗi xảy ra</p>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">{error}</p>
+                    <Button
+                        onClick={() => navigate(TASK_ROUTES.LIST)}
+                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-transform hover:scale-105 active:scale-95"
+                    >
+                        Quay lại danh sách task
+                    </Button>
+                </div>
+            </div>
+        );
+    }
+
+    return <TaskDetail task={task} onEdit={handleEdit} onDelete={handleDelete} />;
+};
+
+export default TaskDetailPage;
