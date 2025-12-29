@@ -11,14 +11,14 @@ export default function HelpCenterCard() {
           ?
         </div>
 
-        <h4 className="text-sm text-white font-bold mb-1">Help Center</h4>
+        <h4 className="text-sm text-white font-bold mb-1">Trung tâm trợ giúp</h4>
         <p className="text-[10px] text-slate-400 font-medium mb-5 px-2 leading-relaxed">
-          Having trouble? Please contact us for more questions.
+          Bạn gặp vấn đề? Vui lòng liên hệ với chúng tôi nếu có thêm thắc mắc.
         </p>
 
         {/* Nút bấm hiệu ứng trắng bóng */}
         <button className="w-full bg-white hover:bg-slate-50 text-slate-900 py-3 rounded-2xl text-[11px] font-extrabold uppercase tracking-wider shadow-lg transform active:scale-95 transition-all">
-          Go To Help Center
+          Truy cập Trung tâm trợ giúp
         </button>
       </div>
     </div>
