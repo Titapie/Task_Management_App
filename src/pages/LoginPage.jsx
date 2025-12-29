@@ -15,7 +15,7 @@ export default function LoginPage() {
 
   if (!loading && user) {
     const role = String(user?.Role ?? user?.role ?? "").toLowerCase();
-    return <Navigate to={role === "admin" ? "/admin" : "/dashboard"} replace />;
+    return <Navigate to={role === "admin" ? "/admin/dashboard" : "/dashboard"} replace />;
   }
 
   const handleSubmit = async (e) => {

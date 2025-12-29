@@ -26,6 +26,7 @@ import AdminTasksPage from "./pages/admin/AdminTasksPage";
 
 import ProtectedRoute from "./routes/ProtectedRoute";
 import AdminRoute from "./routes/AdminRoute";
+import AdminLayout from "./pages/admin/AdminLayout.jsx";
 
 export default function App() {
   return (
@@ -52,15 +53,13 @@ export default function App() {
           <Route path="/kanban" element={<KanbanPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/settings" element={<SettingsPage />} />
-
-          {/* Admin routes */}
-          <Route element={<AdminRoute />}>
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/users" element={<AdminUsersPage />} />
-            <Route path="/admin/projects" element={<AdminProjectsPage />} />
-            <Route path="/admin/tasks" element={<AdminTasksPage />} />
-          </Route>
         </Route>
+          <Route element={<AdminRoute/>}>
+              <Route element={<AdminLayout />}>
+                  <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                  <Route path="/admin/users" element={<AdminUsersPage />} />
+              </Route>
+          </Route>
       </Route>
 
       {/* 404 */}

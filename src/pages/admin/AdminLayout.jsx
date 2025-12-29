@@ -9,7 +9,7 @@ const AdminLayout = () => {
 
     const handleLogout = () => {
         localStorage.clear();
-        window.location.href = '/quick-login';
+        window.location.href = '/login';
     };
 
     const navigation = [
