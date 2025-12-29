@@ -71,9 +71,10 @@ export const DARK_MODE_COLORS = {
     TEXT_SECONDARY: 'text-gray-600 dark:text-slate-400',
     TEXT_TERTIARY: 'text-gray-500 dark:text-slate-500',
     TEXT_LABEL: 'text-gray-700 dark:text-slate-300',
+    TEXT_TABLE_HEADER: 'text-white',
     
     // Borders
-    BORDER_PRIMARY: 'border-gray-200 dark:border-slate-700',
+    BORDER_PRIMARY: 'border border-slate-400 dark:border-slate-600',
     BORDER_SECONDARY: 'border-gray-100 dark:border-slate-600',
     BORDER_INPUT: 'border-gray-200 dark:border-slate-600',
     
@@ -84,9 +85,9 @@ export const DARK_MODE_COLORS = {
     BTN_OUTLINE: 'border hover:bg-gray-100 dark:bg-slate-700 dark:border-slate-600 dark:hover:bg-slate-600',
     
     // Tables
-    TABLE_HEADER: 'bg-gray-100 dark:bg-slate-700',
+    TABLE_HEADER: 'bg-indigo-600 dark:bg-indigo-500',
     TABLE_ROW: 'hover:bg-gray-50 dark:hover:bg-slate-700/50',
-    TABLE_BORDER: 'border dark:border-slate-700',
+    TABLE_BORDER: 'border-2 border-slate-400 dark:border-slate-600',
     
     // Cards
     CARD_SHADOW: 'shadow-sm hover:shadow-md dark:hover:shadow-slate-900/30',
