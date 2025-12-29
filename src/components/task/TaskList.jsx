@@ -22,15 +22,15 @@ const TaskList = ({ tasks, loading, pagination, onPageChange }) => {
     return (
         <div className="animate-fade-in">
             <div className="overflow-x-auto">
-                <table className={`min-w-full ${DARK_MODE_COLORS.BG_PRIMARY} border ${DARK_MODE_COLORS.BORDER_PRIMARY}`}>
+                <table className={`min-w-full ${DARK_MODE_COLORS.BG_PRIMARY} border ${DARK_MODE_COLORS.BORDER_PRIMARY} rounded-lg overflow-hidden`}>
                     <thead className={DARK_MODE_COLORS.TABLE_HEADER}>
                     <tr>
-                        <th className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_PRIMARY} border ${DARK_MODE_COLORS.BORDER_PRIMARY} text-left w-[20%]`}>Tên việc</th>
-                        <th className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_PRIMARY} border ${DARK_MODE_COLORS.BORDER_PRIMARY} text-left w-[30%]`}>Mô tả</th>
-                        <th className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_PRIMARY} border ${DARK_MODE_COLORS.BORDER_PRIMARY} text-left w-auto`}>Trạng thái</th>
-                        <th className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_PRIMARY} border ${DARK_MODE_COLORS.BORDER_PRIMARY} text-left w-auto`}>Ưu tiên</th>
-                        <th className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_PRIMARY} border ${DARK_MODE_COLORS.BORDER_PRIMARY} text-left w-auto`}>Hạn cuối</th>
-                        <th className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_PRIMARY} border ${DARK_MODE_COLORS.BORDER_PRIMARY} text-left w-[15%]`}>Thao tác</th>
+                        <th className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_TABLE_HEADER} border ${DARK_MODE_COLORS.BORDER_PRIMARY} text-left w-[20%]`}>Tên việc</th>
+                        <th className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_TABLE_HEADER} border ${DARK_MODE_COLORS.BORDER_PRIMARY} text-left w-[30%]`}>Mô tả</th>
+                        <th className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_TABLE_HEADER} border ${DARK_MODE_COLORS.BORDER_PRIMARY} text-left w-auto`}>Trạng thái</th>
+                        <th className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_TABLE_HEADER} border ${DARK_MODE_COLORS.BORDER_PRIMARY} text-left w-auto`}>Ưu tiên</th>
+                        <th className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_TABLE_HEADER} border ${DARK_MODE_COLORS.BORDER_PRIMARY} text-left w-auto`}>Hạn cuối</th>
+                        <th className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_TABLE_HEADER} border ${DARK_MODE_COLORS.BORDER_PRIMARY} text-left w-[15%]`}></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -45,16 +45,12 @@ const TaskList = ({ tasks, loading, pagination, onPageChange }) => {
                             <tr key={task.id} className={`${DARK_MODE_COLORS.TABLE_ROW} transition-all duration-300 hover:bg-slate-100 dark:hover:bg-slate-800 animate-slide-up`}>
                                 <td className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_PRIMARY} border ${DARK_MODE_COLORS.TABLE_BORDER}`}>{task.TaskName}</td>
                                 <td className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_LABEL} border ${DARK_MODE_COLORS.TABLE_BORDER}`}>{task.Description}</td>
-                                <td className={`px-4 py-2 border ${DARK_MODE_COLORS.TABLE_BORDER}`}>
-                                    <span className={`px-2 py-1 rounded text-sm ${STATUS_COLORS[task.Status] || DARK_MODE_COLORS.BADGE_GRAY} transition-transform hover:scale-110 inline-block`}>
-                                        {TASK_STATUS_LABELS[task.Status] || task.Status}
-                                    </span>
+                                <td className={`px-4 py-2 border ${DARK_MODE_COLORS.TABLE_BORDER} text-sm ${STATUS_COLORS[task.Status] || DARK_MODE_COLORS.BADGE_GRAY}`}>
+                                    {TASK_STATUS_LABELS[task.Status] || task.Status}
                                 </td>
-                                <td className={`px-4 py-2 border ${DARK_MODE_COLORS.TABLE_BORDER}`}>
-                                    <span className={`px-2 py-1 rounded text-sm ${PRIORITY_COLORS[task.Priority] || DARK_MODE_COLORS.BADGE_GRAY} transition-transform hover:scale-110 inline-block`}>
-                                        {PRIORITY_LABELS[task.Priority] || task.Priority}
-                                    </span>
-                                </td>
+                                <td className={`px-4 py-2 border ${DARK_MODE_COLORS.TABLE_BORDER} text-sm ${PRIORITY_COLORS[task.Priority] || DARK_MODE_COLORS.BADGE_GRAY}`}>
+                                {PRIORITY_LABELS[task.Priority] || task.Priority}
+                            </td>
                                 <td className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_PRIMARY} border ${DARK_MODE_COLORS.TABLE_BORDER} ${isNearDeadline(task.End_date) ? DARK_MODE_COLORS.NEAR_DEADLINE + ' font-bold' : ''}`}>
                                     {task.End_date ? new Date(task.End_date).toLocaleDateString('vi-VN') : '-'}
                                 </td>
