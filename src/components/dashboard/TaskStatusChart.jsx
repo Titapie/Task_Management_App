@@ -56,7 +56,7 @@ const TaskStatusChart = () => {
             <h3 className="text-lg font-semibold text-gray-800 mb-2 dark:text-white">
                 Phân bố trạng thái công việc đang làm
             </h3>
-            <p className="text-gray-600 text-sm line-clamp-2 mb-4 dark:text-gray-400">
+            <p className="text-gray-400 text-sm line-clamp-2 mb-4 ">
                 Không tính các công việc  hoàn thành, đã hủy, quá hạn
             </p>
 
