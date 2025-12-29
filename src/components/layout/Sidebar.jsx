@@ -3,7 +3,7 @@ import {
   LayoutGrid,
   ClipboardList,
   Users,
-  Settings,
+ 
   X,
   ChevronLeft,
   ChevronRight,
@@ -12,30 +12,30 @@ import HelpCenterCard from "../HelpCenterCard.jsx";
 
 export default function Sidebar({ onClose, isCollapsed, toggleSidebar }) {
   const menu = [
-    { to: "/dashboard", label: "Overview", icon: LayoutGrid },
-    { to: "/projects", label: "Projects", icon: ClipboardList },
+    { to: "/", label: "Overview", icon: LayoutGrid },
     { to: "/tasks", label: "Task", icon: ClipboardList },
     { to: "/kanban", label: "Kanban", icon: ClipboardList },
     { to: "/profile", label: "Profile", icon: Users },
-    { to: "/settings", label: "Settings", icon: Settings },
-
+   
   ];
 
   return (
     <aside
-      className={`w-full bg-white dark:bg-slate-900 border-r border-slate-100 dark:border-slate-800 min-h-screen py-6 flex flex-col transition-all duration-300 relative ${
-        isCollapsed ? "px-3" : "px-4"
+      className={`w-full bg-white dark:bg-slate-900 border-r border-slate-100 dark:border-slate-800 min-h-screen py-6 flex flex-col transition-all duration-300 relative  ${
+        isCollapsed ? "px-3" : "px-3"
       }`}
     >
       {/* Toggle Button (Desktop only) */}
       {!onClose && (
         <button
           onClick={toggleSidebar}
-          className="absolute -right-3 top-9 z-50 w-6 h-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-full flex items-center justify-center text-slate-400 hover:text-indigo-600 shadow-sm transition-colors"
+          className="absolute -right-3 top-9 z-50 w-4 h-4 bg-white dark:bg-slate-900 border border-white dark:border-slate-700 rounded-full flex items-center justify-center text-slate-400 hover:text-indigo-600 shadow-sm transition-colors"
         >
           {isCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
         </button>
       )}
+      
+
 
       <div
         className={`flex items-center ${

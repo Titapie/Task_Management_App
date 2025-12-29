@@ -5,6 +5,7 @@ import { authService } from "../services/authService";
 
 export default function ForgotPasswordPage() {
   const [step, setStep] = useState(1); // 1: Email, 2: OTP & Reset, 3: Success
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [resetData, setResetData] = useState({
@@ -13,11 +14,12 @@ export default function ForgotPasswordPage() {
     confirmPassword: "",
   });
 
-  const handleForgotPassword = async (email) => {
+  const handleForgotPassword = async (emailInput) => {
     setLoading(true);
     setError("");
     try {
-      await authService.forgotPassword({ Email: email });
+      await authService.forgotPassword({ Email: emailInput });
+      setEmail(emailInput);
       setStep(2);
     } catch (err) {
       console.error("Lỗi quên mật khẩu:", err);
@@ -42,7 +44,15 @@ export default function ForgotPasswordPage() {
     setLoading(true);
     setError("");
     try {
-      await authService.resetPassword(resetData);
+      if(!email){
+        setError("Không tìm thấy email");
+      }
+      await authService.resetPassword({ 
+        Email: email,
+        otp: resetData.otp,
+        newPassword: resetData.newPassword,
+        confirmPassword: resetData.confirmPassword
+      });
       setStep(3);
     } catch (err) {
       console.error("Lỗi đặt lại mật khẩu:", err);

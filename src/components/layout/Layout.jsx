@@ -7,12 +7,20 @@ import Footer from "./Footer";
 
 export default function Layout() {
   const [openSidebar, setOpenSidebar] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <div className="h-screen flex bg-[#F6F7FB] dark:bg-slate-900">
+    <div className="h-screen flex bg-[#F6F7FB] dark:bg-slate-950">
       {/* ===== Desktop Sidebar ===== */}
-      <aside className="hidden lg:block w-[260px] shrink-0 h-screen">
-        <Sidebar />
+      <aside
+        className={`hidden lg:block shrink-0 h-screen transition-all duration-300 ${
+          isCollapsed ? "w-[80px]" : "w-[260px]"
+        }`}
+      >
+        <Sidebar
+          isCollapsed={isCollapsed}
+          toggleSidebar={() => setIsCollapsed(!isCollapsed)}
+        />
       </aside>
 
       {/* ===== Mobile Sidebar Drawer ===== */}
@@ -22,7 +30,7 @@ export default function Layout() {
             className="absolute inset-0 bg-black/40"
             onClick={() => setOpenSidebar(false)}
           />
-          <div className="relative w-[260px] bg-white h-screen shadow-xl">
+          <div className="relative w-[260px] bg-white dark:bg-slate-900 h-screen shadow-xl">
             <Sidebar onClose={() => setOpenSidebar(false)} />
           </div>
         </div>

@@ -37,8 +37,8 @@ export const authService = {
   },
 
   /* ================= VERIFY OTP ================= */
-  async verifyOTP(otp) {
-    const res = await api.post("/auth/verify-otp", { otp });
+  async verifyOTP(payload) {
+    const res = await api.post("/auth/verify-otp", payload);
     return res.data;
   },
 

@@ -1,8 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
 import Layout from "./components/layout/Layout";
-
-
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
@@ -16,7 +14,7 @@ import ProjectDetailPage from "./pages/ProjectDetailPage";
 import KanbanPage from "./pages/KanbanPage";
 import ProfilePage from "./pages/ProfilePage";
 import NotFound from "./pages/NotFound";
-import SettingsPage from "./pages/SettingsPage";
+
 
 // admin pages
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -54,7 +52,7 @@ export default function App() {
 
           <Route path="/kanban" element={<KanbanPage />} />
           <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/settings" element={<SettingsPage />} />
+         
         </Route>
         <Route element={<AdminRoute/>}>
             <Route element={< AdminLayout />}>
@@ -65,7 +63,6 @@ export default function App() {
             </Route>
         </Route>
       </Route>
-
       {/* 404 */}
       <Route path="*" element={<NotFound />} />
     </Routes>
