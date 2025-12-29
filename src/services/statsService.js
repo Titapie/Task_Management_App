@@ -117,14 +117,6 @@ class StatsService {
                 task.deadline && new Date(task.deadline) < today && task.Status !== 'finish'
             ).length;
 
-            // Tính new users this month
-            const currentMonth = new Date().getMonth();
-            const currentYear = new Date().getFullYear();
-            const newUsersThisMonth = users.filter(user => {
-                const userDate = new Date(user.created_at || user.createdAt);
-                return userDate.getMonth() === currentMonth &&
-                    userDate.getFullYear() === currentYear;
-            }).length;
 
             // Tính productivity rate (đơn giản)
             const totalAssignedTasks = userPerformance.reduce((sum, user) =>
@@ -143,7 +135,6 @@ class StatsService {
                 totalTasks: tasks.length,
                 completionRate,
                 activeUsers,
-                newUsersThisMonth,
                 overdueTasks,
                 productivityRate,
                 completedTasks,
