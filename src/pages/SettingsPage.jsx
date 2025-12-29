@@ -16,7 +16,7 @@ export default function SettingsPage() {
   if (loading) return <SettingsSkeleton />;
 
   return (
-    <div className="space-y-6 max-w-3xl">
+    <div className="space-y-6 max-w-3xl bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
       <h2 className="text-xl font-bold text-slate-900 dark:text-white">
         Settings
       </h2>
