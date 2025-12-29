@@ -18,10 +18,9 @@ const useTasks = (initialParams = {}) => {
 
     // Tự động fetch khi mount với initialParams
     useEffect(() => {
-        if (Object.keys(initialParams).length > 0 || initialParams.page || initialParams.limit) {
-            fetchTasks(initialParams);
-        }
-    }, []); // Chỉ chạy 1 lần khi mount
+        fetchTasks(initialParams);
+    }, [JSON.stringify(initialParams)]); // Refetch khi params thay đổi
+
 
     const fetchTasks = async (params = {}) => {
         setLoading(true);
