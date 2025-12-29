@@ -54,12 +54,14 @@ export default function App() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/settings" element={<SettingsPage />} />
         </Route>
-          <Route element={<AdminRoute/>}>
-              <Route element={<AdminLayout />}>
-                  <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                  <Route path="/admin/users" element={<AdminUsersPage />} />
-              </Route>
-          </Route>
+        <Route element={<AdminRoute/>}>
+            <Route element={< AdminLayout />}>
+                <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                <Route path="/admin/users" element={<AdminUsersPage />} />
+                <Route path="/admin/projects" element={<AdminProjectsPage />} />
+                <Route path="/admin/tasks" element={<AdminTasksPage />} />
+            </Route>
+        </Route>
       </Route>
 
       {/* 404 */}
