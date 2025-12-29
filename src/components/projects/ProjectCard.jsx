@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, Users, CheckCircle, Clock, TrendingUp } from 'lucide-react';
+import { Calendar, Users, CheckCircle, Clock } from 'lucide-react';
 
 const ProjectCard = ({ project}) => {
     const navigate = useNavigate();

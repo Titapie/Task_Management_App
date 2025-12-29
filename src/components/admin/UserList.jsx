@@ -103,14 +103,14 @@ const UserList = () => {
         if (role === 'admin') {
             return (
                 <span className="inline-flex items-center px-3 py-1 bg-purple-100 text-purple-700 text-xs font-medium rounded-full">
-                    <Crown className="w-3 h-3 mr-1" />
+                    <LucideIcons.Crown className="w-3 h-3 mr-1" />
                     Admin
                 </span>
             );
         }
         return (
             <span className="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">
-                <User className="w-3 h-3 mr-1" />
+                <LucideIcons.User className="w-3 h-3 mr-1" />
                 User
             </span>
         );
@@ -182,7 +182,7 @@ const UserList = () => {
                             onClick={fetchUsers}
                             className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                         >
-                            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+                            <LucideIcons.RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
                             Làm mới
                         </button>
                     </div>
@@ -195,7 +195,7 @@ const UserList = () => {
                                     <p className="text-sm text-gray-600 mb-1">Tổng Users</p>
                                     <p className="text-3xl font-bold text-gray-800">{stats.total}</p>
                                 </div>
-                                <Users className="w-12 h-12 text-blue-500" />
+                                <LucideIcons.Users className="w-12 h-12 text-blue-500" />
                             </div>
                         </div>
 
@@ -205,7 +205,7 @@ const UserList = () => {
                                     <p className="text-sm text-gray-600 mb-1">Admins</p>
                                     <p className="text-3xl font-bold text-gray-800">{stats.admins}</p>
                                 </div>
-                                <Crown className="w-12 h-12 text-purple-500" />
+                                <LucideIcons.Crown className="w-12 h-12 text-purple-500" />
                             </div>
                         </div>
 
@@ -215,7 +215,7 @@ const UserList = () => {
                                     <p className="text-sm text-gray-600 mb-1">Regular Users</p>
                                     <p className="text-3xl font-bold text-gray-800">{stats.regularUsers}</p>
                                 </div>
-                                <UserCheck className="w-12 h-12 text-green-500" />
+                                <LucideIcons.UserCheck className="w-12 h-12 text-green-500" />
                             </div>
                         </div>
                     </div>
@@ -225,7 +225,7 @@ const UserList = () => {
                         <div className="flex flex-col md:flex-row gap-4">
                             {/* Search */}
                             <div className="flex-1 relative">
-                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                                <LucideIcons.Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                                 <input
                                     type="text"
                                     placeholder="Tìm kiếm theo tên hoặc email..."
@@ -252,7 +252,7 @@ const UserList = () => {
                 {/* Users Table */}
                 {filteredUsers.length === 0 ? (
                     <div className="bg-white rounded-lg shadow-md p-12 text-center">
-                        <Users className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                        <LucideIcons.Users className="w-16 h-16 text-gray-400 mx-auto mb-4" />
                         <h3 className="text-xl font-semibold text-gray-800 mb-2">
                             Không tìm thấy user
                         </h3>
@@ -341,7 +341,7 @@ const UserList = () => {
                                                             <LucideIcons.Loader2 className="w-4 h-4 animate-spin" />
                                                         ) : (
                                                             <>
-                                                                <Save className="w-4 h-4 mr-1" />
+                                                                <LucideIcons.Save className="w-4 h-4 mr-1" />
                                                                 Lưu
                                                             </>
                                                         )}
@@ -351,7 +351,7 @@ const UserList = () => {
                                                         disabled={savingRole}
                                                         className="inline-flex items-center px-3 py-1 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors disabled:opacity-50"
                                                     >
-                                                        <X className="w-4 h-4 mr-1" />
+                                                        <LucideIcons.X className="w-4 h-4 mr-1" />
                                                         Hủy
                                                     </button>
                                                 </div>

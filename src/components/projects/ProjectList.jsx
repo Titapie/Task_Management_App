@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-    Plus,
-    Search,
-    Filter,
-    RefreshCw,
-    Loader2,
-    AlertCircle,
-    Grid3x3,
-    List as ListIcon
-} from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 import ProjectCard from './ProjectCard';
 import ProjectForm from './ProjectForm';
 import projectService from '../../services/projectService';
@@ -252,7 +243,7 @@ const ProjectList = () => {
                             onClick={handleCreateNew}
                             className="flex items-center px-6 py-3 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors shadow-lg hover:shadow-xl"
                         >
-                            <Plus className="w-5 h-5 mr-2" />
+                            <LucideIcons.Plus className="w-5 h-5 mr-2" />
                             Tạo dự án mới
                         </button>
                     </div>
@@ -262,7 +253,7 @@ const ProjectList = () => {
                         <div className="flex flex-col md:flex-row gap-4">
                             {/* Search */}
                             <div className="flex-1 relative">
-                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5 pointer-events-none" />
+                                <LucideIcons.Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5 pointer-events-none" />
                                 <input
                                     type="text"
                                     placeholder="Tìm kiếm theo tên dự án..."
@@ -282,7 +273,7 @@ const ProjectList = () => {
                                             : 'bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400'
                                     }`}
                                 >
-                                    <Filter className="w-4 h-4 mr-2" />
+                                    <LucideIcons.Filter className="w-4 h-4 mr-2" />
                                     Lọc
                                 </button>
 
@@ -291,7 +282,7 @@ const ProjectList = () => {
                                     className="flex items-center px-4 py-2 bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                                     disabled={loading}
                                 >
-                                    <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+                                    <LucideIcons.RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
                                 </button>
                             </div>
                         </div>
@@ -360,12 +351,12 @@ const ProjectList = () => {
                 {/* Content */}
                 {loading && projects.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-20">
-                        <Loader2 className="w-12 h-12 text-blue-600 dark:text-blue-400 animate-spin mb-4" />
+                        <LucideIcons.Loader2 className="w-12 h-12 text-blue-600 dark:text-blue-400 animate-spin mb-4" />
                         <p className="text-gray-600 dark:text-gray-400">Đang tải dữ liệu...</p>
                     </div>
                 ) : error ? (
                     <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6 text-center">
-                        <AlertCircle className="w-12 h-12 text-red-500 dark:text-red-400 mx-auto mb-4" />
+                        <LucideIcons.AlertCircle className="w-12 h-12 text-red-500 dark:text-red-400 mx-auto mb-4" />
                         <h3 className="text-lg font-semibold text-red-800 dark:text-red-300 mb-2">
                             Có lỗi xảy ra
                         </h3>
@@ -380,7 +371,7 @@ const ProjectList = () => {
                 ) : projects.length === 0 ? (
                     <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md dark:shadow-slate-700/50 p-12 text-center transition-colors duration-200">
                         <div className="w-24 h-24 bg-gray-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <AlertCircle className="w-12 h-12 text-gray-400 dark:text-gray-500" />
+                            <LucideIcons.AlertCircle className="w-12 h-12 text-gray-400 dark:text-gray-500" />
                         </div>
                         <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">
                             Không tìm thấy dự án
@@ -394,7 +385,7 @@ const ProjectList = () => {
                             onClick={handleCreateNew}
                             className="inline-flex items-center px-6 py-3 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
                         >
-                            <Plus className="w-5 h-5 mr-2" />
+                            <LucideIcons.Plus className="w-5 h-5 mr-2" />
                             Tạo dự án mới
                         </button>
                     </div>

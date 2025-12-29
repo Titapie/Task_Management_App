@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Save, Loader2, Calendar, User, FileText, Briefcase } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 
 const ProjectForm = ({
                          project = null,
@@ -168,7 +168,7 @@ const ProjectForm = ({
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-200">
                 <div className="flex items-center">
-                    <Briefcase className="w-6 h-6 text-blue-600 mr-3" />
+                    <LucideIcons.Briefcase className="w-6 h-6 text-blue-600 mr-3" />
                     <h2 className="text-2xl font-bold text-gray-800">
                         {mode === 'create' ? 'Tạo dự án mới' : 'Chỉnh sửa dự án'}
                     </h2>
@@ -179,7 +179,7 @@ const ProjectForm = ({
                     className="p-2 bg-white border-blue-400 hover:bg-gray-100 rounded-lg transition-colors"
                     disabled={isLoading}
                 >
-                    <X className="w-5 h-5 text-gray-500" />
+                    <LucideIcons.X className="w-5 h-5 text-gray-500" />
                 </button>
             </div>
 
@@ -188,7 +188,7 @@ const ProjectForm = ({
                 {/* Tên dự án */}
                 <div>
                     <label htmlFor="Name" className="flex items-center text-sm font-medium text-gray-700 mb-2">
-                        <Briefcase className="w-4 h-4 mr-2" />
+                        <LucideIcons.Briefcase className="w-4 h-4 mr-2" />
                         Tên dự án <span className="text-red-500 ml-1">*</span>
                     </label>
                     <input
@@ -217,7 +217,7 @@ const ProjectForm = ({
                 {/* Mô tả */}
                 <div>
                     <label htmlFor="Description" className="flex items-center text-sm font-medium text-gray-700 mb-2">
-                        <FileText className="w-4 h-4 mr-2" />
+                        <LucideIcons.FileText className="w-4 h-4 mr-2" />
                         Mô tả dự án
                     </label>
                     <textarea
@@ -251,7 +251,7 @@ const ProjectForm = ({
                     {/* Ngày bắt đầu */}
                     <div>
                         <label htmlFor="Start_date" className="flex items-center text-sm font-medium text-gray-700 mb-2">
-                            <Calendar className="w-4 h-4 mr-2" />
+                            <LucideIcons.Calendar className="w-4 h-4 mr-2" />
                             Ngày bắt đầu
                         </label>
                         <input
@@ -279,7 +279,7 @@ const ProjectForm = ({
                     {/* Ngày kết thúc */}
                     <div>
                         <label htmlFor="End_date" className="flex items-center text-sm font-medium text-gray-700 mb-2">
-                            <Calendar className="w-4 h-4 mr-2" />
+                            <LucideIcons.Calendar className="w-4 h-4 mr-2" />
                             Ngày kết thúc
                         </label>
                         <input
@@ -309,7 +309,7 @@ const ProjectForm = ({
                 {mode === 'edit' && project && (
                     <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                         <div className="flex items-center text-sm text-gray-700">
-                            <User className="w-4 h-4 mr-2 text-blue-600" />
+                            <LucideIcons.User className="w-4 h-4 mr-2 text-blue-600" />
                             <span className="font-medium">Quản lý dự án:</span>
                             <span className="ml-2">
                 {project.manager_name ||
@@ -341,12 +341,12 @@ const ProjectForm = ({
                     >
                         {isLoading ? (
                             <>
-                                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                <LucideIcons.Loader2 className="w-4 h-4 mr-2 animate-spin" />
                                 Đang xử lý...
                             </>
                         ) : (
                             <>
-                                <Save className="w-4 h-4 mr-2" />
+                                <LucideIcons.Save className="w-4 h-4 mr-2" />
                                 {mode === 'create' ? 'Tạo dự án' : 'Lưu thay đổi'}
                             </>
                         )}

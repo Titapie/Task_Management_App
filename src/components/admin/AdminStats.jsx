@@ -270,13 +270,25 @@ const AdminStats = () => {
 
     return (
         <div className="space-y-8">
+            {/* Header with Refresh Button */}
+            <div className="flex items-center justify-end">
+                <button
+                    onClick={handleRefresh}
+                    disabled={refreshing}
+                    className="flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-xl hover:from-purple-700 hover:to-purple-800 transition-all shadow-lg disabled:opacity-50"
+                >
+                    <LucideIcons.RefreshCw className={`w-5 h-5 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
+                    Làm mới
+                </button>
+            </div>
+
             {/* Main Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {/* Total Users */}
                 <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500 hover:shadow-lg transition-shadow">
                     <div className="flex items-center justify-between mb-4">
                         <div className="p-3 bg-blue-100 rounded-lg">
-                            <Users className="w-6 h-6 text-blue-600" />
+                            <LucideIcons.Users className="w-6 h-6 text-blue-600" />
                         </div>
                     </div>
                     <h3 className="text-sm font-medium text-gray-600 mb-1">Tổng Users</h3>
@@ -287,7 +299,7 @@ const AdminStats = () => {
                 <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-purple-500 hover:shadow-lg transition-shadow">
                     <div className="flex items-center justify-between mb-4">
                         <div className="p-3 bg-purple-100 rounded-lg">
-                            <Briefcase className="w-6 h-6 text-purple-600" />
+                            <LucideIcons.Briefcase className="w-6 h-6 text-purple-600" />
                         </div>
                     </div>
                     <h3 className="text-sm font-medium text-gray-600 mb-1">Tổng Projects</h3>
@@ -298,7 +310,7 @@ const AdminStats = () => {
                 <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500 hover:shadow-lg transition-shadow">
                     <div className="flex items-center justify-between mb-4">
                         <div className="p-3 bg-green-100 rounded-lg">
-                            <ListTodo className="w-6 h-6 text-green-600" />
+                            <LucideIcons.ListTodo className="w-6 h-6 text-green-600" />
                         </div>
                     </div>
                     <h3 className="text-sm font-medium text-gray-600 mb-1">Tổng Tasks</h3>
@@ -309,7 +321,7 @@ const AdminStats = () => {
                 <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-orange-500 hover:shadow-lg transition-shadow">
                     <div className="flex items-center justify-between mb-4">
                         <div className="p-3 bg-orange-100 rounded-lg">
-                            <Target className="w-6 h-6 text-orange-600" />
+                            <LucideIcons.Target className="w-6 h-6 text-orange-600" />
                         </div>
                     </div>
                     <h3 className="text-sm font-medium text-gray-600 mb-1">Tỷ lệ hoàn thành</h3>
@@ -323,7 +335,7 @@ const AdminStats = () => {
             {taskStatus && (
                 <div className="bg-white rounded-lg shadow-md p-6">
                     <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                        Phân bổ trạng thái Tasks
+                        Phân bố trạng thái Tasks
                     </h2>
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -364,7 +376,7 @@ const AdminStats = () => {
 
                             <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-200">
                                 <div className="flex items-center">
-                                    <Clock className="w-8 h-8 text-blue-600 mr-3" />
+                                    <LucideIcons.Clock className="w-8 h-8 text-blue-600 mr-3" />
                                     <div>
                                         <p className="text-sm text-gray-600">Đang thực hiện</p>
                                         <p className="text-2xl font-bold text-gray-900">{taskStats.doing}</p>
@@ -384,7 +396,7 @@ const AdminStats = () => {
 
                             <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
                                 <div className="flex items-center">
-                                    <TextInitial className="w-8 h-8 text-gray-600 mr-3" />
+                                    <LucideIcons.FileText className="w-8 h-8 text-gray-600 mr-3" />
                                     <div>
                                         <p className="text-sm text-gray-600">Khởi tạo</p>
                                         <p className="text-2xl font-bold text-gray-900">{taskStats.initial}</p>
@@ -394,7 +406,7 @@ const AdminStats = () => {
 
                             <div className="flex items-center justify-between p-4 bg-red-50 rounded-lg border border-red-200">
                                 <div className="flex items-center">
-                                    <CalendarX2 className="w-8 h-8 text-red-600 mr-3" />
+                                    <LucideIcons.CalendarX2 className="w-8 h-8 text-red-600 mr-3" />
                                     <div>
                                         <p className="text-sm text-gray-600">Quá hạn</p>
                                         <p className="text-2xl font-bold text-gray-900">{taskStats.overdue}</p>
@@ -506,7 +518,6 @@ const AdminStats = () => {
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Task</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tasks hoàn thành</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tasks đang làm</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tỷ lệ hoàn thành</th>
                             </tr>
                             </thead>
@@ -520,9 +531,9 @@ const AdminStats = () => {
                                     <tr key={user.userId} className="hover:bg-gray-50">
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
-                                                {index === 0 && <Award className="w-5 h-5 text-yellow-500 mr-2" />}
-                                                {index === 1 && <Award className="w-5 h-5 text-gray-400 mr-2" />}
-                                                {index === 2 && <Award className="w-5 h-5 text-orange-500 mr-2" />}
+                                                {index === 0 && <LucideIcons.Award className="w-5 h-5 text-yellow-500 mr-2" />}
+                                                {index === 1 && <LucideIcons.Award className="w-5 h-5 text-gray-400 mr-2" />}
+                                                {index === 2 && <LucideIcons.Award className="w-5 h-5 text-orange-500 mr-2" />}
                                                 <span className="text-sm font-medium text-gray-900">#{index + 1}</span>
                                             </div>
                                         </td>
@@ -539,7 +550,7 @@ const AdminStats = () => {
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
-                                                <ClipboardList className="w-4 h-4 text-blue-500 mr-2" />
+                                                <LucideIcons.ClipboardList className="w-4 h-4 text-blue-500 mr-2" />
                                                 <span className="text-sm font-bold text-blue-600">{user.totalTasks || 0}</span>
                                             </div>
                                         </td>
@@ -547,12 +558,6 @@ const AdminStats = () => {
                                             <div className="flex items-center">
                                                 <LucideIcons.CheckCircle className="w-4 h-4 text-green-500 mr-2" />
                                                 <span className="text-sm font-bold text-green-600">{user.completedTasks || 0}</span>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="flex items-center">
-                                                <Clock className="w-4 h-4 text-blue-500 mr-2" />
-                                                <span className="text-sm text-gray-900">{user.inProgressTasks || 0}</span>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
