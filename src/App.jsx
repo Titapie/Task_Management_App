@@ -8,7 +8,6 @@ import EditTaskPage from './pages/EditTaskPage'
 import KanbanPage from './pages/KanbanPage'
 import ProfilePage from './pages/ProfilePage'
 import SettingsPage from './pages/SettingsPage'
-import QuickLogin from './pages/QuickLogin'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import { useAuth } from './context/AuthContext'
 import ProjectsPage from "./pages/ProjectsPage"
