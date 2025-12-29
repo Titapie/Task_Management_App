@@ -27,14 +27,20 @@ export const PRIORITY_LABELS = {
 };
 
 export const CHART_COLORS = {
-    PRIMARY: 'bg-blue-500',
-    SUCCESS: 'bg-green-500',
-    WARNING: 'bg-yellow-500',
-    DANGER: 'bg-red-500',
-    INFO: 'bg-purple-500',
-    GRAY: 'bg-gray-400'
-};
+    PRIMARY: '#3B82F6',
+    SUCCESS: '#10B981',
+    WARNING: '#F59E0B',
+    DANGER: '#EF4444',
+    INFO: '#8B5CF6',
+    GRAY: '#9CA3AF'
 
+};
+export const STATUS_CHART_COLORS = {
+    initial: CHART_COLORS.GRAY,
+    doing: CHART_COLORS.PRIMARY,
+    pending: CHART_COLORS.WARNING,
+
+};
 // Priority colors - badge styles
 export const PRIORITY_COLORS = {
     high: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
@@ -44,7 +50,7 @@ export const PRIORITY_COLORS = {
 
 export const STATUS_COLORS = {
     initial: 'bg-gray-300 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
-    doing: 'bg-blue-300 text-blue-800 dark:bg-blue-700 dark:text-blue-300',
+    doing: 'bg-blue-300 text-blue-800 dark:bg-blue-700 dark:text-blue-300' ,
     pending: 'bg-yellow-300 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-300',
     finish: 'bg-green-300 text-green-800 dark:bg-green-700 dark:text-green-300',
     notFinish: 'bg-red-300 text-red-800 dark:bg-red-700 dark:text-red-300',
