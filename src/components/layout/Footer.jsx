@@ -2,7 +2,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="mt-auto py-8 border-t border-slate-100 dark:border-slate-800 transition-colors dark:bg-slate-900">
+    <footer className="mt-auto py-8 border-t border-slate-100 dark:border-slate-800 transition-colors">
       <div className="flex flex-col md:flex-row items-center justify-between gap-4 px-4">
         {/* Bản quyền */}
         <p className="text-sm font-medium text-slate-400 dark:text-slate-500">
@@ -19,19 +19,19 @@ export default function Footer() {
             href="#"
             className="text-xs font-bold text-slate-400 hover:text-indigo-600 dark:hover:text-white transition-colors"
           >
-            Privacy Policy
+            Chính sách bảo mật
           </a>
           <a
             href="#"
             className="text-xs font-bold text-slate-400 hover:text-indigo-600 dark:hover:text-white transition-colors"
           >
-            Terms of Service
+            Điều khoản dịch vụ
           </a>
           <a
             href="#"
             className="text-xs font-bold text-slate-400 hover:text-indigo-600 dark:hover:text-white transition-colors"
           >
-            Help Center
+            Trung tâm trợ giúp
           </a>
         </div>
       </div>
