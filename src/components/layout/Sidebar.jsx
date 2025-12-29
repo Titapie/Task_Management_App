@@ -1,21 +1,23 @@
 import { NavLink } from "react-router-dom";
 import {
-  LayoutGrid,
-  ClipboardList,
-  Users,
- 
-  X,
-  ChevronLeft,
-  ChevronRight,
+    LayoutGrid,
+    ClipboardList,
+    Users,
+
+    X,
+    ChevronLeft,
+    ChevronRight, Briefcase, Settings,
 } from "lucide-react";
 import HelpCenterCard from "../HelpCenterCard.jsx";
 
 export default function Sidebar({ onClose, isCollapsed, toggleSidebar }) {
   const menu = [
-    { to: "/", label: "Overview", icon: LayoutGrid },
-    { to: "/tasks", label: "Task", icon: ClipboardList },
-    { to: "/kanban", label: "Kanban", icon: ClipboardList },
-    { to: "/profile", label: "Profile", icon: Users },
+      { to: "/dashboard", label: "Dashboard", icon: LayoutGrid },
+      { to: "/projects", label: "Projects", icon: Briefcase },
+      { to: "/tasks", label: "Task", icon: ClipboardList },
+      { to: "/kanban", label: "Kanban", icon: ClipboardList },
+      { to: "/profile", label: "Profile", icon: Users },
+      { to: "/settings", label: "Settings", icon: Settings },
    
   ];
 
