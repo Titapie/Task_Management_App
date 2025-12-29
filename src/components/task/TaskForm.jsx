@@ -67,15 +67,18 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
     ];
 
     return (
-        <div className={`min-h-screen ${DARK_MODE_COLORS.BG_SECONDARY} animate-fade-in`}>
-            {/* Header cố định */}
-            <div className="bg-white dark:bg-gray-800 border-b dark:border-gray-700 sticky top-0 z-10">
+        <>
+        {/* Header cố định */}
+            <div className="bg-white dark:bg-gray-800 border-b dark:border-gray-700  top-0 z-10">
                 <div className="max-w-7xl mx-auto px-6 py-4">
                     <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
                         {initialData?.id ? 'Chỉnh sửa công việc' : 'Tạo công việc mới'}
                     </h1>
                 </div>
             </div>
+        
+        <div className={`min-h-screen ${DARK_MODE_COLORS.BG_SECONDARY} animate-fade-in`}>
+            
             <div className="max-w-7xl mx-auto p-6">
                 <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -239,6 +242,7 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
                 </form>
             </div>
         </div>
+        </>
     );
 };
 
