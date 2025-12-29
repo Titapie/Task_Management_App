@@ -51,7 +51,7 @@ const TaskDetail = ({ task, onEdit, onDelete }) => {
                                 </span>
                             </div>
 
-                            <div className={`flex items-center gap-6 text-sm ${DARK_MODE_COLORS.TEXT_SECONDARY} mb-6 pb-6 border-b ${DARK_MODE_COLORS.BORDER_PRIMARY}`}>
+                            <div className={`flex items-center gap-6 text-sm ${DARK_MODE_COLORS.TEXT_SECONDARY} mb-6 pb-6`}>
                                 <div className="flex items-center gap-2">
                                     <Users className="w-4 h-4" />
                                     <span>{member} Thành viên tham gia</span>
@@ -86,7 +86,7 @@ const TaskDetail = ({ task, onEdit, onDelete }) => {
                             </div>
 
                             {/* Action Buttons */}
-                            <div className={`flex gap-3 mt-8 pt-6 border-t ${DARK_MODE_COLORS.BORDER_PRIMARY}`}>
+                            <div className="flex gap-3 mt-8 pt-6">
                                 <button
                                     onClick={onEdit}
                                     className={`px-6 py-2.5 ${DARK_MODE_COLORS.BTN_PRIMARY} text-white rounded-lg font-medium transition-transform hover:scale-105 active:scale-95`}

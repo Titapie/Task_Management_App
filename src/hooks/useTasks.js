@@ -1,5 +1,5 @@
 // src/hooks/useTasks.js
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import taskService from '../services/taskService';
 
 const useTasks = (initialParams = {}) => {
@@ -16,10 +16,10 @@ const useTasks = (initialParams = {}) => {
         hasPrevPage: false
     });
 
-    // Tự động fetch khi mount với initialParams
+    const memoizedParams = useMemo(() => initialParams, [JSON.stringify(initialParams)]);
     useEffect(() => {
-        fetchTasks(initialParams);
-    }, [JSON.stringify(initialParams)]); // Refetch khi params thay đổi
+        fetchTasks(memoizedParams);
+    }, [memoizedParams]);
 
 
     const fetchTasks = async (params = {}) => {

@@ -67,7 +67,18 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
     ];
 
     return (
+        <>
+        {/* Header cố định */}
+            <div className="bg-white dark:bg-gray-800 border-b dark:border-gray-700  top-0 z-10">
+                <div className="max-w-7xl mx-auto px-6 py-4">
+                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+                        {initialData?.id ? 'Chỉnh sửa công việc' : 'Tạo công việc mới'}
+                    </h1>
+                </div>
+            </div>
+        
         <div className={`min-h-screen ${DARK_MODE_COLORS.BG_SECONDARY} animate-fade-in`}>
+            
             <div className="max-w-7xl mx-auto p-6">
                 <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -90,12 +101,12 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
                                     <div className="space-y-4">
                                         <div>
                                             <label className={`block text-sm font-medium ${DARK_MODE_COLORS.TEXT_LABEL} mb-2`}>
-                                                Tên Task *
+                                                Tên việc *
                                             </label>
                                             <Input
                                                 value={formData.TaskName}
                                                 onChange={(e) => handleChange('TaskName', e.target.value)}
-                                                placeholder="Nhập tên task..."
+                                                placeholder="Nhập tên việc..."
                                                 className="transition-all duration-200 focus:scale-[1.01]"
                                             />
                                             {errors.TaskName && (
@@ -112,7 +123,7 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
                                                 rows={4}
                                                 value={formData.Description}
                                                 onChange={(e) => handleChange('Description', e.target.value)}
-                                                placeholder="Mô tả chi tiết về task..."
+                                                placeholder="Mô tả công việc..."
                                                 className="transition-all duration-200 focus:scale-[1.01]"
                                             />
                                         </div>
@@ -205,13 +216,13 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
                                 </div>
 
                                 {/* Action Buttons */}
-                                <div className={`pt-6 border-t ${DARK_MODE_COLORS.BORDER_PRIMARY} space-y-3`}>
+                                <div className="pt-6 space-y-3">
                                     <Button
                                         type="submit"
                                         variant="primary"
                                         className="w-full transition-transform hover:scale-105 active:scale-95"
                                     >
-                                        {initialData?.id ? 'Cập nhật Task' : 'Tạo Task'}
+                                        {initialData?.id ? 'Cập nhật việc' : 'Tạo công việc'}
                                     </Button>
                                     
                                     {onCancel && (
@@ -231,6 +242,7 @@ const TaskForm = ({ initialData = {}, projects = [], onSubmit, onCancel }) => {
                 </form>
             </div>
         </div>
+        </>
     );
 };
 
