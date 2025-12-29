@@ -25,12 +25,12 @@ const TaskList = ({ tasks, loading, pagination, onPageChange }) => {
                 <table className={`min-w-full ${DARK_MODE_COLORS.BG_PRIMARY} border ${DARK_MODE_COLORS.BORDER_PRIMARY}`}>
                     <thead className={DARK_MODE_COLORS.TABLE_HEADER}>
                     <tr>
-                        <th className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_PRIMARY} border ${DARK_MODE_COLORS.BORDER_PRIMARY} text-left`}>Tên việc</th>
-                        <th className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_PRIMARY} border ${DARK_MODE_COLORS.BORDER_PRIMARY} text-left`}>Mô tả</th>
-                        <th className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_PRIMARY} border ${DARK_MODE_COLORS.BORDER_PRIMARY} text-left`}>Trạng thái</th>
-                        <th className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_PRIMARY} border ${DARK_MODE_COLORS.BORDER_PRIMARY} text-left`}>Ưu tiên</th>
-                        <th className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_PRIMARY} border ${DARK_MODE_COLORS.BORDER_PRIMARY} text-left`}>Hạn cuối</th>
-                        <th className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_PRIMARY} border ${DARK_MODE_COLORS.BORDER_PRIMARY} text-left`}>Thao tác</th>
+                        <th className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_PRIMARY} border ${DARK_MODE_COLORS.BORDER_PRIMARY} text-left w-[20%]`}>Tên việc</th>
+                        <th className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_PRIMARY} border ${DARK_MODE_COLORS.BORDER_PRIMARY} text-left w-[30%]`}>Mô tả</th>
+                        <th className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_PRIMARY} border ${DARK_MODE_COLORS.BORDER_PRIMARY} text-left w-auto`}>Trạng thái</th>
+                        <th className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_PRIMARY} border ${DARK_MODE_COLORS.BORDER_PRIMARY} text-left w-auto`}>Ưu tiên</th>
+                        <th className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_PRIMARY} border ${DARK_MODE_COLORS.BORDER_PRIMARY} text-left w-auto`}>Hạn cuối</th>
+                        <th className={`px-4 py-2 ${DARK_MODE_COLORS.TEXT_PRIMARY} border ${DARK_MODE_COLORS.BORDER_PRIMARY} text-left w-[15%]`}>Thao tác</th>
                     </tr>
                     </thead>
                     <tbody>

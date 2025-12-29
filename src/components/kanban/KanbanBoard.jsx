@@ -115,7 +115,7 @@ const KanbanBoard = ({ filters }) => {
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
         >
-            <div className="flex gap-4 overflow-x-auto pb-4 min-h-screen">
+            <div className="flex gap-4 overflow-x-auto pb-4 h-full">
                 {columns.map((col) => (
                     <KanbanColumn
                         key={col.status}

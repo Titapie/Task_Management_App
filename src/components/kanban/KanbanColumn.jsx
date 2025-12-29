@@ -10,7 +10,7 @@ const KanbanColumn = ({ status, tasks, title, colorClass }) => {
     });
 
     return (
-        <div className={`flex-1 min-w-[280px] ${DARK_MODE_COLORS.BG_SECONDARY} rounded-lg p-4 transition-all duration-200`}>
+        <div className={`flex flex-col min-w-[280px] ${DARK_MODE_COLORS.BG_SECONDARY} rounded-lg p-4 transition-all duration-200`}>
             {/* Column Header */}
             <div className="mb-4">
                 <div className="flex items-center justify-between mb-2">
@@ -30,7 +30,7 @@ const KanbanColumn = ({ status, tasks, title, colorClass }) => {
             >
                 <div
                     ref={setNodeRef}
-                    className={`min-h-[500px] transition-colors ${
+                    className={`flex-1 transition-colors ${
                         isOver ? 'bg-blue-50 dark:bg-blue-900/20 border-2 border-dashed border-blue-400 dark:border-blue-500 rounded-lg' : ''
                     }`}
                 >

@@ -120,7 +120,12 @@ const TasksPage = () => {
         
         setTempFilters(resetFilters);
         setAppliedFilters(resetFilters);
-        updateParamsAndFetch({});
+        updateParamsAndFetch({
+            Status: undefined,
+            Priority: undefined,
+            deadline_from: undefined,
+            deadline_to: undefined
+        });
         refetchUpcoming();
     };
 
