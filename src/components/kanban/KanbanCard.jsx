@@ -3,6 +3,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { PRIORITY_LABELS, PRIORITY_COLORS, DARK_MODE_COLORS } from '../../utils/constants';
 import { formatDate, isDeadlineSoon } from '../../utils/dateHelpers';
+import { Users } from 'lucide-react';
 
 const KanbanCard = ({ task }) => {
     const {
@@ -66,7 +67,7 @@ const KanbanCard = ({ task }) => {
             {/* Members */}
             {task.TaskMembers && task.TaskMembers.length > 0 && (
                 <div className="flex items-center gap-1 mt-2">
-                    <span className="text-xs text-gray-500 dark:text-slate-400">👥</span>
+                    <Users size={14} className={`text-gray-500 dark:text-slate-400`} />
                     <div className="flex -space-x-2">
                         {task.TaskMembers.slice(0, 3).map((member, idx) => (
                             <div

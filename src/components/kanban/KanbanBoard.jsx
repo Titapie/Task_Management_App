@@ -15,7 +15,7 @@ import { TASK_STATUS, TASK_STATUS_LABELS, DARK_MODE_COLORS } from '../../utils/c
 
 const KanbanBoard = ({ filters }) => {
     // Hook tự động fetch với limit lớn cho Kanban
-    const { tasks, loading, error } = useTasks({ ...filters, limit: 1000 });
+    const { tasks, loading, error } = useTasks({ ...filters, limit: 200 });
     const [activeTask, setActiveTask] = useState(null);
     const [localTasks, setLocalTasks] = useState([]);
 
