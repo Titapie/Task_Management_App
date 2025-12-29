@@ -6,7 +6,7 @@ export default function GeneralSettings() {
         <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
           Language
         </label>
-        <select className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm">
+        <select className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm dark:text-white">
           <option>English (Default)</option>
           <option>Vietnamese</option>
         </select>
@@ -17,7 +17,7 @@ export default function GeneralSettings() {
         <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
           Timezone
         </label>
-        <select className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm">
+        <select className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm dark:text-white">
           <option>English (Default)</option>
         </select>
       </div>
@@ -28,10 +28,10 @@ export default function GeneralSettings() {
           Time Format
         </label>
         <div className="flex gap-4">
-          <button className="px-4 py-2 rounded-xl border border-indigo-600 text-indigo-600 text-sm font-semibold">
+          <button className="px-4 py-2 rounded-xl border border-indigo-600 text-indigo-600 dark:text-indigo-400 dark:border-indigo-400 text-sm font-semibold">
             24 Hours
           </button>
-          <button className="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-800 text-sm">
+          <button className="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 text-sm">
             12 Hours
           </button>
         </div>
