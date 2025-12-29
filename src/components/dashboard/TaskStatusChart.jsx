@@ -3,7 +3,7 @@ import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import { FiCircle, FiActivity, FiPauseCircle } from 'react-icons/fi';
 import { useTaskStatusStats } from '../../hooks/useStats';
-import {TASK_STATUS_LABELS, STATUS_COLORS, STATUS_CHART_COLORS} from '../../utils/constants';
+import {TASK_STATUS_LABELS, STATUS_COLORS, STATUS_CHART_COLORS, DARK_MODE_COLORS} from '../../utils/constants';
 
 const TaskStatusChart = () => {
     const { data, loading, error } = useTaskStatusStats();
@@ -52,8 +52,8 @@ const TaskStatusChart = () => {
     };
 
     return (
-        <div className="bg-white p-3 rounded-xl shadow-sm border dark:bg-slate-600">
-            <h3 className="text-lg font-semibold text-gray-800 mb-2 dark:text-white">
+        <div className={` p-3 rounded-xl shadow-sm border ${DARK_MODE_COLORS.BG_CARD}`}>
+            <h3 className={`text-lg font-semibold  mb-2 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                 Phân bố trạng thái công việc đang làm
             </h3>
             <p className="text-gray-400 text-sm line-clamp-2 mb-4 ">
@@ -64,8 +64,8 @@ const TaskStatusChart = () => {
                 {/* Biểu đồ ở trên */}
                 <div className="flex flex-col items-center">
                     <div className=" text-center">
-                        <p className="text-sm text-gray-600 dark:text-white">Task đang thực hiện:</p>
-                        <p className="text-3xl text-gray-700 font-bold dark:text-white">{inProgress}</p>
+                        <p className={`text-sm ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Task đang thực hiện:</p>
+                        <p className={`text-3xl font-bold ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>{inProgress}</p>
                     </div>
 
                     <div className="h-64 w-full mt-6">
@@ -95,13 +95,13 @@ const TaskStatusChart = () => {
                 {/* Danh sách chi tiết ở dưới */}
                 <div className="space-y-3">
                     {chartData.map((item) => (
-                        <div key={item.status} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg dark:bg-slate-700">
+                        <div key={item.status} className={`flex items-center justify-between p-3 rounded-lg ${DARK_MODE_COLORS.BG_PRIMARY}`}>
                             <div className="flex items-center gap-3">
                                 <div className="p-2 bg-white rounded-lg dark:bg-slate-600">
                                     {statusIcons[item.status]}
                                 </div>
                                 <div>
-                                    <p className="font-medium text-gray-800 dark:text-white">{item.name}</p>
+                                    <p className={`font-medium ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>{item.name}</p>
                                     <p className="text-sm text-gray-500 dark:text-gray-300">
                                         {item.status === 'finish'
                                             ? `${((item.value / totalTasks) * 100).toFixed(1)}% tổng số`
@@ -111,7 +111,7 @@ const TaskStatusChart = () => {
                                 </div>
                             </div>
                             <div className="text-right">
-                                <p className="text-xl font-bold dark:text-white">{item.value}</p>
+                                <p className={`text-xl font-bold ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>{item.value}</p>
                                 <div
                                     className="h-2 rounded-full bg-gray-200 mt-1"
                                     style={{ width: '100px' }}

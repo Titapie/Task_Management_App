@@ -3,7 +3,7 @@ import React from 'react';
 import { FiClock, FiUser, FiFolder, FiCheckCircle, FiActivity, FiAlertCircle, FiChevronRight } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { useRecentTasks } from '../../hooks/useTasks';
-import { TASK_STATUS_LABELS } from "../../utils/constants";
+import {DARK_MODE_COLORS, TASK_STATUS_LABELS} from "../../utils/constants";
 
 const RecentTask = () => {
     const { recentTasks, loading, error } = useRecentTasks(5);
@@ -79,16 +79,16 @@ const RecentTask = () => {
     }
 
     return (
-        <div className="bg-white p-6 rounded-xl shadow-sm border dark:bg-slate-600">
+        <div className={`p-6 rounded-xl shadow-sm border ${DARK_MODE_COLORS.BG_PRIMARY}`}>
             <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Công việc gần đây</h3>
+                <h3 className={`text-lg font-semibold ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Công việc gần đây</h3>
                 <div className="flex items-center gap-3">
                     <span className="px-3 py-1 bg-gray-100 text-gray-600 text-sm font-medium rounded-full">
                         {recentTasks.length} task
                     </span>
                     <Link
                         to="/tasks"
-                        className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center gap-1 dark:text-white"
+                        className={`text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center gap-1 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}
                     >
                         Xem tất cả
                         <FiChevronRight size={16} />
@@ -119,7 +119,7 @@ const RecentTask = () => {
                                 /* ✅ TASK CARD - Fixed width for horizontal layout */
                                 <div
                                     key={task.id}
-                                    className=" dark:bg-slate-400 flex-shrink-0 w-80 p-5 border border-gray-200 rounded-xl hover:border-blue-300 hover:shadow-md transition-all bg-white"
+                                    className={`${DARK_MODE_COLORS.BG_CARD} flex-shrink-0 w-80 p-5 border border-gray-200 rounded-xl hover:border-blue-300 hover:shadow-md transition-all bg-white`}
                                 >
                                     {/* Header */}
                                     <div className="flex items-start gap-3 mb-4 ">
@@ -127,7 +127,7 @@ const RecentTask = () => {
                                             {statusIcons[status] || statusIcons.initial}
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <h4 className="font-semibold text-gray-800 line-clamp-2 mb-2 dark:text-white">
+                                            <h4 className={`font-semibold line-clamp-2 mb-2 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                                                 {task.TaskName || 'Chưa có tên'}
                                             </h4>
                                             <span className={`inline-block px-2.5 py-1 text-xs font-medium rounded-full ${statusStyle.bg} ${statusStyle.text}`}>
@@ -139,14 +139,14 @@ const RecentTask = () => {
                                     {/* Project & Members */}
                                     <div className="space-y-2 mb-4">
                                         <div className="flex items-center gap-2 text-sm text-gray-600">
-                                            <FiFolder size={14} className="flex-shrink-0 dark:text-white" />
-                                            <span className="truncate dark:text-white">
+                                            <FiFolder size={14} className={`flex-shrink-0 ${DARK_MODE_COLORS.TEXT_PRIMARY}`} />
+                                            <span className={`truncate ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                                                 {task.ParentProject?.Name || 'Chưa có dự án'}
                                             </span>
                                         </div>
                                         <div className="flex items-center gap-2 text-sm text-gray-600">
-                                            <FiUser size={14} className="flex-shrink-0 dark:text-white" />
-                                            <span className="truncate dark:text-white">
+                                            <FiUser size={14} className={`flex-shrink-0 ${DARK_MODE_COLORS.TEXT_PRIMARY}`} />
+                                            <span className={`truncate ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                                                 {memberNames}
                                             </span>
                                         </div>
@@ -159,7 +159,7 @@ const RecentTask = () => {
                                                 {priorityStyle.label}
                                             </span>
                                             {task.End_date && (
-                                                <span className="text-xs text-gray-500 dark:text-white">
+                                                <span className={`text-xs ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                                                     📅 {formatDate(task.End_date)}
                                                 </span>
                                             )}

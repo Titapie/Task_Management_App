@@ -27,6 +27,7 @@ import AdminTasksPage from "./pages/admin/AdminTasksPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import AdminRoute from "./routes/AdminRoute";
 import AdminLayout from "./pages/admin/AdminLayout.jsx";
+import AddMemberForm from "./components/projects/AddMemberForm.jsx";
 
 export default function App() {
   return (
@@ -49,6 +50,7 @@ export default function App() {
 
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/projects/:id" element={<ProjectDetailPage />} />
+          <Route path="/projects/:id/add-members" element={<AddMemberForm />} />
 
           <Route path="/kanban" element={<KanbanPage />} />
           <Route path="/profile" element={<ProfilePage />} />

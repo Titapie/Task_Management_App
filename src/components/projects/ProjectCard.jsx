@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, Users, CheckCircle, Clock, TrendingUp } from 'lucide-react';
+import {DARK_MODE_COLORS} from "../../utils/constants.js";
 
 const ProjectCard = ({ project}) => {
     const navigate = useNavigate();
@@ -47,9 +48,9 @@ const ProjectCard = ({ project}) => {
             className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-200 hover:border-blue-400 overflow-hidden"
         >
             {/* Header */}
-            <div className="p-6 border-b border-gray-100 dark:bg-slate-500">
+            <div className={`p-6 border-b border-gray-100 ${DARK_MODE_COLORS.BG_CARD}`}>
                 <div className="flex items-start justify-between mb-3">
-                    <h3 className="text-xl font-semibold text-gray-800 line-clamp-2 flex-1 dark:text-white">
+                    <h3 className={`text-xl font-semibold line-clamp-2 flex-1 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                         {project.Name}
                     </h3>
                     {isOverdue() && (
@@ -60,27 +61,27 @@ const ProjectCard = ({ project}) => {
                 </div>
 
                 {project.Description && (
-                    <p className="text-gray-600 text-sm line-clamp-2 mb-4 dark:text-white">
+                    <p className={`text-gray-600 text-sm line-clamp-2 mb-4 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                         {project.Description}
                     </p>
                 )}
 
                 {/* Manager Info */}
-                <div className="flex items-center text-sm text-gray-500">
-                    <Users className="w-4 h-4 mr-2 dark:text-white" />
-                    <span className="dark:text-white">Quản lý: <span className="font-medium text-gray-700 dark:text-white">{managerName}</span></span>
+                <div className="flex items-center text-sm ">
+                    <Users className={`w-4 h-4 mr-2 ${DARK_MODE_COLORS.TEXT_PRIMARY}`} />
+                    <span className="dark:text-white">Quản lý: <span className={`font-medium text-gray-700 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>{managerName}</span></span>
                 </div>
             </div>
 
             {/* Stats Section */}
-            <div className="p-6 bg-gray-50 dark:bg-slate-500">
+            <div className={`p-6 ${DARK_MODE_COLORS.BG_CARD}`}>
                 {/* Completion Rate */}
                 <div className="mb-4 ">
                     <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center text-sm font-medium text-gray-700 dark:text-white">
+                        <div className={`flex items-center text-sm font-medium  ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                             Tiến độ hoàn thành
                         </div>
-                        <span className="text-sm font-bold text-gray-800 dark:text-white">{completionRate}%</span>
+                        <span className={`text-sm font-bold ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>{completionRate}%</span>
                     </div>
 
                     {/* Progress Bar */}
@@ -99,8 +100,8 @@ const ProjectCard = ({ project}) => {
                             <Clock className="w-5 h-5 text-blue-600" />
                         </div>
                         <div>
-                            <p className="text-xs text-gray-500 dark:text-white">Tổng tasks</p>
-                            <p className="text-lg font-bold text-gray-800 dark:text-white">{totalTasks}</p>
+                            <p className={`text-xs ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Tổng tasks</p>
+                            <p className={`text-lg font-bold ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>{totalTasks}</p>
                         </div>
                     </div>
 
@@ -109,8 +110,8 @@ const ProjectCard = ({ project}) => {
                             <CheckCircle className="w-5 h-5 text-green-600" />
                         </div>
                         <div>
-                            <p className="text-xs text-gray-500 dark:text-white">Hoàn thành</p>
-                            <p className="text-lg font-bold text-gray-800 dark:text-white">{completedTasks}</p>
+                                <p className={`text-xs text-gray-500 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Hoàn thành</p>
+                            <p className={`text-lg font-bold text-gray-800 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>{completedTasks}</p>
                         </div>
                     </div>
                 </div>
@@ -118,14 +119,14 @@ const ProjectCard = ({ project}) => {
                 {/* Additional Stats */}
                 <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-200">
                     <div>
-                        <p className="text-xs text-gray-500 mb-1 dark:text-white">Đang thực hiện</p>
-                        <p className="text-sm font-semibold text-blue-600 dark:text-white">
+                        <p className={`text-xs mb-1 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Đang thực hiện</p>
+                        <p className={`text-sm font-semibold ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                             {project.in_progress_tasks || 0}
                         </p>
                     </div>
                     <div>
-                        <p className="text-xs text-gray-500 mb-1 dark:text-white">Chưa hoàn thành</p>
-                        <p className="text-sm font-semibold text-red-600 dark:text-white">
+                        <p className={`text-xs mb-1 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Chưa hoàn thành</p>
+                        <p className={`text-sm font-semibold ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                             {project.not_finish_tasks || 0}
                         </p>
                     </div>
@@ -133,25 +134,25 @@ const ProjectCard = ({ project}) => {
             </div>
 
             {/* Footer - Date Info */}
-            <div className="px-6 py-4 bg-white border-t border-gray-100 dark:bg-slate-500">
+            <div className={`px-6 py-4 bg-white border-t border-gray-100 ${DARK_MODE_COLORS.BG_CARD}`}>
                 <div className="flex items-center justify-between text-xs text-gray-500">
                     <div className="flex items-center">
-                        <Calendar className="w-4 h-4 mr-1 dark:text-white" />
-                        <span className="dark:text-white">Bắt đầu: {formatDate(project.Start_date)}</span>
+                    <Calendar className={`w-4 h-4 mr-1 ${DARK_MODE_COLORS.TEXT_PRIMARY}`} />
+                        <span className={`${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Bắt đầu: {formatDate(project.Start_date)}</span>
                     </div>
                     <div className="flex items-center">
-                        <Calendar className="w-4 h-4 mr-1 dark:text-white" />
-                        <span className="dark:text-white">Kết thúc: {formatDate(project.End_date)}</span>
+                        <Calendar className={`w-4 h-4 mr-1 ${DARK_MODE_COLORS.TEXT_PRIMARY}`} />
+                        <span className={`${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Kết thúc: {formatDate(project.End_date)}</span>
                     </div>
                 </div>
             </div>
 
             {/* Team Members Preview */}
             {project.ProjectMembers && project.ProjectMembers.length > 0 && (
-                <div className="px-6 py-3 bg-gray-50 border-t border-gray-100 dark:bg-slate-500">
+                <div className={`px-6 py-3 bg-gray-50 border-t border-gray-100 ${DARK_MODE_COLORS.BG_CARD}`}>
                     <div className="flex items-center">
-                        <Users className="w-4 h-4 mr-2 text-gray-500 dark:text-white" />
-                        <span className="text-xs text-gray-600 mr-2 dark:text-white">Thành viên:</span>
+                        <Users className={`w-4 h-4 mr-2 ${DARK_MODE_COLORS.TEXT_PRIMARY}`} />
+                        <span className={`text-xs text-gray-600 mr-2 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Thành viên:</span>
                         <div className="flex -space-x-2">
                             {project.ProjectMembers.slice(0, 5).map((member) => (
                                 <div

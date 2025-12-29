@@ -7,6 +7,7 @@ import ProjectForm from './ProjectForm';
 import { jwtDecode } from 'jwt-decode';
 import { tokenStore } from "../../utils/api.js";
 import taskService from "../../services/taskService.js";
+import {DARK_MODE_COLORS} from "../../utils/constants.js";
 
 const ProjectDetail = () => {
     const { id } = useParams();
@@ -344,7 +345,7 @@ const ProjectDetail = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 ">
-            <div className="w-full mx-auto px-6 py-8 dark:bg-slate-900">
+            <div className={`w-full mx-auto px-6 py-8 ${DARK_MODE_COLORS.BG_SECONDARY}`}>
                 {/* Overdue Alert */}
                 {isOverdue() && (
                     <div className="bg-gradient-to-r from-red-50 to-rose-50 border-l-4 border-red-500 rounded-lg p-4 mb-6 shadow-sm">
@@ -361,13 +362,13 @@ const ProjectDetail = () => {
                 )}
 
                 {/* Header Section */}
-                <div className="bg-white rounded-2xl shadow-lg p-8 mb-6 border border-gray-100 dark:bg-slate-700">
+                <div className={` rounded-2xl shadow-lg p-8 mb-6 border border-gray-100 ${DARK_MODE_COLORS.BG_CARD}`}>
                     <div className="flex items-start justify-between ">
                         <div className="flex-1">
                             <div className="flex items-center gap-3 mb-3">
                                 <div>
-                                    <h1 className="text-4xl font-bold text-gray-900 mb-2 dark:text-white">{project.Name}</h1>
-                                    <div className="flex items-center gap-2 text-gray-600 dark:text-white">
+                                    <h1 className={`text-4xl font-bold  mb-2 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>{project.Name}</h1>
+                                    <div className={`flex items-center gap-2 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                                         <LucideIcons.Users className="w-4 h-4" />
                                         <span className="text-sm">Quản lý: {getManagerName()}</span>
                                     </div>
@@ -377,8 +378,8 @@ const ProjectDetail = () => {
                             {/* Progress Bar */}
                             <div className="mt-6">
                                 <div className="flex items-center justify-between mb-2">
-                                    <span className="text-sm font-medium text-gray-700 dark:text-white">Tiến độ hoàn thành</span>
-                                    <span className="text-2xl font-bold bg-black bg-clip-text text-transparent dark:text-white">
+                                    <span className={`text-sm font-medium  ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Tiến độ hoàn thành</span>
+                                    <span className={`text-2xl font-bold bg-black bg-clip-text text-transparent ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                                         {completionRate}%
                                     </span>
                                 </div>
@@ -447,57 +448,57 @@ const ProjectDetail = () => {
 
                 {/* Stats Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6 ">
-                    <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all dark:bg-slate-700">
+                    <div className={`rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all ${DARK_MODE_COLORS.BG_CARD}`}>
                         <div className="flex items-center justify-between mb-3">
                             <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
                                 <LucideIcons.ListTodo className="w-6 h-6 text-indigo-600" />
                             </div>
                         </div>
-                        <p className="text-3xl font-bold text-gray-800 mb-1 dark:text-white">
+                        <p className={`text-3xl font-bold mb-1 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                             {project.total_tasks || project.totalTasks || tasks.length || 0}
                         </p>
-                        <p className="text-sm text-gray-600 dark:text-white">Tổng tasks đang tham gia</p>
+                        <p className={`text-sm text-gray-600 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Tổng tasks đang tham gia</p>
                     </div>
 
-                    <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all dark:bg-slate-700">
+                        <div className={`rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all ${DARK_MODE_COLORS.BG_CARD}`}>
                         <div className="flex items-center justify-between mb-3">
                             <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center">
                                 <LucideIcons.CheckCircle className="w-6 h-6 text-emerald-600" />
                             </div>
                         </div>
-                        <p className="text-3xl font-bold text-gray-800 mb-1 dark:text-white">
+                        <p className={`text-3xl font-bold  mb-1 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                             {project.completed_tasks || project.completedTasks || tasks.filter(t => t.Status === 'finish').length || 0}
                         </p>
-                        <p className="text-sm text-gray-600 dark:text-white">Hoàn thành</p>
+                        <p className={`text-sm ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Hoàn thành</p>
                     </div>
 
-                    <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all dark:bg-slate-700">
+                    <div className={`rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all ${DARK_MODE_COLORS.BG_CARD}`}>
                         <div className="flex items-center justify-between mb-3">
                             <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
                                 <LucideIcons.Target className="w-6 h-6 text-blue-600" />
                             </div>
                         </div>
-                        <p className="text-3xl font-bold text-gray-800 mb-1 dark:text-white">
+                        <p className={`text-3xl font-bold mb-1 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                             {project.in_progress_tasks || project.inProgressTasks || tasks.filter(t => t.Status === 'doing').length || 0}
                         </p>
-                        <p className="text-sm text-gray-600 dark:text-white">Đang thực hiện</p>
+                        <p className={`text-sm ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Đang thực hiện</p>
                     </div>
 
-                    <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all dark:bg-slate-700">
+                    <div className={"rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all dark:bg-slate-700"}>
                         <div className="flex items-center justify-between mb-3">
                             <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
                                 <LucideIcons.AlertCircle className="w-6 h-6 text-gray-600" />
                             </div>
                         </div>
-                        <p className="text-3xl font-bold text-gray-800 mb-1 dark:text-white">
+                        <p className={`text-3xl font-bold mb-1 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                             {project.not_finish_tasks || project.notFinishTasks || tasks.filter(t => t.Status === 'notFinish').length || 0}
                         </p>
-                        <p className="text-sm text-gray-600 dark:text-white">Chưa hoàn thành</p>
+                        <p className={`text-sm ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Chưa hoàn thành</p>
                     </div>
                 </div>
 
                 {/* Tabs */}
-                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 dark:bg-slate-700">
+                <div className={`rounded-2xl shadow-lg border border-gray-100 ${DARK_MODE_COLORS.BG_CARD}`}>
                     <div className="border-b border-gray-200">
                         <div className="flex gap-1 p-2">
                             <button
@@ -531,13 +532,13 @@ const ProjectDetail = () => {
                             <div className="space-y-6 ">
                                 {/* Project Information */}
                                 <div className="bg-gray-100 rounded-xl p-6 border border-gray-200 dark:bg-slate-500">
-                                    <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2 dark:text-white">
+                                    <h3 className={`text-lg font-semibold mb-4 flex items-center gap-2 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                                         Thông tin dự án
                                     </h3>
                                     <div className="space-y-4">
                                         {project.Description && (
                                             <div>
-                                                <p className="text-sm font-medium text-gray-600 mb-2 dark:text-white">Mô tả</p>
+                                                <p className={`text-sm font-medium  mb-2 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Mô tả</p>
                                                 <p className="text-gray-800 bg-white rounded-lg p-4 dark:bg-slate-300 ">{project.Description}</p>
                                             </div>
                                         )}
@@ -565,7 +566,7 @@ const ProjectDetail = () => {
                                 {/* Team Members */}
                                 {project.ProjectMembers && project.ProjectMembers.length > 0 && (
                                     <div className="bg-gray-100 rounded-xl p-6 border border-gray-200 dark:bg-slate-500">
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2 dark:text-white">
+                                        <h3 className={`text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                                             Thành viên dự án ({project.ProjectMembers.length})
                                         </h3>
                                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
@@ -602,7 +603,7 @@ const ProjectDetail = () => {
                                             placeholder="Tìm kiếm task..."
                                             value={taskSearch}
                                             onChange={(e) => setTaskSearch(e.target.value)}
-                                            className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white shadow-sm dark:bg-slate-500"
+                                            className={`w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white shadow-sm ${DARK_MODE_COLORS.BG_INPUT}`}
                                         />
                                     </div>
 
@@ -665,11 +666,11 @@ const ProjectDetail = () => {
                                             >
                                                 <div className="flex items-start justify-between mb-4">
                                                     <div className="flex-1 min-w-0">
-                                                        <h4 className="font-semibold text-gray-900 mb-2 text-lg transition-colors dark:text-white">
+                                                        <h4 className={`font-semibold mb-2 text-lg transition-colors ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                                                             {task.TaskName}
                                                         </h4>
                                                         {task.Description && (
-                                                            <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed dark:text-white">
+                                                            <p className={`text-sm line-clamp-2 leading-relaxed ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                                                                 {task.Description}
                                                             </p>
                                                         )}
@@ -683,14 +684,14 @@ const ProjectDetail = () => {
                                                 <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                                                     <div className="flex items-center gap-4">
                                                         {task.End_date && (
-                                                            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-white">
+                                                            <div className={`flex items-center gap-2 text-sm ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                                                                 <LucideIcons.Calendar className="w-4 h-4" />
                                                                 <span>Hạn: {formatDate(task.End_date)}</span>
                                                             </div>
                                                         )}
                                                         {task.TaskMembers && task.TaskMembers.length > 0 && (
                                                             <div className="flex items-center gap-2">
-                                                                <LucideIcons.Users className="w-4 h-4 text-gray-600 dark:text-white" />
+                                                                <LucideIcons.Users className={`w-4 h-4 ${DARK_MODE_COLORS.TEXT_PRIMARY}`} />
                                                                 <div className="flex -space-x-2">
                                                                     {task.TaskMembers.slice(0, 3).map((member) => (
                                                                         <div

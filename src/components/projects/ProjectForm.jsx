@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Save, Loader2, Calendar, User, FileText, Briefcase } from 'lucide-react';
+import {DARK_MODE_COLORS} from "../../utils/constants.js";
 
 const ProjectForm = ({
                          project = null,
@@ -164,12 +165,12 @@ const ProjectForm = ({
     };
 
     return (
-        <div className="bg-white rounded-lg shadow-lg max-w-2xl mx-auto">
+        <div className={`${DARK_MODE_COLORS.BG_CARD} rounded-lg shadow-lg max-w-2xl mx-auto`}>
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-200">
                 <div className="flex items-center">
-                    <Briefcase className="w-6 h-6 text-blue-600 mr-3" />
-                    <h2 className="text-2xl font-bold text-gray-800">
+                    <Briefcase className={`w-6 h-6 ${DARK_MODE_COLORS.TEXT_PRIMARY} mr-3`} />
+                    <h2 className={`text-2xl font-bold ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                         {mode === 'create' ? 'Tạo dự án mới' : 'Chỉnh sửa dự án'}
                     </h2>
                 </div>
@@ -187,7 +188,7 @@ const ProjectForm = ({
             <form onSubmit={handleSubmit} className="p-6 space-y-6">
                 {/* Tên dự án */}
                 <div>
-                    <label htmlFor="Name" className="flex items-center text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="Name" className={`flex items-center text-sm font-medium ${DARK_MODE_COLORS.TEXT_PRIMARY} mb-2`}>
                         <Briefcase className="w-4 h-4 mr-2" />
                         Tên dự án <span className="text-red-500 ml-1">*</span>
                     </label>
@@ -199,7 +200,7 @@ const ProjectForm = ({
                         onChange={handleChange}
                         onBlur={handleBlur}
                         placeholder="Nhập tên dự án..."
-                        className={`w-full px-4 py-2 bg-gray-100 text-black border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+                        className={`w-full px-4 py-2 ${DARK_MODE_COLORS.BG_INPUT} ${DARK_MODE_COLORS.TEXT_PRIMARY} border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
                             errors.Name && touched.Name
                                 ? 'border-red-500 bg-red-50'
                                 : 'border-gray-300'
@@ -216,7 +217,7 @@ const ProjectForm = ({
 
                 {/* Mô tả */}
                 <div>
-                    <label htmlFor="Description" className="flex items-center text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="Description" className={`flex items-center text-sm font-medium ${DARK_MODE_COLORS.TEXT_PRIMARY} mb-2`}>
                         <FileText className="w-4 h-4 mr-2" />
                         Mô tả dự án
                     </label>
@@ -228,7 +229,7 @@ const ProjectForm = ({
                         onBlur={handleBlur}
                         placeholder="Nhập mô tả chi tiết về dự án..."
                         rows="4"
-                        className={`w-full px-4 py-2 bg-gray-100 text-black border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none ${
+                            className={`w-full px-4 py-2 ${DARK_MODE_COLORS.BG_INPUT} ${DARK_MODE_COLORS.TEXT_PRIMARY} border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none ${
                             errors.Description && touched.Description
                                 ? 'border-red-500 bg-red-50'
                                 : 'border-gray-300'
@@ -241,7 +242,7 @@ const ProjectForm = ({
                             {errors.Description}
                         </p>
                     )}
-                    <p className="mt-1 text-xs text-gray-500">
+                    <p className={`mt-1 text-xs ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                         {formData.Description.length} / 5000 ký tự
                     </p>
                 </div>
@@ -250,7 +251,7 @@ const ProjectForm = ({
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Ngày bắt đầu */}
                     <div>
-                        <label htmlFor="Start_date" className="flex items-center text-sm font-medium text-gray-700 mb-2">
+                        <label htmlFor="Start_date" className={`flex items-center text-sm font-medium ${DARK_MODE_COLORS.TEXT_PRIMARY} mb-2`}>
                             <Calendar className="w-4 h-4 mr-2" />
                             Ngày bắt đầu
                         </label>
@@ -261,7 +262,7 @@ const ProjectForm = ({
                             value={formData.Start_date}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            className={`w-full px-4 py-2 bg-gray-100 text-gray-400 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+                            className={`w-full px-4 py-2 ${DARK_MODE_COLORS.BG_INPUT} ${DARK_MODE_COLORS.TEXT_PRIMARY} border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
                                 errors.Start_date && touched.Start_date
                                     ? 'border-red-500 bg-red-50'
                                     : 'border-gray-300'
@@ -278,8 +279,8 @@ const ProjectForm = ({
 
                     {/* Ngày kết thúc */}
                     <div>
-                        <label htmlFor="End_date" className="flex items-center text-sm font-medium text-gray-700 mb-2">
-                            <Calendar className="w-4 h-4 mr-2" />
+                        <label htmlFor="End_date" className={`flex items-center text-sm font-medium ${DARK_MODE_COLORS.TEXT_PRIMARY} mb-2`}>
+                            <Calendar className="w-4 h-4 mr-2 " />
                             Ngày kết thúc
                         </label>
                         <input
@@ -289,7 +290,7 @@ const ProjectForm = ({
                             value={formData.End_date}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            className={`w-full px-4 py-2 bg-gray-100 text-gray-400 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+                            className={`w-full px-4 py-2 ${DARK_MODE_COLORS.BG_INPUT} ${DARK_MODE_COLORS.TEXT_PRIMARY} border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
                                 errors.End_date && touched.End_date
                                     ? 'border-red-500 bg-red-50'
                                     : 'border-gray-300'

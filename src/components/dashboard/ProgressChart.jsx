@@ -5,7 +5,7 @@ import {
     Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
 import { FiTrendingUp, FiRefreshCw } from 'react-icons/fi';
-import { CHART_COLORS } from '../../utils/constants';
+import {CHART_COLORS, DARK_MODE_COLORS} from '../../utils/constants';
 import statsService from "../../services/statsService.js";
 
 const ProgressChart = () => {
@@ -100,15 +100,15 @@ const ProgressChart = () => {
         <div className="bg-white dark:bg-slate-700 p-6 rounded-xl shadow-sm border">
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2 dark:text-white">
-                        <FiTrendingUp className="text-blue-500 dark:text-white" />
+                    <h3 className={`text-lg font-semibold  flex items-center gap-2 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
+                        <FiTrendingUp className={`text-blue-500 ${DARK_MODE_COLORS.TEXT_PRIMARY}`} />
                         Tiến độ công việc
                     </h3>
-                    <p className="text-sm text-gray-500 dark:text-white">Thống kê theo thời gian</p>
+                    <p className={`text-sm  ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Thống kê theo thời gian</p>
                 </div>
 
                 <div className="flex items-center gap-2 ">
-                    <div className="flex gap-1 bg-gray-100 p-1 rounded-lg dark:bg-slate-500">
+                    <div className={`flex gap-1  p-1 rounded-lg ${DARK_MODE_COLORS.BG_PRIMARY}`}>
                         {['week', 'month', 'year'].map((p) => (
                             <button
                                 key={p}

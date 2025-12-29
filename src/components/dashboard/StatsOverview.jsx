@@ -4,7 +4,7 @@ import { FiCheckCircle, FiClock, FiAlertTriangle, FiBarChart2, FiAlertCircle } f
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import StatsCard from './StatsCard';
 import { useOverviewStats } from '../../hooks/useStats';
-import {CHART_COLORS} from "../../utils/constants.js";
+import {CHART_COLORS, DARK_MODE_COLORS} from "../../utils/constants.js";
 
 const StatsOverview = () => {
     const { data, loading, error, refresh } = useOverviewStats();
@@ -105,7 +105,7 @@ const StatsOverview = () => {
     return (
         <div className="mb-8">
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold text-gray-800 dark:text-white">Tổng quan</h2>
+                <h2 className={`text-xl font-bold text-gray-800 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Tổng quan</h2>
                 <button
                     onClick={refresh}
                     disabled={loading}
@@ -187,8 +187,8 @@ const StatsOverview = () => {
                 </div>
 
                 {/* ✅ COL 3: PieChart */}
-                <div className="bg-white h-[420px] p-6 rounded-xl shadow-sm border dark:bg-slate-500">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4 dark:text-white">
+                <div className={` h-[420px] p-6 rounded-xl shadow-sm border ${DARK_MODE_COLORS.BG_CARD}`}>
+                    <h3 className={`text-lg font-semibold mb-4 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                         Phân bổ công việc
                     </h3>
 
@@ -239,9 +239,9 @@ const StatsOverview = () => {
                                                 className="w-3 h-3 rounded-full"
                                                 style={{ backgroundColor: item.color }}
                                             />
-                                            <span className="text-gray-700 dark:text-white">{item.name}</span>
+                                            <span className={` ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>{item.name}</span>
                                         </div>
-                                        <span className="font-semibold text-gray-800 dark:text-white">{item.value}</span>
+                                        <span className={`font-semibold ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>{item.value}</span>
                                     </div>
                                 ))}
                             </div>

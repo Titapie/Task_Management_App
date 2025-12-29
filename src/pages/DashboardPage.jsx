@@ -5,11 +5,12 @@ import TaskStatusChart from '../components/dashboard/TaskStatusChart';
 import ProgressChart from '../components/dashboard/ProgressChart';
 import DeadlineAlert from '../components/dashboard/DeadlineAlert';
 import RecentTask from '../components/dashboard/RecentTask';
+import {DARK_MODE_COLORS} from "../utils/constants.js";
 
 const DashboardPage = () => {
     return (
 
-        <div className="p-4 md:p-6 space-y-6 dark:bg-slate-900">
+        <div className={`w-full md:p-6 space-y-6 ${DARK_MODE_COLORS.BG_SECONDARY}`}>
             {/* Tổng quan - Card lớn và Grid 2x2 */}
             <StatsOverview showPieChart={false} />
 

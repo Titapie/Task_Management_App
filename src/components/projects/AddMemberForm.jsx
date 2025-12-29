@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import * as LucideIcons from 'lucide-react';
 import projectService from '../../services/projectService';
 import userService from '../../services/userService';
+import {DARK_MODE_COLORS} from "../../utils/constants.js";
 
 const AddMembersForm = () => {
     const { id } = useParams();
@@ -264,8 +265,8 @@ const AddMembersForm = () => {
     const availableUsers = getFilteredAvailableUsers();
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 ">
-            <div className="w-full mx-auto px-6 py-8 dark:bg-slate-900">
+        <div className={`min-h-screen ${DARK_MODE_COLORS.BG_SECONDARY}`}>
+            <div className={`w-full mx-auto px-6 py-8 ${DARK_MODE_COLORS.BG_SECONDARY}`}>
                 {/* Success Message */}
                 {success && (
                     <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-green-500 rounded-lg p-4 mb-6 shadow-sm">
@@ -282,18 +283,18 @@ const AddMembersForm = () => {
                 )}
 
                 {/* Header */}
-                <div className="bg-white rounded-2xl shadow-lg p-8 mb-6 border border-gray-100 dark:bg-slate-700">
+                <div className={` rounded-2xl shadow-lg p-8 mb-6 border border-gray-100 ${DARK_MODE_COLORS.BG_CARD}`}>
                     <div className="flex items-start justify-between mb-6">
                         <div>
                             <div className="flex items-center gap-3 mb-2">
                                 <div>
-                                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Thêm thành viên vào dự án</h1>
-                                    <p className="text-gray-600 dark:text-white">
+                                    <h1 className={`text-2xl font-bold text-gray-900 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>Thêm thành viên vào dự án</h1>
+                                    <p className={` ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                                         {project?.Name || 'Đang tải...'}
                                     </p>
                                 </div>
                             </div>
-                            <p className="text-sm text-gray-500 mt-2 dark:text-white">
+                            <p className={`text-sm  mt-2 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                                 Manager/Lead: {project?.manager_name || 'Chưa có'}
                             </p>
                         </div>
@@ -312,8 +313,8 @@ const AddMembersForm = () => {
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Selected Users Section */}
                     {selectedUsers.length > 0 && (
-                        <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 dark:bg-slate-700">
-                            <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2 dark:text-white">
+                        <div className={`rounded-xl shadow-lg p-6 border border-gray-100 ${DARK_MODE_COLORS.BG_CARD}`}>
+                            <h2 className={`text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                                 Thành viên đã chọn ({selectedUsers.length})
                             </h2>
 
@@ -323,14 +324,14 @@ const AddMembersForm = () => {
                                     if (!user) return null;
 
                                     return (
-                                        <div key={userId} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200 dark:bg-slate-500">
+                                        <div key={userId} className={`flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200 dark:bg-slate-500`}>
                                             <div className="flex items-center gap-3">
                                                 <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center text-white font-semibold">
                                                     {getUserInitials(user)}
                                                 </div>
                                                 <div>
-                                                    <p className="font-medium text-gray-900 dark:text-white">{formatUserName(user)}</p>
-                                                    <p className="text-sm text-gray-500 dark:text-white">{user.Email}</p>
+                                                    <p className={`font-medium ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>{formatUserName(user)}</p>
+                                                    <p className={`text-sm text-gray-500 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>{user.ID}</p>
                                                 </div>
                                             </div>
 
@@ -363,8 +364,8 @@ const AddMembersForm = () => {
                     )}
 
                     {/* Available Users Section */}
-                    <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 dark:bg-slate-700">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2 dark:text-white">
+                    <div className={` rounded-xl shadow-lg p-6 border border-gray-100 ${DARK_MODE_COLORS.BG_CARD}`}>
+                        <h2 className={`text-lg font-semibold mb-4 flex items-center gap-2 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                             Chọn thành viên mới
                         </h2>
 
@@ -376,7 +377,7 @@ const AddMembersForm = () => {
                                 placeholder="Tìm kiếm theo tên hoặc email..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white shadow-sm dark:bg-slate-500"
+                                className={`w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white shadow-sm ${DARK_MODE_COLORS.BG_INPUT}`}
                             />
                         </div>
 
@@ -401,9 +402,9 @@ const AddMembersForm = () => {
                                             </div>
                                             <div>
                                                 <div className="flex items-center">
-                                                    <p className="font-medium text-gray-900 dark:text-white">{formatUserName(user)}</p>
+                                                    <p className={`font-medium text-gray-900 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>{formatUserName(user)}</p>
                                                 </div>
-                                                <p className="text-sm text-gray-500 dark:text-white">ID Người dùng: {user.id}</p>
+                                                <p className={`text-sm text-gray-500 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>ID Người dùng: {user.id}</p>
                                             </div>
                                         </div>
 
@@ -423,8 +424,8 @@ const AddMembersForm = () => {
 
                     {/* Current Members Preview */}
                     {currentMembers.length > 0 && (
-                        <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 dark:bg-slate-700">
-                            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2 dark:text-white">
+                            <div className={` rounded-xl shadow-lg p-6 border border-gray-100 ${DARK_MODE_COLORS.BG_CARD}`}>
+                            <h3 className={`text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                                 Thành viên hiện tại ({currentMembers.length})
                             </h3>
                             <div className="flex flex-wrap gap-3">
@@ -435,9 +436,9 @@ const AddMembersForm = () => {
                                         </div>
                                         <div>
                                             <div className="flex items-center">
-                                                <p className="text-sm font-medium text-gray-900 dark:text-white">{formatUserName(member)}</p>
+                                                <p className={`text-sm font-medium text-gray-900 ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>{formatUserName(member)}</p>
                                             </div>
-                                            <p className="text-xs text-gray-500 dark:text-white">
+                                            <p className={`"text-xs ${DARK_MODE_COLORS.TEXT_PRIMARY}`}>
                                                 {member.id === project?.Manager_id ? 'Lead' : member.role || 'member'}
                                             </p>
                                         </div>
