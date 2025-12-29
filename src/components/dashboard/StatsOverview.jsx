@@ -42,7 +42,7 @@ const StatsOverview = () => {
             color: CHART_COLORS.SUCCESS,
         },
         {
-            title: 'Đang thực hiện',
+            title: 'Đang làm',
             value: data?.inProgressTasks || 0,
             icon: <FiClock size={20} />,
             color: CHART_COLORS.PRIMARY,
