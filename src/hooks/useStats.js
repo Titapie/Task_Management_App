@@ -189,53 +189,6 @@ export function useOverviewStats() {
     };
 }
 
-// THÊM HOOK CHO PROGRESS CHART
-export function useProgressChart(initialPeriod = 'month') {
-    const [period, setPeriod] = useState(initialPeriod);
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-
-    const fetchData = useCallback(async (chartPeriod = period) => {
-        setLoading(true);
-        setError(null);
-
-        try {
-            const response = await statsService.getProgressChart(chartPeriod);
-            console.log('ProgressChart API response:', response); // Debug log
-
-            const extracted = extractData(response);
-            console.log('Extracted data:', extracted); // Debug log
-
-            setData(extracted);
-            return extracted;
-        } catch (err) {
-            console.error('Error fetching progress chart:', err);
-            setError(err.message);
-            throw err;
-        } finally {
-            setLoading(false);
-        }
-    }, [period]);
-
-    const changePeriod = useCallback(async (newPeriod) => {
-        setPeriod(newPeriod);
-        await fetchData(newPeriod);
-    }, [fetchData]);
-
-    useEffect(() => {
-        fetchData();
-    }, [fetchData]);
-
-    return {
-        data,
-        loading,
-        error,
-        period,
-        changePeriod,
-        refresh: fetchData
-    };
-}
 
 // THÊM HOOK CHO TASK STATUS STATS
 export function useTaskStatusStats() {
@@ -270,21 +223,5 @@ export function useTaskStatusStats() {
     };
 }
 
-// Hook đơn giản cho dashboard
-export function useDashboardStats(period = 'month') {
-    const { stats, loading, errors, refresh, lastUpdated } = useStats(period);
-
-    return {
-        overview: stats.overview,
-        progressChart: stats.progressChart,
-        taskStatus: stats.taskStatus,
-        projectSummary: stats.projectSummary,
-        loading,
-        errors,
-        refresh,
-        lastUpdated,
-        hasData: stats.overview && stats.taskStatus
-    };
-}
 
 export default useStats;

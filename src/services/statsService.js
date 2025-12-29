@@ -51,122 +51,8 @@ class StatsService {
         return data.data || data.overview || data.stats || data;
     }
 
-    // ✅ 1. GET /api/stats/admin/overview - TỔNG QUAN RIÊNG CHO ADMIN
-    async getAdminOverview() {
-        try {
-            // Thử gọi API admin overview nếu có
-            const response = await fetch(`${this.baseURL}/stats/admin/overview`, {
-                method: 'GET',
-                headers: this.getHeaders()
-            });
 
-            const data = await this.handleResponse(response);
-
-            if (data) {
-                // Nếu API tồn tại, trả về data
-                return {
-                    totalUsers: data.totalUsers || 0,
-                    totalProjects: data.totalProjects || 0,
-                    totalTasks: data.totalTasks || 0,
-                    completionRate: data.completionRate || 0,
-                    activeUsers: data.activeUsers || 0,
-                    newUsersThisMonth: data.newUsersThisMonth || 0,
-                    overdueTasks: data.overdueTasks || 0,
-                    productivityRate: data.productivityRate || 0
-                };
-            }
-
-            // Nếu API không tồn tại, fallback về tính toán từ các API khác
-            return await this.calculateAdminOverview();
-
-        } catch (error) {
-            console.error('Error fetching admin overview:', error);
-            // Fallback về tính toán
-            return await this.calculateAdminOverview();
-        }
-    }
-
-    // ✅ 2. Tính toán admin overview từ các API hiện có
-    async calculateAdminOverview() {
-        try {
-            const [usersResponse, projects, tasks, userPerformance] = await Promise.all([
-                userService.getAllUsers(),
-                this.getAllProjects(),
-                this.getAllTasks(),
-                this.getUserPerformance()
-            ]);
-
-            // ✅ FIX: Xử lý response từ userService
-            const users = usersResponse.data || usersResponse.users || usersResponse || [];
-            console.log('Users data:', users); // Debug log
-
-            // Tính toán các thống kê
-            const completedTasks = tasks.filter(task => task.Status === 'finish').length;
-            const completionRate = tasks.length > 0
-                ? Math.round((completedTasks / tasks.length) * 100)
-                : 0;
-
-            // Tính active users (users có task đang làm)
-            const activeUsers = userPerformance.filter(user =>
-                (user.completedTasks || 0) + (user.inProgressTasks || 0) > 0
-            ).length;
-
-            // Tính overdue tasks (giả định tasks có trường deadline)
-            const today = new Date();
-            const overdueTasks = tasks.filter(task =>
-                task.deadline && new Date(task.deadline) < today && task.Status !== 'finish'
-            ).length;
-
-
-            // Tính productivity rate (đơn giản)
-            const totalAssignedTasks = userPerformance.reduce((sum, user) =>
-                sum + (user.totalTasks || 0), 0
-            );
-            const totalCompleted = userPerformance.reduce((sum, user) =>
-                sum + (user.completedTasks || 0), 0
-            );
-            const productivityRate = totalAssignedTasks > 0
-                ? Math.round((totalCompleted / totalAssignedTasks) * 100)
-                : 0;
-
-            return {
-                totalUsers: users.length,
-                totalProjects: projects.length,
-                totalTasks: tasks.length,
-                completionRate,
-                activeUsers,
-                overdueTasks,
-                productivityRate,
-                completedTasks,
-                inProgressTasks: tasks.length - completedTasks,
-                pendingTasks: tasks.filter(task => task.Status === 'pending').length
-            };
-
-        } catch (error) {
-            console.error('Error calculating admin overview:', error);
-            // Fallback mock data
-            return this.getMockAdminOverview();
-        }
-    }
-
-    // ✅ 3. Mock data cho admin (dùng khi mọi thứ đều lỗi)
-    getMockAdminOverview() {
-        return {
-            totalUsers: 15,
-            totalProjects: 8,
-            totalTasks: 45,
-            completionRate: 68,
-            activeUsers: 12,
-            newUsersThisMonth: 3,
-            overdueTasks: 2,
-            productivityRate: 85,
-            completedTasks: 25,
-            inProgressTasks: 15,
-            pendingTasks: 5
-        };
-    }
-
-    // ✅ 4. GET /api/stats/overview - Giữ lại cho user thường (nếu cần)
+    //GET /api/stats/overview - Giữ lại cho user thường (nếu cần)
     async getOverview() {
         try {
             const response = await fetch(`${this.baseURL}/stats/overview`, {
@@ -186,10 +72,7 @@ class StatsService {
         }
     }
 
-    // ✅ 5. GET /api/stats/progress-chart (giữ nguyên)
-    // services/statsService.js - Chỉ phần getProgressChart được sửa
-
-// ✅ Sửa lại hàm getProgressChart
+    //  GET /api/stats/progress-chart (giữ nguyên)
     async getProgressChart(period = 'month') {
         try {
             console.log(`Fetching progress chart for period: ${period}`);
@@ -234,7 +117,7 @@ class StatsService {
         }
     }
 
-    // ✅ 6. GET /api/stats/task-status (giữ nguyên + fallback)
+    // GET /api/stats/task-status (giữ nguyên + fallback)
     async getTaskStatusStats() {
         try {
             const response = await fetch(`${this.baseURL}/stats/task-status`, {
@@ -259,7 +142,7 @@ class StatsService {
         }
     }
 
-    // ✅ 7. GET /api/stats/project-summary (giữ nguyên + fallback)
+    // GET /api/stats/project-summary (giữ nguyên + fallback)
     async getProjectSummary() {
         try {
             const response = await fetch(`${this.baseURL}/stats/project-summary`, {
@@ -319,7 +202,7 @@ class StatsService {
         }
     }
 
-    // ✅ 8. GET /api/stats/user-performance (Admin only)
+    //GET /api/stats/user-performance (Admin only)
     async getUserPerformance() {
         try {
             const response = await fetch(`${this.baseURL}/stats/user-performance`, {
@@ -364,18 +247,5 @@ class StatsService {
         }
     }
 
-    async getAllTasks() {
-        try {
-            const response = await fetch(`${this.baseURL}/tasks`, {
-                method: 'GET',
-                headers: this.getHeaders()
-            });
-            const data = await response.json();
-            return data.data || data.tasks || [];
-        } catch (error) {
-            console.error('Error fetching tasks:', error);
-            return [];
-        }
-    }
 }
 export default new StatsService();
