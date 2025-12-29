@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 export default function NotFound() {
   return (
-    <main className="flex h-screen w-full flex-col items-center justify-center bg-indigo-200">
-      <h1 className="text-9xl font-extrabold tracking-widest text-gray-900">
+    <main className="flex h-screen w-full flex-col items-center justify-center bg-indigo-200 dark:bg-slate-950">
+      <h1 className="text-9xl font-extrabold tracking-widest text-gray-900 dark:text-white">
         404
       </h1>
       <div className="absolute rotate-12 rounded bg-orange px-2 text-sm text-white">
