@@ -1,102 +1,70 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
-import Layout from './components/layout/Layout'
-import DashboardPage from './pages/DashboardPage'
-import TasksPage from './pages/TaskPage'
-import TaskDetailPage from './pages/TaskDetailPage'
-import CreateTaskPage from './pages/CreateTaskPage'
-import EditTaskPage from './pages/EditTaskPage'
-import KanbanPage from './pages/KanbanPage'
-import ProfilePage from './pages/ProfilePage'
-import SettingsPage from './pages/SettingsPage'
-import AdminDashboard from './pages/admin/AdminDashboard'
-import { useAuth } from './context/AuthContext'
-import ProjectsPage from "./pages/ProjectsPage"
-import ProjectDetailPage from "./pages/ProjectDetailPage"
-import AddMemberForm from "./components/projects/AddMemberForm"
-import AdminRoute from "./routes/AdminRoute.jsx"
-import AdminLayout from "./pages/admin/AdminLayout.jsx";
-import AdminUsersPage from "./pages/admin/AdminUsersPage.jsx";
-import LoginPage from "./pages/LoginPage.jsx";
+import { Routes, Route } from "react-router-dom";
+
+import Layout from "./components/layout/Layout";
 
 
-function App() {
-    const { user, loading, isAuthenticated } = useAuth()
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import DashboardPage from "./pages/DashboardPage";
+import TaskPage from "./pages/TaskPage";
+import TaskDetailPage from "./pages/TaskDetailPage";
+import CreateTaskPage from "./pages/CreateTaskPage";
+import EditTaskPage from "./pages/EditTaskPage";
+import ProjectsPage from "./pages/ProjectsPage";
+import ProjectDetailPage from "./pages/ProjectDetailPage";
+import KanbanPage from "./pages/KanbanPage";
+import ProfilePage from "./pages/ProfilePage";
+import NotFound from "./pages/NotFound";
+import SettingsPage from "./pages/SettingsPage";
 
-    if (loading) {
-        return (
-            <div className="h-screen flex items-center justify-center bg-gray-50 dark:bg-slate-900">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-indigo-600 mx-auto mb-4"></div>
-                    <p className="text-gray-600 dark:text-gray-400">Loading...</p>
-                </div>
-            </div>
-        )
-    }
+// admin pages
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminUsersPage from "./pages/admin/AdminUsersPage";
+import AdminProjectsPage from "./pages/admin/AdminProjectsPage";
+import AdminTasksPage from "./pages/admin/AdminTasksPage";
 
-    return (
-        <Routes>
-            {/* Public route */}
-            <Route
-                path="/login"
-                element={
-                    isAuthenticated
-                        ? user?.Role === 'admin'
-                            ? <Navigate to="/admin/dashboard" replace />
-                            : <Navigate to="/dashboard" replace />
-                        : <LoginPage />
-                }
-            />
+import ProtectedRoute from "./routes/ProtectedRoute";
+import AdminRoute from "./routes/AdminRoute";
 
-            {/* Protected routes with Layout */}
-            <Route element={isAuthenticated ? <Layout /> : <Navigate to="/login" />}>
-                {/* Main routes */}
-                <Route path="/dashboard" element={<DashboardPage />} />
-                <Route path="/tasks" element={<TasksPage />} />
-                <Route path="/tasks/create" element={<CreateTaskPage />} />
-                <Route path="/tasks/:id/edit" element={<EditTaskPage />} />
-                <Route path="/tasks/:id" element={<TaskDetailPage />} />
-                <Route path="/kanban" element={<KanbanPage />} />
-                <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/settings" element={<SettingsPage />} />
-                <Route path="/projects" element={<ProjectsPage />} />
-                <Route path="/projects/:id" element={<ProjectDetailPage />}/>
-                <Route path="/tasks/create" element={<CreateTaskPage />} />
-                <Route path="/projects/:id/add-members" element={<AddMemberForm />} />
+export default function App() {
+  return (
+    <Routes>
+      {/* Public routes */}
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
 
-                {/* Default redirect - kiểm tra role */}
-                <Route
-                    path="/"
-                    element={
-                        user?.Role === 'admin'
-                            ? <Navigate to="/admin/dashboard" replace />
-                            : <Navigate to="/dashboard" replace />
-                    }
-                />
-            </Route>
+      {/* Protected routes with Layout */}
+      <Route element={<ProtectedRoute />}>
+        <Route element={<Layout />}>
+          <Route path="/" element={<DashboardPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
 
-            {/* Admin routes - Sử dụng AdminRoute component có sẵn */}
-            <Route element={<AdminRoute />}>
-                <Route element={<AdminLayout />}>
-                    <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                    <Route path="/admin/users" element={<AdminUsersPage />} />
+          <Route path="/tasks" element={<TaskPage />} />
+          <Route path="/tasks/create" element={<CreateTaskPage />} />
+          <Route path="/tasks/:id" element={<TaskDetailPage />} />
+          <Route path="/tasks/:id/edit" element={<EditTaskPage />} />
 
-                </Route>
+          <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/projects/:id" element={<ProjectDetailPage />} />
 
-            </Route>
+          <Route path="/kanban" element={<KanbanPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/settings" element={<SettingsPage />} />
 
-            {/* 404 - redirect về trang phù hợp với role */}
-            <Route
-                path="*"
-                element={
-                    isAuthenticated
-                        ? user?.Role === 'admin'
-                            ? <Navigate to="/admin/dashboard" replace />
-                            : <Navigate to="/dashboard" replace />
-                        : <Navigate to="/login" replace />
-                }
-            />
-        </Routes>
-    )
+          {/* Admin routes */}
+          <Route element={<AdminRoute />}>
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/users" element={<AdminUsersPage />} />
+            <Route path="/admin/projects" element={<AdminProjectsPage />} />
+            <Route path="/admin/tasks" element={<AdminTasksPage />} />
+          </Route>
+        </Route>
+      </Route>
+
+      {/* 404 */}
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
 }
-
-export default App
