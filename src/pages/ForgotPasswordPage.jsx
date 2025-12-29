@@ -101,6 +101,7 @@ export default function ForgotPasswordPage() {
               </label>
               <input
                 type="text"
+                variant="light"
                 value={resetData.otp}
                 onChange={(e) =>
                   setResetData({ ...resetData, otp: e.target.value })
@@ -115,6 +116,7 @@ export default function ForgotPasswordPage() {
                 Mật khẩu mới
               </label>
               <input
+              variant="light"
                 type="password"
                 value={resetData.newPassword}
                 onChange={(e) =>
@@ -130,6 +132,7 @@ export default function ForgotPasswordPage() {
                 Xác nhận mật khẩu
               </label>
               <input
+              variant="light"
                 type="password"
                 value={resetData.confirmPassword}
                 onChange={(e) =>

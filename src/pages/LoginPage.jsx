@@ -60,7 +60,7 @@ export default function LoginPage() {
               Email
             </label>
             <Input
-            variant="light"
+              variant="light"
               type="email"
               placeholder="email@domain.com"
               value={email}
@@ -75,6 +75,7 @@ export default function LoginPage() {
               Mật khẩu
             </label>
             <Input
+              variant="light"
               type="password"
               placeholder="••••••••"
               value={password}

@@ -46,6 +46,7 @@ export default function RegisterForm({ onSubmit, loading, error }) {
         <div className="space-y-2">
           <label className="text-sm font-medium text-slate-700">Họ</label>
           <Input
+          variant="light"
             name="FirstName"
             value={formData.FirstName}
             onChange={handleChange}
@@ -55,6 +56,7 @@ export default function RegisterForm({ onSubmit, loading, error }) {
         <div className="space-y-2">
           <label className="text-sm font-medium text-slate-700">Tên</label>
           <Input
+          variant="light"
             name="LastName"
             value={formData.LastName}
             onChange={handleChange}
@@ -66,6 +68,7 @@ export default function RegisterForm({ onSubmit, loading, error }) {
       <div className="space-y-2">
         <label className="text-sm font-medium text-slate-700">Email</label>
         <Input
+        variant="light"
           name="Email"
           type="email"
           value={formData.Email}
@@ -78,6 +81,7 @@ export default function RegisterForm({ onSubmit, loading, error }) {
       <div className="space-y-2">
         <label className="text-sm font-medium text-slate-700">Mật khẩu</label>
         <Input
+        variant="light"
           name="Password"
           type="password"
           value={formData.Password}
@@ -92,6 +96,7 @@ export default function RegisterForm({ onSubmit, loading, error }) {
           Xác nhận mật khẩu
         </label>
         <Input
+        variant="light"
           name="ConfirmPassword"
           type="password"
           value={formData.ConfirmPassword}

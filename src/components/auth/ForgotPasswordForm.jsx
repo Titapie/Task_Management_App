@@ -15,6 +15,7 @@ export default function ForgotPasswordForm({ onSubmit, loading, error }) {
       <div className="space-y-2">
         <label className="text-sm font-medium text-slate-700">Email</label>
         <Input
+        variant="light"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
