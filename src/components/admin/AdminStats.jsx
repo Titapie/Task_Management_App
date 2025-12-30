@@ -491,11 +491,11 @@ const AdminStats = () => {
                                 />
                                 <Area
                                     type="monotone"
-                                    dataKey="inProgress"
+                                    dataKey="total"
                                     stroke={CHART_COLORS.PRIMARY}
                                     fillOpacity={1}
                                     fill="url(#colorProgress)"
-                                    name="Đang làm"
+                                    name="Tổng task"
                                 />
                             </AreaChart>
                         </ResponsiveContainer>
