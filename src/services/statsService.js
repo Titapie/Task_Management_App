@@ -1,6 +1,5 @@
 // services/statsService.js
 import { API_BASE_URL } from '../utils/constants';
-import userService from './userService.js';
 import { tokenStore } from '../utils/api';
 class StatsService {
     constructor() {
